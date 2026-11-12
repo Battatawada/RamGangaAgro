@@ -1,0 +1,39 @@
+{
+  "name": "Ram Ganga Agro type tokens",
+  "status": "proposed for approval",
+  "family": {
+    "display": {
+      "name": "Fraunces",
+      "css": "\"Fraunces\", \"Iowan Old Style\", Palatino, Georgia, serif",
+      "axes": ["opsz", "wght", "SOFT", "WONK"],
+      "use": "Headings and short editorial lines only"
+    },
+    "sans": {
+      "name": "Outfit",
+      "css": "Outfit, \"Avenir Next\", \"Segoe UI\", sans-serif",
+      "axes": ["wght"],
+      "use": "UI, navigation, body, forms, product facts"
+    }
+  },
+  "loading": {
+    "method": "next/font/google when the app is built",
+    "display": "swap",
+    "subsets": ["latin"],
+    "preconnect": true,
+    "fallback": "Fraunces falls back to Georgia. Outfit falls back to Segoe UI on Windows.",
+    "note": "Do not load a third family."
+  },
+  "scale": {
+    "display": { "min": "2.75rem", "max": "4.75rem", "lineHeight": 1.05, "weight": 560, "tracking": "-0.02em", "family": "display", "soft": 50, "opsz": 144 },
+    "h1": { "min": "2.25rem", "max": "3.5rem", "lineHeight": 1.1, "weight": 560, "tracking": "-0.02em", "family": "display" },
+    "h2": { "min": "1.75rem", "max": "2.5rem", "lineHeight": 1.15, "weight": 520, "tracking": "-0.015em", "family": "display" },
+    "h3": { "min": "1.35rem", "max": "1.75rem", "lineHeight": 1.25, "weight": 520, "family": "display" },
+    "body-lg": { "size": "1.25rem", "lineHeight": 1.55, "weight": 400, "family": "sans" },
+    "body": { "size": "1.0625rem", "lineHeight": 1.65, "weight": 400, "family": "sans", "measure": "40rem" },
+    "small": { "size": "0.9375rem", "lineHeight": 1.5, "weight": 400, "family": "sans" },
+    "eyebrow": { "size": "0.75rem", "lineHeight": 1.2, "weight": 500, "tracking": "0.16em", "transform": "uppercase", "family": "sans", "color": "green" },
+    "button": { "size": "0.9375rem", "lineHeight": 1, "weight": 500, "tracking": "0.01em", "family": "sans" },
+    "caption": { "size": "0.8125rem", "lineHeight": 1.4, "weight": 400, "family": "sans", "color": "clay-deep" }
+  },
+  "responsive": "Display and headings use clamp(min, 2vw + 1rem, max). Body sizes do not shrink below the values above."
+}

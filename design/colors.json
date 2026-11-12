@@ -1,0 +1,44 @@
+{
+  "name": "Ram Ganga Agro colour tokens",
+  "status": "proposed for approval",
+  "measured": "2026-11-12",
+  "contrastMethod": "WCAG 2.x relative luminance",
+  "color": {
+    "paper": { "value": "#F4EFE6", "role": "page background" },
+    "paper-raised": { "value": "#FBF8F3", "role": "cards, header, form surfaces" },
+    "ink": { "value": "#1C1915", "role": "primary text" },
+    "ink-muted": { "value": "#3A342C", "role": "secondary text", "contrastOnPaper": 10.74 },
+    "green": { "value": "#1C3328", "role": "structure, primary buttons, rules" },
+    "green-soft": { "value": "#E4EBE4", "role": "quiet green wash, never a large brand field" },
+    "clay": { "value": "#7A5340", "role": "large labels and captions only", "contrastOnPaper": 5.84, "note": "Passes WCAG AA for normal text. Fails AAA. Do not use below 16px." },
+    "clay-deep": { "value": "#5C3D2E", "role": "small captions that need AAA", "contrastOnPaper": 8.48 },
+    "raktshali": { "value": "#6E2A32", "role": "signature accent. Rules, status, one word. Not large fills except the crop feature band." },
+    "raktshali-soft": { "value": "#F3E6E4", "role": "blush wash behind crop details" },
+    "grain": { "value": "#C6A56A", "role": "decorative only", "contrastOnPaper": 2.04, "rule": "Never use as text, icons that convey meaning, or placeholder borders that must be seen as UI." },
+    "line": { "value": "#E3D9CC", "role": "hairline dividers on paper" },
+    "line-strong": { "value": "#CDBFAE", "role": "input borders" },
+    "focus": { "value": "#6E2A32", "role": "focus ring" },
+    "danger": { "value": "#6E2A32", "role": "errors. Same hue as the rice accent. Pair with words, not colour alone." },
+    "success": { "value": "#1C3328", "role": "confirmation. Pair with words." }
+  },
+  "pairs": {
+    "ink-on-paper": { "ratio": 15.29, "wcag": "AAA" },
+    "ink-on-raised": { "ratio": 16.53, "wcag": "AAA" },
+    "green-on-paper": { "ratio": 11.8, "wcag": "AAA" },
+    "raised-on-green": { "ratio": 12.76, "wcag": "AAA" },
+    "paper-on-green": { "ratio": 11.8, "wcag": "AAA" },
+    "raktshali-on-paper": { "ratio": 8.99, "wcag": "AAA" },
+    "raised-on-raktshali": { "ratio": 9.72, "wcag": "AAA" },
+    "clay-on-paper": { "ratio": 5.84, "wcag": "AA" },
+    "grain-on-paper": { "ratio": 2.04, "wcag": "fail" },
+    "grain-on-green": { "ratio": 5.79, "wcag": "AA" },
+    "ink-on-grain": { "ratio": 7.5, "wcag": "AAA" }
+  },
+  "usageRules": [
+    "Paper is the default surface. Green and burgundy are for structure and the rice, not for alternating section wallpaper.",
+    "The Raktshali feature band may use a full green field with paper type. That is the one dark band on the homepage.",
+    "Grain never carries text on paper.",
+    "Do not introduce a bright leaf green.",
+    "Status colours always include a text label."
+  ]
+}

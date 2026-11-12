@@ -1,0 +1,41 @@
+{
+  "name": "Ram Ganga Agro spacing",
+  "unit": "px",
+  "base": 4,
+  "space": {
+    "1": 4,
+    "2": 8,
+    "3": 12,
+    "4": 16,
+    "5": 24,
+    "6": 32,
+    "7": 48,
+    "8": 64,
+    "9": 96,
+    "10": 128
+  },
+  "section": {
+    "desktopY": 96,
+    "mobileY": 64,
+    "afterHero": 0
+  },
+  "container": {
+    "page": 1120,
+    "wide": 1280,
+    "prose": 680,
+    "gutterDesktop": 32,
+    "gutterMobile": 20
+  },
+  "radius": {
+    "none": 0,
+    "control": 2,
+    "media": 2,
+    "note": "2px, not pills. Pills were common on the reference shops and read as templates."
+  },
+  "border": {
+    "hairline": "1px solid #E3D9CC",
+    "focus": "2px solid #6E2A32",
+    "focusOffset": 3
+  },
+  "shadow": "none. Depth comes from a change of surface colour, not a drop shadow."
+}

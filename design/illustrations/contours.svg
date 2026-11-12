@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">Field contours</title>
+  <desc id="desc">Original contour lines suggesting a field. Not a map of the farm.</desc>
+  <g stroke="#CDBFAE" stroke-width="1" fill="none">
+    <path d="M-20 520 C120 500 180 470 280 490 C400 514 460 560 600 530 C700 510 760 490 840 500" />
+    <path d="M-20 470 C140 448 200 420 310 442 C430 466 500 510 640 478 C740 456 790 440 840 452" />
+    <path d="M-20 418 C150 396 220 368 330 392 C450 418 520 460 660 426 C750 404 800 390 840 402" />
+    <path d="M-20 366 C160 344 230 318 340 342 C460 368 530 408 670 374 C760 352 810 340 840 350" />
+    <path d="M40 314 C180 292 250 270 360 294 C470 318 540 354 680 322 C760 304 800 294 840 302" />
+    <path d="M120 262 C220 244 290 226 390 248 C490 270 560 302 690 272 C760 256 810 248 840 254" />
+    <path d="M200 214 C280 198 340 184 430 204 C520 224 580 250 700 224" />
+  </g>
+  <g stroke="#6E2A32" stroke-width="1.25" fill="none" opacity="0.9">
+    <path d="M-20 444 C150 422 230 392 340 416 C460 442 530 486 670 450 C760 428 810 414 840 426" />
+  </g>
+</svg>

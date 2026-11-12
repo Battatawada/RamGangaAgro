@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_ZXhhbXBsZS5jbGVyay5hY2NvdW50cy5kZXYk
+      CLERK_SECRET_KEY: sk_test_ci-placeholder
+      ACCOUNTS_ENABLED: "false"
+      ADMIN_UI_ENABLED: "false"
+      STOREFRONT_ENABLED: "false"
+      CHECKOUT_ENABLED: "false"
+      PAYMENTS_ENABLED: "false"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Audit policy
+        run: npm run audit:policy
+
+      - name: Build
+        run: npm run build
+
+      - name: Client secret scan
+        run: npm run scan:client
+
+      - name: Route tests
+        run: npm run test:e2e

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DESIGN REFERENCE — Ram Ganga Agro homepage. Not the application.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,560&family=Outfit:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #F4EFE6; --raised: #FBF8F3; --ink: #1C1915; --muted: #3A342C;
+      --green: #1C3328; --rakt: #6E2A32; --clay: #5C3D2E; --line: #E3D9CC;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: Outfit, "Segoe UI", sans-serif; font-size: 17px; line-height: 1.65; }
+    a { color: inherit; }
+    .banner { background: var(--rakt); color: var(--raised); font-size: 13px; letter-spacing: 0.04em; padding: 8px 20px; text-align: center; }
+    header { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 72px; padding: 0 32px; background: color-mix(in srgb, var(--paper) 92%, transparent); border-bottom: 1px solid var(--line); }
+    .word { font-family: Fraunces, Georgia, serif; font-size: 18px; letter-spacing: 0.14em; text-decoration: none; }
+    nav { display: flex; gap: 28px; font-size: 15px; }
+    nav a { text-decoration: none; }
+    nav a:hover { color: var(--rakt); }
+    .hero { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: end; max-width: 1120px; margin: 0 auto; padding: 72px 32px 96px; min-height: calc(100svh - 104px); }
+    .eyebrow { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--green); font-weight: 500; margin: 0 0 20px; }
+    h1 { font-family: Fraunces, Georgia, serif; font-weight: 560; font-size: clamp(2.75rem, 5vw, 4.75rem); line-height: 1.02; letter-spacing: -0.02em; margin: 0; max-width: 11ch; }
+    .deck { color: var(--muted); font-size: 1.2rem; max-width: 38ch; margin: 24px 0 32px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 18px; border-radius: 2px; text-decoration: none; font-weight: 500; }
+    .btn-primary { background: var(--green); color: var(--raised); }
+    .btn-quiet { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+    .hero-art { background: var(--raised); border-radius: 2px; min-height: 520px; display: grid; place-items: center; padding: 24px; }
+    .hero-art svg { width: min(100%, 420px); height: auto; }
+    .cap { font-size: 13px; color: var(--clay); margin: 12px 0 0; text-align: center; }
+    section { max-width: 1120px; margin: 0 auto; padding: 96px 32px; }
+    h2 { font-family: Fraunces, Georgia, serif; font-weight: 520; font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.15; letter-spacing: -0.015em; margin: 0 0 16px; }
+    .prose { max-width: 40rem; color: var(--muted); }
+    .text-link { color: var(--green); }
+    .crop { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 48px; align-items: center; }
+    .crop-card { background: var(--raised); border: 1px solid var(--line); border-radius: 2px; overflow: hidden; }
+    .swatch { position: relative; aspect-ratio: 4/5; background: #F3E6E4; display: grid; place-items: center; padding: 20px; }
+    .swatch .status { position: absolute; top: 16px; left: 16px; }
+    .swatch img { width: min(46%, 180px); height: auto; }
+    .status { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--rakt); }
+    .journey { display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; }
+    .step { border-top: 1px solid var(--green); padding-top: 16px; }
+    .num { font-family: Fraunces, Georgia, serif; color: var(--rakt); font-size: 13px; letter-spacing: 0.08em; }
+    .band { background: var(--green); color: var(--raised); }
+    .band .wrap { max-width: 1120px; margin: 0 auto; padding: 96px 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+    .band h2 { color: var(--raised); }
+    .rule { width: 48px; height: 1px; background: var(--rakt); border: 0; margin: 0 0 24px; }
+    .empty { border: 1px solid var(--line); padding: 48px; max-width: 40rem; background: var(--raised); }
+    .follow { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: end; }
+    form { display: grid; gap: 12px; }
+    label { font-size: 14px; }
+    input[type="email"] { height: 48px; border: 1px solid #CDBFAE; border-radius: 2px; background: var(--raised); padding: 0 12px; font: inherit; }
+    .check { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: var(--muted); }
+    footer { border-top: 1px solid var(--line); padding: 48px 32px 64px; display: flex; justify-content: space-between; gap: 24px; max-width: 1120px; margin: 0 auto; font-size: 15px; }
+    footer a { text-decoration: none; margin-right: 16px; }
+    @media (max-width: 1023px) {
+      nav { display: none; }
+      .menu { display: inline-flex !important; }
+      .hero, .crop, .band .wrap, .follow { grid-template-columns: 1fr; }
+      .journey { grid-template-columns: 1fr; }
+      .hero { min-height: auto; padding-top: 48px; }
+      .hero-art { min-height: 320px; }
+      section, .band .wrap { padding: 64px 20px; }
+      header, footer { padding-left: 20px; padding-right: 20px; }
+    }
+    .menu { display: none; background: none; border: 1px solid var(--line); height: 40px; padding: 0 12px; font: inherit; }
+    @media (max-width: 1023px) {
+      .menu { display: inline-flex; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+  <p class="banner">Design reference only. Not the application. The Menu control in this file is a static stand-in. Build the accessible menu in docs/06 and docs/16: focus trap, Escape, Close, and an inert page underneath. Do not publish “red rice” or “traditional” until the farm confirms those words.</p>
+  <header>
+    <a class="word" href="#top">RAM GANGA AGRO</a>
+    <nav aria-label="Primary">
+      <a href="#farm">Our Farm</a>
+      <a href="#grow">What We Grow</a>
+      <a href="#journal">Journal</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="menu" type="button">Menu</button>
+  </header>
+  <main id="top">
+    <div class="hero">
+      <div>
+        <p class="eyebrow">Ram Ganga Agro</p>
+        <h1>Good food begins long before the table.</h1>
+        <p class="deck">A farm, its crops, and the journey from the land to the table.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#farm">Explore our farm</a>
+          <a class="btn btn-quiet" href="#grow">What we grow</a>
+        </div>
+      </div>
+      <figure class="hero-art">
+        <img src="../illustrations/panicle.svg" alt="Line drawing of a rice panicle. This is an illustration, not a photograph of the farm." width="420" height="560" />
+        <figcaption class="cap">Illustration, until the farm’s own picture is ready.</figcaption>
+      </figure>
+    </div>
+    <section id="farm">
+      <p class="eyebrow">The farm</p>
+      <h2>Every grain has a beginning.</h2>
+      <p class="prose">Ram Ganga Agro is a working farm. This page is the place to learn what is grown here, and how the season moves from the field toward the table. The longer story of the people and the land is being written by the farm, not invented for the site.</p>
+      <p><a class="text-link" href="#farm">Discover our story</a></p>
+    </section>
+    <section id="grow">
+      <p class="eyebrow">Our harvest</p>
+      <div class="crop">
+        <article class="crop-card">
+          <div class="swatch">
+            <span class="status">Currently growing</span>
+            <img src="../illustrations/panicle.svg" alt="" width="160" height="210" />
+          </div>
+          <div style="padding: 24px;">
+            <h2 style="font-size: 2rem;">Raktshali rice</h2>
+            <p class="prose">Grown at Ram Ganga Agro. It is not for sale.</p>
+          </div>
+        </article>
+        <div>
+          <h2>What we grow.</h2>
+          <p class="prose">One crop is enough to begin. Another crop is added when the farm is growing it. Empty cards are not used to fill this row.</p>
+        </div>
+      </div>
+    </section>
+    <section>
+      <p class="eyebrow">From the land to the table</p>
+      <h2>Five steps, and no more than we can stand behind.</h2>
+      <div class="journey" style="margin-top: 40px;">
+        <div class="step"><p class="num">01</p><h3>The land</h3><p>Where the season starts.</p></div>
+        <div class="step"><p class="num">02</p><h3>Growing</h3><p>Soil, water, and time.</p></div>
+        <div class="step"><p class="num">03</p><h3>Harvest</h3><p>When the field is ready.</p></div>
+        <div class="step"><p class="num">04</p><h3>Preparation</h3><p>How the grain is handled.</p></div>
+        <div class="step"><p class="num">05</p><h3>The table</h3><p>The harvest, brought home.</p></div>
+      </div>
+    </section>
+    <div class="band">
+      <div class="wrap">
+        <div>
+          <hr class="rule" />
+          <p class="eyebrow" style="color:#E7D2D4;">Raktshali</p>
+          <h2>Raktshali, still in the field.</h2>
+        </div>
+        <div>
+          <p>This rice is growing at Ram Ganga Agro. It is not for sale. The page names the crop and leaves room for the farm’s own account. It does not describe colour, origin, or certification.</p>
+          <p><a href="#grow" style="color:#FBF8F3;">Read the crop’s story</a></p>
+        </div>
+      </div>
+    </div>
+    <section id="journal">
+      <p class="eyebrow">From the farm</p>
+      <div class="empty">
+        <h2>The journal is just beginning.</h2>
+        <p class="prose">When there is a season to record, it will be recorded here. There are no sample articles.</p>
+      </div>
+    </section>
+    <section class="follow" id="follow">
+      <div>
+        <p class="eyebrow">Harvest notes</p>
+        <h2>Follow the journey.</h2>
+        <p class="prose">A note when there is something to say about the season, and when a harvest is ready to leave the farm. Nothing else.</p>
+      </div>
+      <form>
+        <label for="email">Email</label>
+        <input id="email" type="email" autocomplete="email" placeholder="you@example.com" />
+        <label class="check"><input type="checkbox" /> Send me harvest notes when the farm starts sending them. I can unsubscribe at any time.</label>
+        <button class="btn btn-primary" type="button">Join the farm journal</button>
+      </form>
+    </section>
+  </main>
+  <footer id="contact">
+    <div>
+      <strong>Ram Ganga Agro</strong>
+      <div>rgagro.me</div>
+    </div>
+    <div>
+      <a href="#farm">Our Farm</a>
+      <a href="#grow">What We Grow</a>
+      <a href="#journal">Journal</a>
+      <a href="#contact">Contact</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#terms">Terms</a>
+      <a href="#unsubscribe">Unsubscribe</a>
+    </div>
+  </footer>
+</body>
+</html>

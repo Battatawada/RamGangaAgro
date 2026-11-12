@@ -1,0 +1,21 @@
+{
+  "name": "Ram Ganga Agro breakpoints",
+  "minWidth": {
+    "sm": 640,
+    "md": 768,
+    "lg": 1024,
+    "xl": 1280
+  },
+  "rules": {
+    "below640": "Single column. Header becomes a menu button. Type uses the min sizes. Section padding 64px. Gutters 20px.",
+    "640to1023": "Single column with wider measure. Journey steps remain a vertical list. Crop card can sit beside a short text column from 768px.",
+    "1024up": "Hero splits. Journey becomes a five-column row. Header links are visible. Page width 1120px."
+  },
+  "imageRatio": {
+    "heroSlot": "4 / 5 while illustration or portrait. 16 / 9 when the slot is a landscape film still.",
+    "cropCard": "4 / 5",
+    "editorial": "4 / 5",
+    "journal": "3 / 2",
+    "journeyStill": "1 / 1"
+  }
+}
