@@ -24,15 +24,26 @@ describe("public content boundaries", () => {
     }
   });
 
-  it("keeps the crop’s public claims inside the safe set", () => {
-    const crop = crops[0];
-    expect(crop?.name).toBe("Raktshali rice");
-    expect(crop?.summary).toBe("Grown at Ram Ganga Agro. It is not for sale.");
-    expect(crop?.status).toBe("currently_growing");
-    expect(crop?.purchasable).toBe(false);
-    expect(crop?.story).toBeNull();
-    expect(crop?.season).toBeNull();
-    expect(crop?.availabilityNote).toBeNull();
+  it("keeps each crop inside what the farm has confirmed", () => {
+    const raktshali = crops.find((crop) => crop.slug === "raktshali-rice");
+    const wheat = crops.find((crop) => crop.slug === "wheat");
+
+    expect(raktshali?.name).toBe("Raktshali rice");
+    expect(raktshali?.summary).toBe("Grown at Ram Ganga Agro. It is not for sale.");
+    expect(raktshali?.status).toBe("currently_growing");
+    expect(raktshali?.purchasable).toBe(false);
+    expect(raktshali?.productSlug).toBeNull();
+    expect(raktshali?.story).toBeNull();
+    expect(raktshali?.season).toBeNull();
+
+    expect(wheat?.name).toBe("Wheat");
+    expect(wheat?.summary).toBe("Grown at Ram Ganga Agro.");
+    expect(wheat?.status).toBeNull();
+    expect(wheat?.purchasable).toBe(false);
+    expect(wheat?.productSlug).toBeNull();
+    expect(wheat?.season).toBeNull();
+    expect(wheat?.pricePaise).toBeNull();
+    expect(wheat?.availability.paragraphs.join(" ")).not.toContain("for sale");
   });
 
   it("marks drawings that are not photographs as decorative or labelled", () => {

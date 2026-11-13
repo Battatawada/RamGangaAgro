@@ -24,7 +24,7 @@ const chapters = [
   },
   {
     title: "Practices",
-    body: "How the crop is grown will be described in the farm’s words, and only then.",
+    body: "Ram Ganga Agro practices natural farming. The farm will describe the work in its own words.",
     href: "/our-farm/practices",
     label: "Read about practices",
   },

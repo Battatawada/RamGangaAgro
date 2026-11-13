@@ -10,6 +10,7 @@ const publicPaths = [
   "/our-farm/practices",
   "/grow",
   "/grow/raktshali-rice",
+  "/grow/wheat",
   "/journal",
   "/contact",
   "/follow",
@@ -74,12 +75,17 @@ describe("the homepage says what it is allowed to say", () => {
   it("carries nothing the farm has not confirmed", async () => {
     const html = await (await get("/")).text();
 
+    expect(html).toContain("Natural farming.");
+    expect(html).toContain("Wheat");
     for (const forbidden of [
       "Add to cart",
       "₹",
       "Shop now",
       "red rice",
       "traditional",
+      "organic",
+      "certified",
+      "chemical-free",
       "Design reference only",
     ]) {
       expect(html, forbidden).not.toContain(forbidden);
@@ -103,6 +109,26 @@ describe("the crop page", () => {
     expect(html).toContain("Grown at Ram Ganga Agro. It is not for sale.");
     expect(html).toContain("Currently growing");
     for (const forbidden of ["₹", "Add to cart", "red rice", "traditional", "TBD"]) {
+      expect(html, forbidden).not.toContain(forbidden);
+    }
+  });
+
+  it("names wheat without a season, a variety, or a sale", async () => {
+    const html = await (await get("/grow/wheat")).text();
+
+    expect(html).toContain("Wheat");
+    expect(html).toContain("Grown at Ram Ganga Agro.");
+    expect(html).toContain("The story is still being written.");
+    expect(html).not.toContain("Currently growing");
+    expect(html).not.toContain("It is not for sale.");
+    for (const forbidden of [
+      "₹",
+      "Add to cart",
+      "organic",
+      "certified",
+      "chemical-free",
+      "TBD",
+    ]) {
       expect(html, forbidden).not.toContain(forbidden);
     }
   });

@@ -63,6 +63,20 @@ export const media = {
     alt: "",
     decorative: true,
   },
+  wheat: {
+    id: "wheat",
+    kind: "illustration",
+    src: "/illustrations/wheat.svg",
+    alt: "Line drawing of a wheat head. This is an illustration, not a photograph of the farm.",
+    caption: "Illustration, until the farm’s own picture is ready.",
+  },
+  seeds: {
+    id: "seeds",
+    kind: "illustration",
+    src: "/illustrations/seeds.svg",
+    alt: "",
+    decorative: true,
+  },
 } as const satisfies Record<string, MediaAsset>;
 
 export type MediaId = keyof typeof media;

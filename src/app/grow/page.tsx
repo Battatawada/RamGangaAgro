@@ -6,7 +6,7 @@ import { fileContent } from "@/content/source";
 
 export const metadata: Metadata = {
   title: "What we grow",
-  description: "One crop is growing at Ram Ganga Agro. It is not yet for sale.",
+  description: "Raktshali and wheat are grown at Ram Ganga Agro.",
 };
 
 export default function GrowPage() {

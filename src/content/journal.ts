@@ -16,10 +16,16 @@ export type JournalPost = {
   byline: string;
   /** A media registry id. Null until the farm has a picture for the note. */
   mediaId: string | null;
+  /** Crop slugs this note belongs to. Empty when it is about the farm as a whole. */
+  cropSlugs: string[];
 };
 
 export const journalPosts: JournalPost[] = [];
 
 export function getPost(slug: string): JournalPost | undefined {
   return journalPosts.find((post) => post.slug === slug);
+}
+
+export function postsForCrop(slug: string): JournalPost[] {
+  return journalPosts.filter((post) => post.cropSlugs.includes(slug));
 }

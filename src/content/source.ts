@@ -1,5 +1,5 @@
-import { crops, getCrop, type Crop } from "@/content/crops";
-import { getPost, journalPosts, type JournalPost } from "@/content/journal";
+import { crops, getCrop, otherCrops, type Crop } from "@/content/crops";
+import { getPost, journalPosts, postsForCrop, type JournalPost } from "@/content/journal";
 import { chapterById, chaptersFor, type StoryChapter } from "@/content/story";
 
 /**
@@ -13,8 +13,10 @@ import { chapterById, chaptersFor, type StoryChapter } from "@/content/story";
 export type ContentSource = {
   listCrops(): Crop[];
   getCrop(slug: string): Crop | undefined;
+  otherCrops(slug: string): Crop[];
   listPosts(): JournalPost[];
   getPost(slug: string): JournalPost | undefined;
+  postsForCrop(slug: string): JournalPost[];
   chaptersFor(page: string): StoryChapter[];
   chapterById(id: string): StoryChapter | undefined;
 };
@@ -22,8 +24,10 @@ export type ContentSource = {
 export const fileContent: ContentSource = {
   listCrops: () => crops,
   getCrop,
+  otherCrops,
   listPosts: () => journalPosts,
   getPost,
+  postsForCrop,
   chaptersFor,
   chapterById,
 };

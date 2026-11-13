@@ -18,7 +18,11 @@ export function ProductGrid({ crops }: { crops: Crop[] }) {
             summary={crop.summary}
             href={`/grow/${crop.slug}`}
             status={crop.status}
-            media={{ src: mediaById(crop.mediaId)?.src ?? "/illustrations/panicle.svg", alt: "" }}
+            tone={crop.tone}
+            media={{
+              src: mediaById(crop.mediaId)?.src ?? "/illustrations/panicle.svg",
+              alt: mediaById(crop.mediaId)?.alt ?? "",
+            }}
             pricePaise={crop.pricePaise}
             purchasable={crop.purchasable}
             layout={single ? "row" : "stacked"}

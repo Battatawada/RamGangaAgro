@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 640" fill="none" role="img" aria-labelledby="wheat-title wheat-desc">
+  <title id="wheat-title">Wheat head</title>
+  <desc id="wheat-desc">An original line drawing of a wheat head for Ram Ganga Agro. Not a photograph of the farm.</desc>
+  <path d="M246 608 C244 500 238 390 236 300 C234 250 238 210 242 168" stroke="#1C3328" stroke-width="1.35" stroke-linecap="round"/>
+  <g stroke="#7A5340" stroke-width="1" stroke-linecap="round" fill="none">
+    <path d="M214 150 L186 118" />
+    <path d="M270 162 L304 128" />
+    <path d="M208 186 L176 162" />
+    <path d="M276 198 L312 170" />
+    <path d="M204 224 L170 206" />
+    <path d="M278 236 L316 214" />
+    <path d="M206 262 L174 250" />
+    <path d="M274 272 L310 254" />
+  </g>
+  <g fill="#C6A56A">
+    <ellipse cx="206" cy="156" rx="18" ry="5.2" transform="rotate(-36 206 156)" />
+    <ellipse cx="278" cy="168" rx="18" ry="5.2" transform="rotate(34 278 168)" />
+    <ellipse cx="200" cy="192" rx="18" ry="5.2" transform="rotate(-32 200 192)" />
+    <ellipse cx="284" cy="204" rx="18" ry="5.2" transform="rotate(30 284 204)" />
+    <ellipse cx="198" cy="230" rx="17" ry="5" transform="rotate(-28 198 230)" />
+    <ellipse cx="286" cy="242" rx="17" ry="5" transform="rotate(26 286 242)" />
+    <ellipse cx="202" cy="266" rx="16" ry="4.8" transform="rotate(-22 202 266)" />
+    <ellipse cx="280" cy="276" rx="16" ry="4.8" transform="rotate(20 280 276)" />
+    <ellipse cx="242" cy="132" rx="12" ry="4.2" transform="rotate(-8 242 132)" />
+  </g>
+  <path d="M242 168 C236 140 238 118 244 96" stroke="#1C3328" stroke-width="1.15" stroke-linecap="round"/>
+</svg>

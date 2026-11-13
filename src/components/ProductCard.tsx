@@ -1,18 +1,19 @@
 import Link from "next/link";
 import { HarvestStatus } from "@/components/HarvestStatus";
-import type { CropStatus } from "@/content/crops";
+import { cropPanelClass, type CropStatus, type CropTone } from "@/content/crops";
 import { flags } from "@/server/flags";
 
 type Props = {
   name: string;
   summary: string;
   href: string;
-  status: CropStatus;
+  status: CropStatus | null;
+  tone?: CropTone;
   media: { src: string; alt: string };
   pricePaise: number | null;
   purchasable: boolean;
-  /** "stacked" is the homepage card. "row" is the crop index from 768px. */
-  layout?: "stacked" | "row";
+  /** "editorial" is an open column. "stacked" and "row" are the crop index. */
+  layout?: "stacked" | "row" | "editorial";
   /**
    * Heading level for the crop name. The homepage section heading is the
    * column beside the card, so the card name stays a paragraph there.
@@ -30,9 +31,33 @@ export function ProductCard({
   purchasable,
   layout = "stacked",
   titleAs = "h3",
+  tone = "raktshali",
 }: Props) {
   const showPrice =
     flags.STOREFRONT_ENABLED && pricePaise != null && purchasable;
+  const panel = cropPanelClass[tone];
+
+  if (layout === "editorial") {
+    return (
+      <article className="border-t border-line pt-8">
+        <Link href={href} className="grid items-end gap-6 no-underline sm:grid-cols-[148px_1fr]">
+          <div className={`grid min-h-[200px] place-items-center px-4 ${panel}`}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={media.src} alt={media.alt} className="h-auto w-[min(78%,120px)]" />
+          </div>
+          <div>
+            {status ? <HarvestStatus status={status} /> : null}
+            {titleAs === "p" ? (
+              <p className="type-h3 mt-2">{name}</p>
+            ) : (
+              <h3 className="type-h3 mt-2">{name}</h3>
+            )}
+            <p className="mt-3 text-ink-muted">{summary}</p>
+          </div>
+        </Link>
+      </article>
+    );
+  }
 
   return (
     <Link href={href} className="card-link block no-underline">
@@ -42,11 +67,11 @@ export function ProductCard({
         }`}
       >
         <div
-          className={`relative grid aspect-4/5 place-items-center bg-raktshali-soft p-5 ${
+          className={`relative grid aspect-4/5 place-items-center p-5 ${panel} ${
             layout === "row" ? "md:w-[280px] md:shrink-0" : ""
           }`}
         >
-          <HarvestStatus status={status} className="absolute top-4 left-4" />
+          {status ? <HarvestStatus status={status} className="absolute top-4 left-4" /> : null}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={media.src}
