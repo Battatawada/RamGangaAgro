@@ -8,10 +8,11 @@ Keys are listed empty in `.env.example`. None of them go into git.
 
 | Variable | Who uses it |
 |---|---|
-| `DATABASE_URL` | The Next.js process. Role `rga_app`. |
-| `DATABASE_URL_MIGRATE` | `npm run db:migrate` only. Role `rga_migrator`. |
-| `DATABASE_URL_MESSAGES` | `npm run messages:read` only. Role `rga_messages_reader`. |
-| `DATABASE_URL_PRIVACY` | `npm run contact:erase` only. Role `rga_privacy`. |
+| `DATABASE_URL` | The Next.js process. Role `rga_app`. Pooled in production. |
+| `DATABASE_URL_MIGRATE` | `npm run db:migrate` only. Role `rga_migrator`. Direct host. |
+| `DATABASE_URL_MESSAGES` | `npm run messages:read` only. Role `rga_messages_reader`. Direct host. |
+| `DATABASE_URL_PRIVACY` | `npm run contact:erase` only. Role `rga_privacy`. Direct host. |
+| `SITE_URL` | Optional. `https://rgagro.me` or `https://www.rgagro.me`. Unset uses the apex. Any other value refuses to boot. |
 | `RATE_LIMIT_PROVIDER` | `postgres` or `upstash`. Required outside tests. `postgres` uses `DATABASE_URL` and no other database URL. | 
 | `RATE_LIMIT_IP_SOURCE` | `direct` on a local machine. `vercel` or `trusted-proxy` in production. `direct` is refused when `NODE_ENV` is production. |
 | `RATE_LIMIT_REDIS_URL`, `RATE_LIMIT_TOKEN` | Only when the provider is `upstash`. The URL must be `https`. |
@@ -24,9 +25,9 @@ The app process never receives the migrator, reader or privacy URLs.
 1. Create a Postgres database.
 2. As a superuser, run only the role section of `db/grants.sql` (the four `CREATE ROLE` statements and the schema grants), with real passwords that are not committed. The table grants cannot run yet, because the tables do not exist.
 3. As a superuser, run `CREATE SCHEMA drizzle AUTHORIZATION rga_migrator` once. Do not leave database `CREATE` on `rga_migrator`. The migrate script refuses to create that schema itself.
-4. Set `DATABASE_URL_MIGRATE` to the `rga_migrator` login and run `npm run db:migrate`. The script refuses any host that is not the development branch until that guard is deliberately changed for a production database. The migrator owns the tables it creates.
-5. Run `npm run db:grants` (sections 2 to 5 of `db/grants.sql`). Re-run it after every later migration, so a new table does not inherit a privilege this file means to refuse.
-6. Set `DATABASE_URL` to the app role. Set `RATE_LIMIT_PROVIDER=postgres` and `RATE_LIMIT_IP_SOURCE` to `vercel` or `trusted-proxy`, then deploy. `npm run check:rate-limit -- --production` must pass against the production environment before forms are expected to succeed.
+4. Set `DATABASE_URL_MIGRATE` to the `rga_migrator` login and run `npm run db:migrate`. That command refuses every host except the development branch. Production uses `npm run db:migrate:production`, which reads `.env.production.operator` only and refuses every other host. The migrator owns the tables it creates. The Neon owner login is not a valid value for any of these URLs.
+5. Run `npm run db:grants` (sections 2 to 5 of `db/grants.sql`). On production, run `npm run db:grants:production`. Re-run the matching command after every later migration, so a new table does not inherit a privilege this file means to refuse.
+6. Set the host `DATABASE_URL` to the pooled `rga_app` login only. Set `RATE_LIMIT_PROVIDER=postgres` and `RATE_LIMIT_IP_SOURCE` to `vercel` or `trusted-proxy`, then deploy. `npm run check:rate-limit:production` reads `.env.production.local` and must pass before forms are expected to succeed.
 
 ## First admin
 

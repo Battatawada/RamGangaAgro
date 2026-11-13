@@ -1,18 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { pageMeta } from "@/content/meta";
+import { metadataFor } from "@/content/seo";
 
-export const metadata: Metadata = pageMeta({
-  title: "Terms",
-  description: "The terms for using the Ram Ganga Agro website.",
-  path: "/terms",
-});
+export const metadata: Metadata = metadataFor("/terms");
 
 export default function TermsPage() {
   return (
     <>
-      <Breadcrumbs items={[{ label: "Terms" }]} />
+      <Breadcrumbs items={[{ label: "Terms" }]} path="/terms" />
       <div className="container-page section">
         <h1 className="type-h1">Terms.</h1>
 

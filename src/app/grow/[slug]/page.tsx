@@ -7,6 +7,7 @@ import { MediaFrame } from "@/components/MediaFrame";
 import { cropPanelClass } from "@/content/crops";
 import { mediaById, type MediaAsset } from "@/content/media";
 import { pageMeta } from "@/content/meta";
+import { cropDescription } from "@/content/seo";
 import { fileContent } from "@/content/source";
 
 type Params = { params: Promise<{ slug: string }> };
@@ -21,7 +22,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   if (!crop) return {};
   return pageMeta({
     title: crop.name,
-    description: crop.summary,
+    description: cropDescription(crop.slug, crop.summary),
     path: `/grow/${crop.slug}`,
   });
 }
@@ -60,6 +61,7 @@ export default async function CropPage({ params }: Params) {
           { label: "What we grow", href: "/grow" },
           { label: crop.name },
         ]}
+        path={`/grow/${crop.slug}`}
       />
 
       <div className="container-page grid items-end gap-10 pt-8 pb-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(240px,0.95fr)] lg:gap-16 lg:pb-20">
@@ -133,6 +135,16 @@ export default async function CropPage({ params }: Params) {
             ) : (
               <p className="mt-4 text-ink-muted">The story is still being written.</p>
             )}
+            <p className="mt-6">
+              <Link
+                href="/our-farm/practices"
+                className="text-link"
+              >
+                {crop.slug === "wheat"
+                  ? "The farm’s natural farming practice"
+                  : "Natural farming at Ram Ganga Agro"}
+              </Link>
+            </p>
           </section>
 
           {crop.chapters.map((chapter) =>

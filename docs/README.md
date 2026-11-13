@@ -1,6 +1,6 @@
 # Ram Ganga Agro — handover
 
-Phase 1 of the site has been built. The blueprint below is still the authority for brand, pages, and security. Later notes are `25` through `33`: integration evidence, launch readiness, content, rate limiting, dependencies, production, and authentication. Nothing in those notes certifies the site as secure, and nothing in them is a production deployment.
+Phase 1 of the site has been built. The blueprint below is still the authority for brand, pages, and security. Later notes are `25` through `34`: integration evidence, launch readiness, content, rate limiting, dependencies, production, authentication, and search engines after the domain is live. Nothing in those notes certifies the site as secure, and nothing in them is a production deployment.
 
 This folder began as the blueprint. Security is implemented only to the extent the tests and `25-phase-1-integration-verification.md` record. Phase 1 started after the decisions in `APPROVAL-CHECKLIST.md` were treated as the working direction.
 
@@ -16,7 +16,7 @@ Claude implements from these documents. Grok prepared them on 12 November 2026 a
 6. `17` through `20` before writing data, Clerk, or forms.
 7. `22-phase-1-implementation-plan.md` for the build order.
 8. `21-testing-and-acceptance-criteria.md` for done.
-9. `25` through `33` for what was verified after the build, and for launch, content, rate limiting, dependencies, production, and authentication.
+9. `25` through `34` for what was verified after the build, and for launch, content, rate limiting, dependencies, production, authentication, and search engines.
 
 `02-reference-research.md` is background. Do not copy those sites.
 

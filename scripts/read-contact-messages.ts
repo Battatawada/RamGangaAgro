@@ -15,6 +15,8 @@ import {
   readContactMessages,
   type ReaderClient,
 } from "../src/server/scripts/read-contact-messages";
+import { isProductionTarget, operatorUrl } from "./database-target";
+import { databaseSsl, redactConnectionString } from "./development-branch";
 
 function readReason(argv: string[]): string {
   const index = argv.indexOf("--reason");
@@ -22,14 +24,17 @@ function readReason(argv: string[]): string {
 }
 
 async function main() {
-  const url = process.env.DATABASE_URL_MESSAGES;
-  if (!url) {
-    console.error("DATABASE_URL_MESSAGES is not set.");
-    process.exit(1);
-  }
+  const url = operatorUrl(
+    isProductionTarget(process.argv),
+    "rga_messages_reader",
+  );
 
   const reason = readReason(process.argv);
-  const sql = postgres(url, { max: 1, socket: connectResolved as never });
+  const sql = postgres(url, {
+    max: 1,
+    ssl: databaseSsl(url),
+    socket: connectResolved as never,
+  });
 
   const client: ReaderClient = {
     async insertAuditRowAndCommit(input) {
@@ -84,6 +89,8 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error(error instanceof Error ? error.message : "Unknown failure.");
+  console.error(
+    redactConnectionString(error instanceof Error ? error.message : "Unknown failure."),
+  );
   process.exit(1);
 });

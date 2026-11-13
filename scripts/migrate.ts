@@ -9,21 +9,19 @@
 import { readMigrationFiles } from "drizzle-orm/migrator";
 import postgres from "postgres";
 import { connectResolved } from "../src/server/db/connect";
-import { assertDevelopmentDatabase, redactConnectionString } from "./development-branch";
-import { loadEnvFile } from "./load-env-file";
+import { migratorUrl, isProductionTarget } from "./database-target";
+import { databaseSsl, redactConnectionString } from "./development-branch";
 import { migrationsToApply, statementsIn, type MigrationFile } from "./pending-migrations";
 
 async function main() {
-  const operator = loadEnvFile(".env.operator");
-  const url = process.env.DATABASE_URL_MIGRATE ?? operator.DATABASE_URL_MIGRATE;
-  if (!url) {
-    console.error("DATABASE_URL_MIGRATE is not set.");
-    process.exit(1);
-  }
+  const production = isProductionTarget(process.argv);
+  const url = migratorUrl(production);
 
-  assertDevelopmentDatabase(url, "rga_migrator");
-
-  const sql = postgres(url, { max: 1, socket: connectResolved as never });
+  const sql = postgres(url, {
+    max: 1,
+    ssl: databaseSsl(url),
+    socket: connectResolved as never,
+  });
   try {
     const schemas = await sql<{ schema_name: string }[]>`
       select schema_name from information_schema.schemata where schema_name = 'drizzle'
@@ -62,8 +60,9 @@ async function main() {
       }
     });
 
+    const branch = production ? "production" : "development";
     console.log(
-      `Applied ${pending.length} migration${pending.length === 1 ? "" : "s"}. Re-run db/grants.sql now.`,
+      `Applied ${pending.length} migration${pending.length === 1 ? "" : "s"} on the ${branch} branch. Re-run db/grants.sql now.`,
     );
   } finally {
     await sql.end({ timeout: 5 });

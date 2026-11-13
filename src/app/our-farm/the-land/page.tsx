@@ -2,15 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { FieldObservation } from "@/components/story/StorySections";
-import { pageMeta } from "@/content/meta";
+import { metadataFor } from "@/content/seo";
 import { fileContent } from "@/content/source";
 
-export const metadata: Metadata = pageMeta({
-  title: "The land",
-  description:
-    "The land will be described when the farm is ready to say where it is.",
-  path: "/our-farm/the-land",
-});
+export const metadata: Metadata = metadataFor("/our-farm/the-land");
 
 export default function TheLandPage() {
   const land = fileContent.chapterById("farm-land");
@@ -20,6 +15,7 @@ export default function TheLandPage() {
     <>
       <Breadcrumbs
         items={[{ label: "Our Farm", href: "/our-farm" }, { label: "The land" }]}
+        path="/our-farm/the-land"
       />
       <div className="container-page section">
         <div className="max-w-[40rem]">

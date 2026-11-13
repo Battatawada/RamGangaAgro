@@ -2,13 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { pageMeta } from "@/content/meta";
+import { metadataFor } from "@/content/seo";
 
-export const metadata: Metadata = pageMeta({
-  title: "Follow the farm",
-  description: "Harvest notes from Ram Ganga Agro. Nothing is emailed yet.",
-  path: "/follow",
-});
+export const metadata: Metadata = metadataFor("/follow");
 
 export default async function FollowPage() {
   // A direct visit must not tell someone they joined.
@@ -16,7 +12,7 @@ export default async function FollowPage() {
 
   return (
     <>
-      <Breadcrumbs items={[{ label: "Follow" }]} />
+      <Breadcrumbs items={[{ label: "Follow" }]} path="/follow" />
       <div className="container-page section">
         {joined ? (
           <>

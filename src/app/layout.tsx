@@ -7,7 +7,10 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SkipLink } from "@/components/SkipLink";
+import { jsonLd, publicStructuredData } from "@/content/structured-data";
 import { site } from "@/content/site";
+import { indexingDecision } from "@/server/indexing";
+import { requestNonce } from "@/server/request-nonce";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -23,38 +26,33 @@ const outfit = Outfit({
   variable: "--font-outfit",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
-  title: {
-    default: `${site.name} — a working farm`,
-    template: `%s — ${site.name}`,
-  },
-  description: site.description,
-  openGraph: {
-    siteName: site.name,
-    type: "website",
-    locale: "en",
-  },
-  twitter: {
-    card: "summary_large_image",
-  },
-  icons: { icon: "/icon.svg" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const host = (await headers()).get("host");
+  const indexable = indexingDecision(host) === "index";
 
-/** Clerk’s strict CSP allows an inline script only with the request nonce. */
-function requestNonce(headerList: Headers): string | undefined {
-  const named = headerList.get("x-nonce");
-  if (named) return named;
-  const csp = headerList.get("content-security-policy") ?? "";
-  return csp.match(/'nonce-([^']+)'/)?.[1];
+  return {
+    metadataBase: new URL(site.url),
+    title: {
+      default: `${site.name} — a working farm`,
+      template: `%s — ${site.name}`,
+    },
+    description: site.description,
+    robots: indexable
+      ? { index: true, follow: true }
+      : { index: false, follow: false },
+    openGraph: {
+      siteName: site.name,
+      type: "website",
+      locale: "en",
+    },
+    twitter: {
+      card: "summary_large_image",
+    },
+    icons: { icon: "/icon.svg" },
+  };
 }
 
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: site.name,
-  url: site.url,
-};
+const structuredData = jsonLd(publicStructuredData());
 
 export default async function RootLayout({
   children,
@@ -72,7 +70,7 @@ export default async function RootLayout({
           <script
             type="application/ld+json"
             nonce={nonce}
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+            dangerouslySetInnerHTML={{ __html: structuredData }}
           />
         ) : null}
         {/*

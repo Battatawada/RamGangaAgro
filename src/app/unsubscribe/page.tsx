@@ -1,18 +1,14 @@
 import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { UnsubscribeForm } from "@/components/UnsubscribeForm";
-import { pageMeta } from "@/content/meta";
+import { metadataFor } from "@/content/seo";
 
-export const metadata: Metadata = pageMeta({
-  title: "Unsubscribe",
-  description: "Remove an address from the harvest notes list.",
-  path: "/unsubscribe",
-});
+export const metadata: Metadata = metadataFor("/unsubscribe");
 
 export default function UnsubscribePage() {
   return (
     <>
-      <Breadcrumbs items={[{ label: "Unsubscribe" }]} />
+      <Breadcrumbs items={[{ label: "Unsubscribe" }]} path="/unsubscribe" />
       <div className="container-page section">
         <h1 className="type-h1">Unsubscribe.</h1>
         <div className="prose-page mt-8">

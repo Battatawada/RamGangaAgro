@@ -1,6 +1,7 @@
 import { randomBytes } from "node:crypto";
 import postgres from "postgres";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { databaseSsl } from "@/server/db/connection-policy";
 import { connectResolved } from "@/server/db/connect";
 import { closeDbForTests } from "@/server/db";
 import { operationLimits } from "@/server/rate-limit-policy";
@@ -18,7 +19,7 @@ function open(url: string) {
   return postgres(url, {
     max: 1,
     prepare: !pooled,
-    ssl: url.includes("sslmode=disable") ? false : "prefer",
+    ssl: databaseSsl(url),
     socket: connectResolved as never,
   });
 }

@@ -2,18 +2,14 @@ import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ContactForm } from "@/components/ContactForm";
 import { DecorativeMark } from "@/components/illustrations/DecorativeMark";
-import { pageMeta } from "@/content/meta";
+import { metadataFor } from "@/content/seo";
 
-export const metadata: Metadata = pageMeta({
-  title: "Contact",
-  description: "Write to Ram Ganga Agro. The note is stored for the farm.",
-  path: "/contact",
-});
+export const metadata: Metadata = metadataFor("/contact");
 
 export default function ContactPage() {
   return (
     <>
-      <Breadcrumbs items={[{ label: "Contact" }]} />
+      <Breadcrumbs items={[{ label: "Contact" }]} path="/contact" />
       <div className="container-page section">
         <h1 className="type-h1">Contact.</h1>
         <p className="type-deck prose-measure mt-6 text-ink-muted">

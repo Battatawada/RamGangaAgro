@@ -1,12 +1,13 @@
 /**
  * Re-applies grant sections 2 to 5. Role creation in section 1 is not repeated.
- * The connection has to be the development migrator. Production is refused.
+ * The default connection is the development migrator. `--target production`
+ * uses `.env.production.operator` and refuses every other host.
  */
 import { readFileSync } from "node:fs";
 import postgres from "postgres";
 import { connectResolved } from "../src/server/db/connect";
-import { assertDevelopmentDatabase, redactConnectionString } from "./development-branch";
-import { loadEnvFile } from "./load-env-file";
+import { isProductionTarget, migratorUrl } from "./database-target";
+import { databaseSsl, redactConnectionString } from "./development-branch";
 
 function statementsAfterRoles(sqlText: string): string[] {
   const start = sqlText.indexOf("-- 2. rga_migrator");
@@ -24,22 +25,21 @@ function statementsAfterRoles(sqlText: string): string[] {
 }
 
 async function main() {
-  const operator = loadEnvFile(".env.operator");
-  const url = process.env.DATABASE_URL_MIGRATE ?? operator.DATABASE_URL_MIGRATE;
-  if (!url) {
-    console.error("DATABASE_URL_MIGRATE is not set.");
-    process.exit(1);
-  }
-
-  assertDevelopmentDatabase(url, "rga_migrator");
+  const production = isProductionTarget(process.argv);
+  const url = migratorUrl(production);
   const statements = statementsAfterRoles(readFileSync("db/grants.sql", "utf8"));
-  const sql = postgres(url, { max: 1, socket: connectResolved as never });
+  const sql = postgres(url, {
+    max: 1,
+    ssl: databaseSsl(url),
+    socket: connectResolved as never,
+  });
 
   try {
     for (const statement of statements) {
       await sql.unsafe(statement);
     }
-    console.log(`Applied ${statements.length} grant statements on the development branch.`);
+    const branch = production ? "production" : "development";
+    console.log(`Applied ${statements.length} grant statements on the ${branch} branch.`);
   } finally {
     await sql.end({ timeout: 5 });
   }

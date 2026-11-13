@@ -2,15 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JourneyAhead, WhatComesNext } from "@/components/story/StorySections";
-import { pageMeta } from "@/content/meta";
+import { metadataFor } from "@/content/seo";
 import { fileContent } from "@/content/source";
 
-export const metadata: Metadata = pageMeta({
-  title: "Our story",
-  description:
-    "The story of Ram Ganga Agro will be published in the farm’s own words.",
-  path: "/our-farm/story",
-});
+export const metadata: Metadata = metadataFor("/our-farm/story");
 
 export default function StoryPage() {
   const opening = fileContent.chapterById("farm-story");
@@ -20,6 +15,7 @@ export default function StoryPage() {
     <>
       <Breadcrumbs
         items={[{ label: "Our Farm", href: "/our-farm" }, { label: "Our story" }]}
+        path="/our-farm/story"
       />
       <div className="container-page section">
         <div className="max-w-[40rem]">

@@ -10,6 +10,8 @@
  */
 import postgres from "postgres";
 import { connectResolved } from "../src/server/db/connect";
+import { isProductionTarget, operatorUrl } from "./database-target";
+import { databaseSsl, redactConnectionString } from "./development-branch";
 
 function readFlag(argv: string[], name: string): string {
   const index = argv.indexOf(name);
@@ -17,11 +19,7 @@ function readFlag(argv: string[], name: string): string {
 }
 
 async function main() {
-  const url = process.env.DATABASE_URL_PRIVACY;
-  if (!url) {
-    console.error("DATABASE_URL_PRIVACY is not set.");
-    process.exit(1);
-  }
+  const url = operatorUrl(isProductionTarget(process.argv), "rga_privacy");
 
   const email = readFlag(process.argv, "--email").toLowerCase();
   const reason = readFlag(process.argv, "--reason");
@@ -35,7 +33,11 @@ async function main() {
     process.exit(1);
   }
 
-  const sql = postgres(url, { max: 1, socket: connectResolved as never });
+  const sql = postgres(url, {
+    max: 1,
+    ssl: databaseSsl(url),
+    socket: connectResolved as never,
+  });
 
   try {
     await sql.begin(async (tx) => {
@@ -61,6 +63,8 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error(error instanceof Error ? error.message : "Unknown failure.");
+  console.error(
+    redactConnectionString(error instanceof Error ? error.message : "Unknown failure."),
+  );
   process.exit(1);
 });

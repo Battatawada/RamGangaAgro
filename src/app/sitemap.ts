@@ -2,25 +2,15 @@ import type { MetadataRoute } from "next";
 import { crops } from "@/content/crops";
 import { journalPosts } from "@/content/journal";
 import { site } from "@/content/site";
+import { indexablePaths } from "@/content/seo";
 
-/** Public Phase 1 URLs only. Dormant and unlinked routes are omitted. */
+/** Public URLs only. Dormant routes and the unsubscribe form are omitted. */
 export default function sitemap(): MetadataRoute.Sitemap {
   const paths = [
-    "/",
-    "/our-farm",
-    "/our-farm/story",
-    "/our-farm/the-land",
-    "/our-farm/practices",
-    "/grow",
+    ...indexablePaths(),
     ...crops.map((crop) => `/grow/${crop.slug}`),
-    "/journal",
     ...journalPosts.map((post) => `/journal/${post.slug}`),
-    "/contact",
-    "/follow",
-    "/unsubscribe",
-    "/privacy",
-    "/terms",
   ];
 
-  return paths.map((path) => ({ url: `${site.url}${path}` }));
+  return paths.map((path) => ({ url: path === "/" ? site.url : `${site.url}${path}` }));
 }

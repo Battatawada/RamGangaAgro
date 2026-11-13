@@ -165,6 +165,45 @@ describe("response headers", () => {
   });
 });
 
+describe("search files", () => {
+  it("publishes a canonical sitemap and does not block the public site", async () => {
+    const robots = await (await get("/robots.txt")).text();
+    expect(robots).toContain("Sitemap: https://rgagro.me/sitemap.xml");
+    expect(robots).toContain("Allow: /");
+    expect(robots).not.toMatch(/Disallow:\s+\/\s*$/m);
+
+    const sitemap = await (await get("/sitemap.xml")).text();
+    expect(sitemap).toContain("https://rgagro.me/grow/raktshali-rice");
+    expect(sitemap).toContain("https://rgagro.me/our-farm/practices");
+    expect(sitemap).not.toContain("unsubscribe");
+    expect(sitemap).not.toContain("vercel.app");
+    expect(sitemap).not.toContain("/sign-in");
+  });
+
+  it("marks this host noindex while the canonical url stays the apex", async () => {
+    const response = await get("/");
+    expect(response.headers.get("x-robots-tag")).toBe("noindex, nofollow");
+    const html = await response.text();
+    expect(html).toContain('rel="canonical" href="https://rgagro.me"');
+    expect(html).toContain("noindex");
+    expect(html).toContain('"@type":"Organization"');
+    expect(html).not.toContain("streetAddress");
+    expect(html.toLowerCase()).not.toContain("aggregaterating");
+  });
+
+  it("states only published facts in llms.txt", async () => {
+    const response = await get("/llms.txt");
+    expect(response.status).toBe(200);
+    const text = (await response.text()).toLowerCase();
+    expect(text).toContain("natural farming");
+    expect(text).toContain("raktshali");
+    expect(text).toContain("not for sale");
+    for (const phrase of ["organic", "certified", "chemical-free", "red rice", "traditional"]) {
+      expect(text, phrase).not.toContain(phrase);
+    }
+  });
+});
+
 describe("the sign-in route exists and is not advertised", () => {
   it("answers on /sign-in", async () => {
     const response = await get("/sign-in");

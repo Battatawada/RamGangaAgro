@@ -2,14 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { DecorativeMark } from "@/components/illustrations/DecorativeMark";
-import { pageMeta } from "@/content/meta";
+import { metadataFor } from "@/content/seo";
 import { fileContent } from "@/content/source";
 
-export const metadata: Metadata = pageMeta({
-  title: "Natural farming",
-  description: "Ram Ganga Agro practices natural farming.",
-  path: "/our-farm/practices",
-});
+export const metadata: Metadata = metadataFor("/our-farm/practices");
 
 export default function PracticesPage() {
   const opening = fileContent.chapterById("farm-practices");
@@ -21,6 +17,7 @@ export default function PracticesPage() {
     <>
       <Breadcrumbs
         items={[{ label: "Our Farm", href: "/our-farm" }, { label: "Practices" }]}
+        path="/our-farm/practices"
       />
       <div className="container-page section">
         <div className="grid items-end gap-10 lg:grid-cols-[minmax(0,36rem)_160px]">

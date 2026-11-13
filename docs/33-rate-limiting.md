@@ -19,7 +19,7 @@ Postgres does not read `DATABASE_URL_MIGRATE`, `DATABASE_URL_MESSAGES`, `DATABAS
 
 Upstash is configured with `RATE_LIMIT_REDIS_URL` and `RATE_LIMIT_TOKEN`. The URL must be `https`, with no user, password, query, or hash, and it must not contain the token. The token is never logged. `@upstash/ratelimit` is not used: its default timeout of five seconds returns success when Redis is slow, which would disable the limit. A Redis error throws, and the form refuses the write.
 
-`npm run check:rate-limit` prints the decision and not the secrets. `--production` checks the same variables as a production process and fails if the database URL is still the development branch.
+`npm run check:rate-limit` prints the decision and not the secrets. `npm run check:rate-limit:production` checks `.env.production.local` as a production process and fails if that file is missing or the database URL is not the pooled production app login.
 
 ## Allowances
 
@@ -84,10 +84,10 @@ Do not point production at the development database or the development Upstash p
 When the production database exists:
 
 1. Create `drizzle` as a superuser, owned by `rga_migrator`, without leaving database `CREATE` on that login.
-2. Change `scripts/development-branch.ts` so the production migration is an explicit allowlist entry, not an open connection. Until that change, `npm run db:migrate` refuses every host except the development endpoint.
-3. Migrate, re-apply grants, and set `DATABASE_URL` to the production `rga_app` login.
+2. Put the production `rga_migrator` direct URL in `.env.production.operator` and run `npm run db:migrate:production`, then `npm run db:grants:production`. The default commands still refuse that endpoint. The Neon owner login is refused.
+3. Set the hosting `DATABASE_URL` to the production pooled `rga_app` login. Keep the migrator, reader, and privacy URLs off the host.
 4. Set `RATE_LIMIT_PROVIDER=postgres` and `RATE_LIMIT_IP_SOURCE=vercel` (or `trusted-proxy` if the host is not Vercel).
-5. Run `npm run check:rate-limit -- --production` in that environment.
-6. Submit one contact, one newsletter, and one unsubscribe on the production host, then erase the contact note with `npm run contact:erase`.
+5. Put those values in `.env.production.local` and run `npm run check:rate-limit:production`. The check does not read `.env.local`, and it fails if the app URL is not the pooled production `rga_app` login.
+6. Submit one contact, one newsletter, and one unsubscribe on the production host, then erase the contact note with `npm run contact:erase:production -- --email someone@example.com --reason "erasure request"`.
 
 To use Upstash instead, create the database there only after it is approved, put the new URL and token in the production environment, and set `RATE_LIMIT_PROVIDER=upstash`. Do not copy a development token into production.

@@ -1,9 +1,47 @@
 import type { FlagName } from "@/server/flags";
 
+const PRODUCTION_ORIGIN = "https://rgagro.me";
+const ALLOWED_ORIGINS = new Set([PRODUCTION_ORIGIN, "https://www.rgagro.me"]);
+
+/**
+ * Canonical origin for metadata, the sitemap, and robots. Unset means the
+ * apex. A development URL is refused rather than published.
+ */
+export function resolveSiteUrl(value: string | undefined): string {
+  const trimmed = value?.trim() ?? "";
+  if (!trimmed) return PRODUCTION_ORIGIN;
+
+  let url: URL;
+  try {
+    url = new URL(trimmed);
+  } catch {
+    throw new Error(
+      "SITE_URL must be https://rgagro.me or https://www.rgagro.me.",
+    );
+  }
+
+  if (
+    !ALLOWED_ORIGINS.has(url.origin) ||
+    url.pathname !== "/" ||
+    url.search !== "" ||
+    url.hash !== "" ||
+    url.username !== "" ||
+    url.password !== ""
+  ) {
+    throw new Error(
+      "SITE_URL must be https://rgagro.me or https://www.rgagro.me.",
+    );
+  }
+
+  return url.origin;
+}
+
+const origin = resolveSiteUrl(process.env.SITE_URL);
+
 export const site = {
   name: "Ram Ganga Agro",
-  domain: "rgagro.me",
-  url: "https://rgagro.me",
+  domain: new URL(origin).hostname,
+  url: origin,
   /** The deck is DRAFT copy from docs/06. The farm has not approved it yet. */
   description:
     "A farm, its crops, and the journey from the land to the table.",

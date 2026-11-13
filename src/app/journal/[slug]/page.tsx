@@ -30,6 +30,7 @@ export default async function JournalEntryPage({ params }: Params) {
     <>
       <Breadcrumbs
         items={[{ label: "Journal", href: "/journal" }, { label: post.title }]}
+        path={`/journal/${post.slug}`}
       />
       <JournalEntry
         title={post.title}

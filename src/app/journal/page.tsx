@@ -4,18 +4,14 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JournalCard } from "@/components/JournalCard";
 import { JournalEmpty } from "@/components/JournalEmpty";
 import { journalPosts } from "@/content/journal";
-import { pageMeta } from "@/content/meta";
+import { metadataFor } from "@/content/seo";
 
-export const metadata: Metadata = pageMeta({
-  title: "The journal",
-  description: "Notes from the farm, when there is a season to record.",
-  path: "/journal",
-});
+export const metadata: Metadata = metadataFor("/journal");
 
 export default function JournalPage() {
   return (
     <>
-      <Breadcrumbs items={[{ label: "Journal" }]} />
+      <Breadcrumbs items={[{ label: "Journal" }]} path="/journal" />
       <div className="container-page section">
         <h1 className="type-h1">The journal.</h1>
         <p className="type-deck prose-measure mt-6 text-ink-muted">
@@ -26,11 +22,14 @@ export default function JournalPage() {
           {journalPosts.length === 0 ? (
             <JournalEmpty>
               <p className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
+                <Link href="/grow" className="text-link">
+                  Raktshali and wheat grown here
+                </Link>
+                <Link href="/our-farm/practices" className="text-link">
+                  The natural farming practice
+                </Link>
                 <Link href="/#follow" className="text-link">
                   Follow the farm
-                </Link>
-                <Link href="/" className="text-link">
-                  Back to the farm
                 </Link>
               </p>
             </JournalEmpty>

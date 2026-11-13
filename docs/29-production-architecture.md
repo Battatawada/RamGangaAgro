@@ -1,6 +1,8 @@
 # 29 — Production architecture
 
-Nothing in this document has been created. DNS was not changed. No production Clerk instance, Neon branch, webhook, or hosting project was made. The Namecheap certificate was not installed.
+A Vercel project named `ram-ganga-agro` exists on the team `pracheersrivastavas-projects`. Its functions run in Singapore (`sin1`). The current production deployment is a CLI upload of this working tree, aliased to `https://ram-ganga-agro.vercel.app`. That hostname is temporary. It sends `noindex`. `rgagro.me` is not attached. Namecheap DNS was not changed. No production webhook was created. The Namecheap certificate was not installed.
+
+The production Neon branch is `ep-curly-salad-a10wokga` in AWS Singapore. The running site uses the pooled `rga_app` login only. The GitHub repository `Battatawada/RamGangaAgro` is not connected yet: the Vercel GitHub installation on this team cannot see that repository. Until it can, a push does not deploy.
 
 ## Hosting
 
@@ -79,7 +81,7 @@ Decision, to be confirmed before anything is created:
 | App connection | Pooled `DATABASE_URL` for `rga_app`. The client already sets `prepare: false` on a pooled URL. |
 | Operator connections | Direct hosts for migrate, inbox, and erasure. They stay off the app. |
 | Schema | A superuser runs `CREATE SCHEMA drizzle AUTHORIZATION rga_migrator` once. Database `CREATE` does not stay on the migrator. |
-| Migrations | Update `scripts/development-branch.ts` with an explicit production allowlist entry, then migrate, then `db:grants`. Until that allowlist exists, the script refuses every non-development host. |
+| Migrations | `npm run db:migrate:production`, then `npm run db:grants:production`. Those commands read `.env.production.operator` and accept only the production endpoint with the direct `rga_migrator` login. The default commands still refuse that endpoint. npm consumes a bare `--production` flag, so the scripts use `--target production` instead. |
 | Rate limit | `RATE_LIMIT_PROVIDER=postgres` on that same app login. No second database URL. |
 | Backups | Neon point-in-time recovery enabled on the production branch. See below. |
 

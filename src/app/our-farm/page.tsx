@@ -1,15 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { pageMeta } from "@/content/meta";
+import { metadataFor } from "@/content/seo";
 import { fileContent } from "@/content/source";
 
-export const metadata: Metadata = pageMeta({
-  title: "Our farm",
-  description:
-    "Ram Ganga Agro is a working farm. The story, the land, and the practice are told as the farm shares them.",
-  path: "/our-farm",
-});
+export const metadata: Metadata = metadataFor("/our-farm");
 
 export default function OurFarmPage() {
   const opening = fileContent.chapterById("farm-opening");
@@ -17,7 +12,7 @@ export default function OurFarmPage() {
 
   return (
     <>
-      <Breadcrumbs items={[{ label: "Our Farm" }]} />
+      <Breadcrumbs items={[{ label: "Our Farm" }]} path="/our-farm" />
       <div className="container-page section">
         <div className="max-w-[40rem]">
           {opening?.eyebrow ? (

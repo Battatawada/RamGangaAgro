@@ -5,18 +5,12 @@ import { HeroPlate } from "@/components/HeroPlate";
 import { JournalEmpty } from "@/components/JournalEmpty";
 import { NewsletterForm } from "@/components/NewsletterForm";
 import { HarvestStatus } from "@/components/HarvestStatus";
-import { pageMeta } from "@/content/meta";
 import { mediaById } from "@/content/media";
-import { site } from "@/content/site";
+import { metadataFor } from "@/content/seo";
 import { fileContent, landToTable } from "@/content/source";
 import type { Crop } from "@/content/crops";
 
-export const metadata = pageMeta({
-  title: `${site.name} — a working farm`,
-  description: site.description,
-  path: "/",
-  absoluteTitle: true,
-});
+export const metadata = metadataFor("/");
 
 function CropSpread({ crop }: { crop: Crop }) {
   const drawing = mediaById(crop.mediaId);
@@ -200,6 +194,11 @@ export default function HomePage() {
           <div>
             <p className="type-eyebrow mb-5 text-green">From the farm</p>
             <JournalEmpty />
+            <p className="mt-6">
+              <Link href="/journal" className="text-link">
+                Read the farm journal
+              </Link>
+            </p>
           </div>
           <div id="follow">
             <p className="type-eyebrow mb-5 text-green">Harvest notes</p>

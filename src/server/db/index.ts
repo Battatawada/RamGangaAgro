@@ -1,6 +1,7 @@
 import "server-only";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
+import { assertAppConnection, databaseSsl } from "./connection-policy";
 import { connectResolved } from "./connect";
 import * as schema from "./schema";
 
@@ -9,11 +10,12 @@ type SqlClient = ReturnType<typeof postgres>;
 function createDatabase(url: string) {
   // Neon's pooled endpoint is PgBouncer in transaction mode, which rejects
   // prepared statements. Direct connections keep them.
+  // prefer and require do not check the server certificate. verify-full does.
   const pooled = url.includes("-pooler");
   const client = postgres(url, {
     max: 5,
     prepare: !pooled,
-    ssl: url.includes("sslmode=disable") ? false : "prefer",
+    ssl: databaseSsl(url),
     socket: connectResolved as never,
   });
   return { client, db: drizzle(client, { schema }) };
@@ -34,6 +36,7 @@ export function getDb(): Database {
     if (!url) {
       throw new Error("DATABASE_URL is not set.");
     }
+    assertAppConnection(url, process.env.NODE_ENV ?? "development");
     const opened = createDatabase(url);
     sqlClient = opened.client;
     database = opened.db;

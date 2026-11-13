@@ -3,14 +3,10 @@ import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { CropIndex } from "@/components/CropIndex";
 import { GrowingNow } from "@/components/story/StorySections";
-import { pageMeta } from "@/content/meta";
+import { metadataFor } from "@/content/seo";
 import { fileContent } from "@/content/source";
 
-export const metadata: Metadata = pageMeta({
-  title: "What we grow",
-  description: "Raktshali and wheat are grown at Ram Ganga Agro.",
-  path: "/grow",
-});
+export const metadata: Metadata = metadataFor("/grow");
 
 export default function GrowPage() {
   const crops = fileContent.listCrops();
@@ -18,7 +14,7 @@ export default function GrowPage() {
 
   return (
     <>
-      <Breadcrumbs items={[{ label: "What we grow" }]} />
+      <Breadcrumbs items={[{ label: "What we grow" }]} path="/grow" />
       <div className="container-page section">
         {intro ? (
           <GrowingNow title={intro.title} paragraphs={intro.paragraphs} />
@@ -38,7 +34,10 @@ export default function GrowPage() {
           )}
         </div>
 
-        <p className="mt-16">
+        <p className="mt-16 flex flex-wrap gap-x-6 gap-y-2">
+          <Link href="/our-farm/practices" className="text-link">
+            How natural farming is practiced here
+          </Link>
           <Link href="/our-farm" className="text-link">
             Back to Our farm
           </Link>

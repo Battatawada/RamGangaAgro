@@ -9,7 +9,9 @@ next-env.d.ts
 .env
 .env.local
 .env*.local
+.env.production
 .env.operator
+.env.production.operator
 .verify-clerk.local
 .owner-*.url
 .host-only.txt
@@ -17,3 +19,4 @@ next-env.d.ts
 .DS_Store
 *.log
 .neon
+.vercel/

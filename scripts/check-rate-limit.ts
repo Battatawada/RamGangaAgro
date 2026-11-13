@@ -2,26 +2,34 @@
  * Prints the rate-limit decision without printing secrets or opening a store.
  *
  *   npm run check:rate-limit
- *   npm run check:rate-limit -- --production
+ *   npm run check:rate-limit:production
+ *
+ * The production command passes `--target production`. npm itself consumes
+ * a bare `--production` flag, so that word is not the switch.
  */
 import { resolveIpSource, resolveRateLimitConfig } from "../src/server/rate-limit-config";
-import { assertDevelopmentDatabase } from "./development-branch";
+import { isProductionTarget } from "./database-target";
+import {
+  assertDevelopmentDatabase,
+  assertProductionDatabase,
+} from "./development-branch";
 import { applyEnvFile, loadEnvFile } from "./load-env-file";
 
-function isDevelopmentDatabase(url: string): boolean {
-  try {
-    assertDevelopmentDatabase(url, "rga_app");
-    return true;
-  } catch (error) {
-    const message = error instanceof Error ? error.message : "";
-    if (message.includes("not the development branch")) return false;
-    throw error;
-  }
-}
-
 function main() {
-  applyEnvFile(".env.local");
-  const production = process.argv.includes("--production");
+  const production = isProductionTarget(process.argv);
+  if (production) {
+    const file = loadEnvFile(".env.production.local");
+    if (!file.RATE_LIMIT_PROVIDER) {
+      console.error(
+        "Production rate limit is not configured. .env.production.local does not set RATE_LIMIT_PROVIDER.",
+      );
+      process.exit(1);
+    }
+    // Replace ambient development values. The production file is the only source.
+    for (const [key, value] of Object.entries(file)) process.env[key] = value;
+  } else {
+    applyEnvFile(".env.local");
+  }
   const nodeEnv = production ? "production" : "development";
   const config = resolveRateLimitConfig(process.env, nodeEnv);
 
@@ -41,11 +49,9 @@ function main() {
     if (!production) {
       assertDevelopmentDatabase(url, "rga_app");
       console.log("Database URL is the development app login.");
-    } else if (isDevelopmentDatabase(url)) {
-      console.error("Production is still pointed at the development database.");
-      process.exit(1);
     } else {
-      console.log("Database URL is present and is not the development branch.");
+      assertProductionDatabase(url, "rga_app", "pooled");
+      console.log("Database URL is the production pooled app login.");
     }
   }
 

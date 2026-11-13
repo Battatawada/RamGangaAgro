@@ -1,19 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { pageMeta } from "@/content/meta";
+import { metadataFor } from "@/content/seo";
 
-export const metadata: Metadata = pageMeta({
-  title: "Privacy",
-  description:
-    "What Ram Ganga Agro stores when you write to the farm or follow the harvest notes.",
-  path: "/privacy",
-});
+export const metadata: Metadata = metadataFor("/privacy");
 
 export default function PrivacyPage() {
   return (
     <>
-      <Breadcrumbs items={[{ label: "Privacy" }]} />
+      <Breadcrumbs items={[{ label: "Privacy" }]} path="/privacy" />
       <div className="container-page section">
         <h1 className="type-h1">Privacy.</h1>
 
