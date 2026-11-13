@@ -1,5 +1,6 @@
 import { ProductCard } from "@/components/ProductCard";
 import type { Crop } from "@/content/crops";
+import { mediaById } from "@/content/media";
 
 export function ProductGrid({ crops }: { crops: Crop[] }) {
   const single = crops.length === 1;
@@ -17,7 +18,7 @@ export function ProductGrid({ crops }: { crops: Crop[] }) {
             summary={crop.summary}
             href={`/grow/${crop.slug}`}
             status={crop.status}
-            media={{ src: "/illustrations/panicle.svg", alt: "" }}
+            media={{ src: mediaById(crop.mediaId)?.src ?? "/illustrations/panicle.svg", alt: "" }}
             pricePaise={crop.pricePaise}
             purchasable={crop.purchasable}
             layout={single ? "row" : "stacked"}

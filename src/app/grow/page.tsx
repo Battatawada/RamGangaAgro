@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ProductGrid } from "@/components/ProductGrid";
-import { crops } from "@/content/crops";
+import { GrowingNow } from "@/components/story/StorySections";
+import { fileContent } from "@/content/source";
 
 export const metadata: Metadata = {
   title: "What we grow",
@@ -9,14 +10,18 @@ export const metadata: Metadata = {
 };
 
 export default function GrowPage() {
+  const crops = fileContent.listCrops();
+  const intro = fileContent.chapterById("grow-now");
+
   return (
     <>
       <Breadcrumbs items={[{ label: "What we grow" }]} />
       <div className="container-page section">
-        <h1 className="type-h1">What we grow.</h1>
-        <p className="type-deck prose-measure mt-6 text-ink-muted">
-          The harvest, as it is. One crop is growing. It is not yet for sale.
-        </p>
+        {intro ? (
+          <GrowingNow title={intro.title} paragraphs={intro.paragraphs} />
+        ) : (
+          <h1 className="type-h1">What we grow.</h1>
+        )}
 
         <div className="mt-12">
           {crops.length > 0 ? (

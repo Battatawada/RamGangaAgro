@@ -4,7 +4,9 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { HarvestStatus } from "@/components/HarvestStatus";
 import { MediaHero } from "@/components/MediaHero";
+import { CropChapter } from "@/components/story/StorySections";
 import { getCrop } from "@/content/crops";
+import { mediaById } from "@/content/media";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -35,6 +37,7 @@ export default async function CropPage({ params }: Params) {
   const { slug } = await params;
   const crop = getCrop(slug);
   if (!crop) notFound();
+  const hero = mediaById(crop.mediaId) ?? mediaById("panicle");
 
   return (
     <>
@@ -53,10 +56,14 @@ export default async function CropPage({ params }: Params) {
           <p className="type-deck mt-4 text-ink-muted">{crop.summary}</p>
         </div>
         <MediaHero
-          kind="illustration"
-          src="/illustrations/panicle.svg"
-          alt="Line drawing of a rice panicle, standing in for a photograph of the crop."
-          caption="A drawing, not a photograph."
+          kind={hero?.kind ?? "illustration"}
+          src={hero?.src ?? "/illustrations/panicle.svg"}
+          alt={
+            hero?.decorative
+              ? "Line drawing of a rice panicle, standing in for a photograph of the crop."
+              : (hero?.alt ?? "")
+          }
+          caption={hero?.caption ?? "A drawing, not a photograph."}
           className="min-h-[300px] rounded-[2px] bg-raktshali-soft lg:min-h-[460px]"
           mediaClassName="max-w-[280px]"
         />
@@ -100,17 +107,12 @@ export default async function CropPage({ params }: Params) {
           </section>
         ) : null}
 
-        {/* 5. Harvest */}
-        <section id="harvest" className="mb-16 scroll-mt-24">
-          <h2 className="type-h2">Harvest.</h2>
-          {crop.harvest ? (
-            <Prose paragraphs={crop.harvest} />
-          ) : (
-            <p className="mt-4 text-ink-muted">
-              When a harvest is recorded, its season will be named here.
-            </p>
-          )}
-        </section>
+        <CropChapter
+          id="harvest"
+          title="Harvest."
+          paragraphs={crop.harvest}
+          empty="When a harvest is recorded, its season will be named here."
+        />
 
         {/* 6. Preparation. Omitted until the farm describes it. */}
         {crop.preparation ? (

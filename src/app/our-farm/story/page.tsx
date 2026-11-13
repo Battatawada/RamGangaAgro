@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { OpeningThought, WhatComesNext } from "@/components/story/StorySections";
+import { fileContent } from "@/content/source";
 
 export const metadata: Metadata = {
   title: "Our story",
@@ -9,29 +10,31 @@ export const metadata: Metadata = {
 };
 
 export default function StoryPage() {
+  const opening = fileContent.chapterById("farm-story");
+  const next = fileContent.chapterById("farm-story-gap");
+
   return (
     <>
       <Breadcrumbs
         items={[{ label: "Our Farm", href: "/our-farm" }, { label: "Our story" }]}
       />
       <div className="container-page section">
-        <h1 className="type-h1">Our story</h1>
-        <div className="prose-page mt-8">
-          <p className="text-ink-muted">
-            The story of Ram Ganga Agro will be published in the farm’s own
-            words.
-          </p>
-          <p className="mt-6">
-            <Link href="/grow" className="text-link">
-              What we grow
-            </Link>
-          </p>
-          <p className="mt-10">
-            <Link href="/our-farm" className="text-link">
-              Back to Our farm
-            </Link>
-          </p>
-        </div>
+        {opening ? (
+          <OpeningThought
+            title={opening.title}
+            paragraphs={opening.paragraphs}
+            href={opening.href}
+            linkLabel={opening.linkLabel}
+          />
+        ) : null}
+        {next ? (
+          <WhatComesNext
+            title={next.title}
+            paragraphs={next.paragraphs}
+            href={next.href}
+            linkLabel={next.linkLabel}
+          />
+        ) : null}
       </div>
     </>
   );

@@ -37,6 +37,16 @@ export type Crop = {
   inTheField: string[] | null;
   harvest: string[] | null;
   preparation: string[] | null;
+  /**
+   * Future slots. Null until the farm supplies them. A page reads the media
+   * registry by id, so a photograph replaces a drawing without a layout change.
+   * Nothing here opens a harvest, shop, or traceability route.
+   */
+  mediaId: string;
+  story: string[] | null;
+  season: string | null;
+  fieldMediaId: string | null;
+  availabilityNote: string | null;
 };
 
 export const crops: Crop[] = [
@@ -53,6 +63,11 @@ export const crops: Crop[] = [
     inTheField: null,
     harvest: null,
     preparation: null,
+    mediaId: "panicle",
+    story: null,
+    season: null,
+    fieldMediaId: null,
+    availabilityNote: null,
   },
 ];
 

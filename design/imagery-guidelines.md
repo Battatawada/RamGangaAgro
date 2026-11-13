@@ -7,6 +7,7 @@ The site ships with original line drawings in `design/illustrations/`.
 - `panicle.svg` — hero media, and the Raktshali page opener.
 - `contours.svg` — a quiet field behind the journey section, at low contrast.
 - `mark.svg` — favicon and the footer monogram. It is a panicle, not a leaf, not a bowl of rice, not a farmer.
+- `grain.svg`, `seasonal-line.svg`, `field-divider.svg` — small original ornaments. See `docs/28-visual-asset-system.md`.
 
 Alt text for these drawings says they are drawings, not photographs of Ram Ganga Agro.
 

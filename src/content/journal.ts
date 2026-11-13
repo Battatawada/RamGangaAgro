@@ -14,6 +14,8 @@ export type JournalPost = {
   excerpt: string;
   body: string[];
   byline: string;
+  /** A media registry id. Null until the farm has a picture for the note. */
+  mediaId: string | null;
 };
 
 export const journalPosts: JournalPost[] = [];

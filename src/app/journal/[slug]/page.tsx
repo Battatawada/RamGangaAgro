@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { getPost } from "@/content/journal";
+import { JournalEntry } from "@/components/story/StorySections";
+import { fileContent } from "@/content/source";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -10,14 +11,14 @@ type Params = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = fileContent.getPost(slug);
   if (!post) return {};
   return { title: post.title, description: post.excerpt };
 }
 
 export default async function JournalEntryPage({ params }: Params) {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = fileContent.getPost(slug);
   if (!post) notFound();
 
   return (
@@ -25,19 +26,12 @@ export default async function JournalEntryPage({ params }: Params) {
       <Breadcrumbs
         items={[{ label: "Journal", href: "/journal" }, { label: post.title }]}
       />
-      <article className="container-page section">
-        <h1 className="type-h1">{post.title}</h1>
-        <p className="type-caption mt-4">
-          <time dateTime={post.date}>{post.date}</time> · {post.byline}
-        </p>
-        <div className="prose-page mt-8">
-          {post.body.map((paragraph) => (
-            <p key={paragraph} className="mt-4 text-ink-muted">
-              {paragraph}
-            </p>
-          ))}
-        </div>
-      </article>
+      <JournalEntry
+        title={post.title}
+        date={post.date}
+        byline={post.byline}
+        paragraphs={post.body}
+      />
     </>
   );
 }

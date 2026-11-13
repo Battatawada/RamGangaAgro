@@ -6,7 +6,11 @@ import { MediaHero } from "@/components/MediaHero";
 import { NewsletterForm } from "@/components/NewsletterForm";
 import { ProductCard } from "@/components/ProductCard";
 import { SectionHeading } from "@/components/SectionHeading";
+import { DecorativeMark } from "@/components/illustrations/DecorativeMark";
+import { SeasonalNote } from "@/components/story/StorySections";
 import { getCrop } from "@/content/crops";
+import { mediaById } from "@/content/media";
+import { chapterById } from "@/content/story";
 
 const journey: JourneyStep[] = [
   {
@@ -43,6 +47,8 @@ const journey: JourneyStep[] = [
 
 export default function HomePage() {
   const raktshali = getCrop("raktshali-rice");
+  const hero = mediaById(raktshali?.mediaId ?? "panicle");
+  const season = chapterById("home-season");
 
   return (
     <>
@@ -64,10 +70,10 @@ export default function HomePage() {
           </div>
         </div>
         <MediaHero
-          kind="illustration"
-          src="/illustrations/panicle.svg"
-          alt="Line drawing of a rice panicle. This is an illustration, not a photograph of the farm."
-          caption="Illustration, until the farm’s own picture is ready."
+          kind={hero?.kind ?? "illustration"}
+          src={hero?.src ?? "/illustrations/panicle.svg"}
+          alt={hero?.alt ?? ""}
+          caption={hero?.caption}
           className="min-h-[320px] rounded-[2px] bg-paper-raised lg:min-h-[520px]"
           mediaClassName="max-w-[420px]"
         />
@@ -87,6 +93,17 @@ export default function HomePage() {
         </p>
       </section>
 
+      {season ? (
+        <section className="container-page pb-4">
+          <SeasonalNote
+            eyebrow={season.eyebrow}
+            title={season.title}
+            paragraphs={season.paragraphs}
+            mediaId={season.mediaId}
+          />
+        </section>
+      ) : null}
+
       {/* 3. What we grow */}
       <section className="container-page section">
         <p className="type-eyebrow mb-5 text-green">Our harvest</p>
@@ -97,7 +114,10 @@ export default function HomePage() {
               summary={raktshali.summary}
               href={`/grow/${raktshali.slug}`}
               status={raktshali.status}
-              media={{ src: "/illustrations/panicle.svg", alt: "" }}
+              media={{
+                src: mediaById(raktshali.mediaId)?.src ?? "/illustrations/panicle.svg",
+                alt: "",
+              }}
               pricePaise={raktshali.pricePaise}
               purchasable={raktshali.purchasable}
               titleAs="p"
@@ -122,6 +142,7 @@ export default function HomePage() {
         <div className="mt-10">
           <FarmJourney steps={journey} />
         </div>
+        <DecorativeMark id="contours" className="mt-8 h-28 w-full object-cover" />
       </section>
 
       {/* 5. Raktshali band */}
