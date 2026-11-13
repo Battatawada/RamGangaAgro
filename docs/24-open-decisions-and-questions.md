@@ -18,7 +18,7 @@ These are not blockers for writing the blueprint. They are blockers for treating
 | Reading contact messages | `rga_messages_reader` via `scripts/read-contact-messages.ts`. Not the migration role | Decided |
 | Host | Managed Next.js. Provider not chosen | Deploy |
 | Database region | A region in India if the operator wants data there. Not chosen | Deploy |
-| Rate-limit vendor | Upstash or the host’s firewall. Account not created | Forms in production |
+| Rate-limit store | Postgres on the app database, so no new account is required. Upstash remains a config switch if a separate store is wanted later. Production still needs its own database or its own Upstash credentials. | Production forms |
 | Hindi or bilingual | English only in Phase 1 | A later project |
 | Who may appear in photos | Nobody until a consent exists | Photography |
 | Legal review of privacy | Required before production forms collect mail | Production launch |

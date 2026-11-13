@@ -25,6 +25,20 @@ export default defineConfig({
           alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) },
         },
         test: {
+          name: "forms",
+          environment: "node",
+          include: ["tests/integration/**/*.test.ts"],
+          setupFiles: ["tests/integration/setup.ts"],
+          testTimeout: 60_000,
+          hookTimeout: 60_000,
+          fileParallelism: false,
+        },
+      },
+      {
+        resolve: {
+          alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) },
+        },
+        test: {
           name: "e2e",
           environment: "node",
           include: ["tests/e2e/**/*.test.ts"],

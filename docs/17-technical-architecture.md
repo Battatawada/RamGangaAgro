@@ -13,7 +13,7 @@ The documentation does not make the future site secure.
 | Identity | Clerk, `@clerk/nextjs` |
 | Data | PostgreSQL, Drizzle, migrations |
 | Validation | Zod |
-| Rate limit | A shared store. Upstash is the suggested service, not a confirmed account |
+| Rate limit | A shared store behind `RATE_LIMIT_PROVIDER`. Postgres on `DATABASE_URL` is the default. Upstash Redis is the optional alternate. See `33-rate-limiting.md`. |
 | Media bytes | Object storage later. Phase 1 uses the SVGs in the repo |
 | Payments | None in Phase 1. An interface only in the future plan |
 | Host | Managed Next.js. The provider is an open decision |

@@ -52,6 +52,13 @@ REVOKE SELECT, UPDATE, DELETE ON TABLE contact_messages FROM rga_app;
 GRANT SELECT, INSERT ON TABLE audit_log TO rga_app;
 REVOKE UPDATE, DELETE ON TABLE audit_log FROM rga_app;
 
+-- Rate-limit counters. Keys are an operation and a client address, never an
+-- email. The running app maintains its own buckets. The inbox reader and the
+-- privacy login do not.
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE rate_limit_buckets TO rga_app;
+REVOKE ALL ON TABLE rate_limit_buckets FROM rga_messages_reader, rga_privacy;
+REVOKE ALL ON TABLE rate_limit_buckets FROM PUBLIC;
+
 -- 4. rga_messages_reader: the operator's inbox script ------------------------
 -- Exactly two privileges. Nothing else in the database.
 

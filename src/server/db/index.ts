@@ -4,7 +4,7 @@ import postgres from "postgres";
 import { connectResolved } from "./connect";
 import * as schema from "./schema";
 
-export type Database = ReturnType<typeof createDatabase>;
+type SqlClient = ReturnType<typeof postgres>;
 
 function createDatabase(url: string) {
   // Neon's pooled endpoint is PgBouncer in transaction mode, which rejects
@@ -16,9 +16,12 @@ function createDatabase(url: string) {
     ssl: url.includes("sslmode=disable") ? false : "prefer",
     socket: connectResolved as never,
   });
-  return drizzle(client, { schema });
+  return { client, db: drizzle(client, { schema }) };
 }
 
+export type Database = ReturnType<typeof createDatabase>["db"];
+
+let sqlClient: SqlClient | undefined;
 let database: Database | undefined;
 
 /**
@@ -31,9 +34,20 @@ export function getDb(): Database {
     if (!url) {
       throw new Error("DATABASE_URL is not set.");
     }
-    database = createDatabase(url);
+    const opened = createDatabase(url);
+    sqlClient = opened.client;
+    database = opened.db;
   }
   return database;
+}
+
+/** Closes the app pool. The form integration test calls this so the process can exit. */
+export async function closeDbForTests(): Promise<void> {
+  if (sqlClient) {
+    await sqlClient.end({ timeout: 5 });
+  }
+  sqlClient = undefined;
+  database = undefined;
 }
 
 export { schema };

@@ -26,7 +26,10 @@ Clerk keys and a database are required for sign-in and for the forms that write.
 | `npm run build` | Production build |
 | `npm test` | Unit tests |
 | `npm run test:e2e` | Route tests against `next start` (build first) |
-| `npm run db:migrate` | Migrations as `rga_migrator` |
+| `npm run db:migrate` | Migrations as `rga_migrator`, development branch only |
+| `npm run db:grants` | Re-apply table grants on the development branch |
+| `npm run test:forms` | Contact, newsletter, and unsubscribe against the development database |
+| `npm run check:rate-limit` | Validate the rate-limit configuration without printing secrets |
 | `npm run messages:read` | Read the inbox as `rga_messages_reader` |
 | `npm run contact:erase` | Erase one address as `rga_privacy` |
 | `npm run scan:client` | Fail if a secret-shaped string is in the client bundle |

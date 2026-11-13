@@ -54,7 +54,7 @@ Do not log the raw payload.
 
 Strict CSP as in doc 17. Also `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, a `Permissions-Policy` that disables camera, microphone, and geolocation, `poweredByHeader: false`. HSTS in production only, after every hostname on the certificate is HTTPS. Preload is a later decision.
 
-Zod `.strict()` on every action. Rate limits in a shared store. Server Action body size stays at the 1MB default. Next.js checks `Origin` against `Host`. Set `serverActions.allowedOrigins` only for the real hosts.
+Zod `.strict()` on every action. Rate limits live in a shared store, one allowance per operation, keyed by client address and never by email. A missing store refuses the write. The client address comes from the configured proxy header, not from a caller-supplied string. Server Action body size stays at the 1MB default. Next.js checks `Origin` against `Host`. Set `serverActions.allowedOrigins` only for the real hosts. Details are in `33-rate-limiting.md`.
 
 Journal and crop bodies, when they come from the database, are Markdown rendered without raw HTML.
 

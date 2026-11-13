@@ -55,6 +55,23 @@ describe("database grants", () => {
     ).toBe(true);
   });
 
+  it("lets the app maintain rate-limit buckets and keeps them from the inbox roles", () => {
+    expect(
+      mentions(
+        /GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE rate_limit_buckets TO rga_app;/,
+      ),
+    ).toBe(true);
+    expect(
+      mentions(
+        /REVOKE ALL ON TABLE rate_limit_buckets FROM rga_messages_reader, rga_privacy;/,
+      ),
+    ).toBe(true);
+    expect(mentions(/GRANT[^;]*rate_limit_buckets[^;]*TO rga_messages_reader/)).toBe(
+      false,
+    );
+    expect(mentions(/GRANT[^;]*rate_limit_buckets[^;]*TO rga_privacy/)).toBe(false);
+  });
+
   it("keeps the audit log append-only for the app", () => {
     expect(mentions(/REVOKE UPDATE, DELETE ON TABLE audit_log FROM rga_app;/)).toBe(
       true,

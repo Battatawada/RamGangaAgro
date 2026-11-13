@@ -1,16 +1,18 @@
 import "server-only";
 import { headers } from "next/headers";
+import { clientIpFromHeaders } from "@/server/client-ip";
+import { resolveIpSource } from "@/server/rate-limit-config";
 
 /**
- * The caller's address, used only as a rate-limit key. A missing or spoofed
- * header falls back to one shared bucket, which throttles rather than opens.
+ * The caller's address, used only as a rate-limit key. Production refuses a
+ * missing or direct source. A header that is not a real address becomes the
+ * shared `untrusted` bucket, which throttles rather than opening a new one.
  */
 export async function getClientIp(): Promise<string> {
+  const source = resolveIpSource(
+    process.env,
+    process.env.NODE_ENV ?? "development",
+  );
   const headerList = await headers();
-  const forwarded = headerList.get("x-forwarded-for");
-  if (forwarded) {
-    const first = forwarded.split(",")[0]?.trim();
-    if (first) return first;
-  }
-  return headerList.get("x-real-ip")?.trim() || "unknown";
+  return clientIpFromHeaders(headerList, source);
 }

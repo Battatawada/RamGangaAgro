@@ -1,11 +1,8 @@
 import { insertContactMessage } from "@/server/db/repositories";
 import { getRateLimiter } from "@/server/rate-limit";
+import { bucketsFor } from "@/server/rate-limit-policy";
 import { contactSchema } from "@/server/validation";
 import { fieldErrorsFrom, messages, type ActionResult } from "../result";
-
-const HOUR = 60 * 60;
-const PER_IP = 5;
-const PER_EMAIL = 3;
 
 export async function submitContact(
   input: unknown,
@@ -24,11 +21,10 @@ export async function submitContact(
 
   try {
     const limiter = getRateLimiter();
-    if (!(await limiter.check(`contact:ip:${context.ip}`, PER_IP, HOUR))) {
-      return { ok: false, message: messages.contactTooMany };
-    }
-    if (!(await limiter.check(`contact:email:${email}`, PER_EMAIL, HOUR))) {
-      return { ok: false, message: messages.contactTooMany };
+    for (const bucket of bucketsFor("contact", context.ip)) {
+      if (!(await limiter.check(bucket.key, bucket.limit, bucket.windowSeconds))) {
+        return { ok: false, message: messages.contactTooMany };
+      }
     }
 
     await insertContactMessage({ name, email, message });

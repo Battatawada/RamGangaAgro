@@ -74,6 +74,24 @@ export const webhookEvents = pgTable(
   ],
 );
 
+/**
+ * Fixed-window counters for public form writes. The key is an operation and a
+ * client address, never an email address. The app role may maintain these
+ * rows. The inbox reader and the privacy login may not.
+ */
+export const rateLimitBuckets = pgTable(
+  "rate_limit_buckets",
+  {
+    bucketKey: text("bucket_key").primaryKey(),
+    hitCount: integer("hit_count").notNull(),
+    resetAt: timestamp("reset_at", { withTimezone: true }).notNull(),
+  },
+  (table) => [
+    check("rate_limit_buckets_count_check", sql`${table.hitCount} > 0`),
+    index("rate_limit_buckets_reset_at_idx").on(table.resetAt),
+  ],
+);
+
 /** Append only. The app role has no UPDATE or DELETE on this table. */
 export const auditLog = pgTable("audit_log", {
   id: uuid("id").primaryKey().defaultRandom(),

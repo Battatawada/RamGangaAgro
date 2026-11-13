@@ -90,12 +90,43 @@ describe("contact action", () => {
     expect(store.contactMessages).toHaveLength(5);
   });
 
-  it("refuses the fourth note from one email address in an hour", async () => {
-    for (let attempt = 1; attempt <= 3; attempt += 1) {
-      const result = await submitContact(valid, { ip: `10.1.0.${attempt}` });
+  it("does not treat the email address as a rate-limit identifier", async () => {
+    const seen: string[] = [];
+    setRateLimiterForTests({
+      async check(key) {
+        seen.push(key);
+        return true;
+      },
+    });
+
+    const result = await submitContact(valid, { ip: "192.0.2.10" });
+    expect(result.ok).toBe(true);
+    expect(seen).toEqual(["contact:ip:192.0.2.10", "contact:all"]);
+    expect(seen.some((key) => key.includes("@") || key.includes("example.com"))).toBe(
+      false,
+    );
+  });
+
+  it("allows the same email from different addresses", async () => {
+    for (let attempt = 1; attempt <= 4; attempt += 1) {
+      const result = await submitContact(valid, { ip: `192.0.2.${attempt}` });
       expect(result.ok).toBe(true);
     }
-    const fourth = await submitContact(valid, { ip: "10.1.0.4" });
-    expect(fourth.ok).toBe(false);
+    expect(store.contactMessages).toHaveLength(4);
+  });
+
+  it("refuses the write when the limiter cannot be constructed", async () => {
+    setRateLimiterForTests(undefined);
+    vi.stubEnv("NODE_ENV", "development");
+    vi.stubEnv("RATE_LIMIT_PROVIDER", "");
+
+    try {
+      const result = await submitContact(valid, { ip: "192.0.2.20" });
+      expect(result.ok).toBe(false);
+      expect(result.ok === false && result.message).toBe(messages.contactFailed);
+      expect(store.contactMessages).toHaveLength(0);
+    } finally {
+      vi.unstubAllEnvs();
+    }
   });
 });

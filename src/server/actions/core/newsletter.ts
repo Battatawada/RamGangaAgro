@@ -1,11 +1,9 @@
 import { createHash, randomBytes } from "node:crypto";
 import { subscribeEmail } from "@/server/db/repositories";
 import { getRateLimiter } from "@/server/rate-limit";
+import { bucketsFor } from "@/server/rate-limit-policy";
 import { newsletterSchema } from "@/server/validation";
 import { fieldErrorsFrom, messages, type ActionResult } from "../result";
-
-const HOUR = 60 * 60;
-const PER_IP = 5;
 
 /**
  * The token is stored as a hash so a later one-click unsubscribe link has
@@ -32,8 +30,10 @@ export async function submitNewsletter(
 
   try {
     const limiter = getRateLimiter();
-    if (!(await limiter.check(`newsletter:ip:${context.ip}`, PER_IP, HOUR))) {
-      return { ok: false, message: messages.newsletterTooMany };
+    for (const bucket of bucketsFor("newsletter", context.ip)) {
+      if (!(await limiter.check(bucket.key, bucket.limit, bucket.windowSeconds))) {
+        return { ok: false, message: messages.newsletterTooMany };
+      }
     }
 
     await subscribeEmail({ email, source, tokenHash: newTokenHash() });

@@ -13,6 +13,7 @@ const { submitUnsubscribe } = await import("@/server/actions/core/unsubscribe");
 const { createMemoryLimiter, setRateLimiterForTests } = await import(
   "@/server/rate-limit"
 );
+const { operationLimits } = await import("@/server/rate-limit-policy");
 const { messages } = await import("@/server/actions/result");
 
 const SENTENCE = "If this address was on the list, it has been removed.";
@@ -84,6 +85,7 @@ describe("unsubscribe action", () => {
   it("does not claim success when the rate limiter cannot be constructed", async () => {
     setRateLimiterForTests(undefined);
     vi.stubEnv("NODE_ENV", "development");
+    vi.stubEnv("RATE_LIMIT_PROVIDER", "");
     vi.stubEnv("RATE_LIMIT_REDIS_URL", "");
     vi.stubEnv("RATE_LIMIT_TOKEN", "");
     await listed("reader@example.com");
@@ -105,12 +107,50 @@ describe("unsubscribe action", () => {
   it("says the form was used too often without saying whether the address was listed", async () => {
     const ip = "10.0.2.12";
     await listed("reader@example.com");
-    for (let attempt = 1; attempt <= 5; attempt += 1) {
-      await submitUnsubscribe({ email: "reader@example.com" }, { ip });
+    for (let attempt = 1; attempt <= operationLimits.unsubscribe.perIp; attempt += 1) {
+      const result = await submitUnsubscribe(
+        { email: attempt % 2 === 0 ? "reader@example.com" : "stranger@example.com" },
+        { ip },
+      );
+      expect(result.ok).toBe(true);
     }
-    const sixth = await submitUnsubscribe({ email: "reader@example.com" }, { ip });
-    expect(sixth.ok).toBe(false);
-    expect(sixth.ok === false && sixth.message).toBe(messages.unsubscribeTooMany);
-    expect(JSON.stringify(sixth)).not.toContain("list");
+    const blocked = await submitUnsubscribe(
+      { email: "reader@example.com" },
+      { ip },
+    );
+    const unknown = await submitUnsubscribe(
+      { email: "stranger@example.com" },
+      { ip },
+    );
+    expect(blocked.ok).toBe(false);
+    expect(unknown.ok).toBe(false);
+    expect(blocked).toEqual(unknown);
+    expect(blocked.ok === false && blocked.message).toBe(messages.unsubscribeTooMany);
+    expect(JSON.stringify(blocked)).not.toContain("list");
+  });
+
+  it("does not claim success when the store fails during the check", async () => {
+    setRateLimiterForTests({
+      async check() {
+        throw new Error("store unavailable");
+      },
+    });
+    await listed("reader@example.com");
+
+    const listedResult = await submitUnsubscribe(
+      { email: "reader@example.com" },
+      { ip: "10.0.2.20" },
+    );
+    const unknownResult = await submitUnsubscribe(
+      { email: "nobody@example.com" },
+      { ip: "10.0.2.21" },
+    );
+
+    expect(listedResult).toEqual(unknownResult);
+    expect(listedResult.ok).toBe(false);
+    expect(listedResult.ok === false && listedResult.message).toBe(
+      messages.unsubscribeTooMany,
+    );
+    expect(store.subscribers.get("reader@example.com")?.unsubscribedAt).toBeNull();
   });
 });

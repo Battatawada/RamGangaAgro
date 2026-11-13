@@ -1,19 +1,34 @@
 import "server-only";
+import { Redis } from "@upstash/redis";
+import { getDb } from "@/server/db";
+import { resolveRateLimitConfig } from "@/server/rate-limit-config";
+import { createPostgresLimiter } from "@/server/rate-limit-postgres";
+import {
+  assertRateLimitRequest,
+  type RateLimiter,
+} from "@/server/rate-limit-policy";
 
-export type RateLimiter = {
-  /** Returns false once the key has used its allowance for the window. */
-  check(key: string, limit: number, windowSeconds: number): Promise<boolean>;
-};
+export type { RateLimiter };
+
+const UPSTASH_SCRIPT = `
+local current = redis.call("INCR", KEYS[1])
+if current == 1 then
+  redis.call("EXPIRE", KEYS[1], tonumber(ARGV[1]))
+end
+return current
+`;
 
 /**
- * In-memory counting. Correct only inside one process, so it is allowed in
- * tests and nowhere else.
+ * In-memory counting. Correct only inside one process, so it is used when
+ * NODE_ENV is test and no provider is configured. It is not a provider name
+ * that development or production can select.
  */
 export function createMemoryLimiter(now: () => number = Date.now): RateLimiter {
   const hits = new Map<string, { count: number; resetAt: number }>();
 
   return {
     async check(key, limit, windowSeconds) {
+      assertRateLimitRequest(key, limit, windowSeconds);
       const current = hits.get(key);
       const time = now();
 
@@ -30,17 +45,28 @@ export function createMemoryLimiter(now: () => number = Date.now): RateLimiter {
   };
 }
 
-function createUpstashLimiter(url: string, token: string): RateLimiter {
+/**
+ * Atomic fixed window on Upstash Redis. A timeout or a transport error throws.
+ * The form then refuses the write. This does not use @upstash/ratelimit, whose
+ * default timeout answers success when Redis is slow.
+ */
+export function createUpstashLimiter(url: string, token: string): RateLimiter {
+  let redis: Redis | undefined;
+
   return {
     async check(key, limit, windowSeconds) {
-      const { Redis } = await import("@upstash/redis");
-      const redis = new Redis({ url, token });
-      const redisKey = `rga:rl:${key}`;
-      const count = await redis.incr(redisKey);
-      if (count === 1) {
-        await redis.expire(redisKey, windowSeconds);
+      assertRateLimitRequest(key, limit, windowSeconds);
+      redis ??= new Redis({ url, token });
+      const count = await redis.eval(
+        UPSTASH_SCRIPT,
+        [`rga:rl:${key}`],
+        [String(windowSeconds)],
+      );
+      const hits = typeof count === "number" ? count : Number(count);
+      if (!Number.isInteger(hits) || hits < 1) {
+        throw new Error("Rate limit store returned no count.");
       }
-      return count <= limit;
+      return hits <= limit;
     },
   };
 }
@@ -48,27 +74,32 @@ function createUpstashLimiter(url: string, token: string): RateLimiter {
 let limiter: RateLimiter | undefined;
 
 /**
- * Dev and production use the shared store. If it is not configured the
- * limiter is absent, and the caller fails closed rather than silently
- * counting in one process.
+ * Development and production use the configured shared store. A missing or
+ * invalid configuration throws. Callers refuse the write. They do not fall
+ * back to the in-memory counter.
  */
 export function getRateLimiter(): RateLimiter {
   if (limiter) return limiter;
 
-  if (process.env.NODE_ENV === "test") {
+  const resolved = resolveRateLimitConfig(
+    process.env,
+    process.env.NODE_ENV ?? "development",
+  );
+  if (!resolved.ok) {
+    throw new Error(resolved.reason);
+  }
+
+  if (resolved.provider === "memory") {
     limiter = createMemoryLimiter();
     return limiter;
   }
 
-  const url = process.env.RATE_LIMIT_REDIS_URL;
-  const token = process.env.RATE_LIMIT_TOKEN;
-  if (!url || !token) {
-    throw new Error(
-      "RATE_LIMIT_REDIS_URL and RATE_LIMIT_TOKEN are required outside tests.",
-    );
+  if (resolved.provider === "postgres") {
+    limiter = createPostgresLimiter(getDb());
+    return limiter;
   }
 
-  limiter = createUpstashLimiter(url, token);
+  limiter = createUpstashLimiter(resolved.url, resolved.token);
   return limiter;
 }
 

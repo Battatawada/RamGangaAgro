@@ -74,6 +74,16 @@ No public read API.
 
 `note` must not contain secrets, tokens, or full message bodies.
 
+### rate_limit_buckets
+
+Operational counters for the public forms. Not a copy of the inbox.
+
+- `bucket_key` text primary key. An operation plus a client address, or one global key for that operation. Never an email address.
+- `hit_count` integer not null, check `> 0`
+- `reset_at` timestamptz not null
+
+`rga_app` may select, insert, update, and delete these rows. `rga_messages_reader` and `rga_privacy` have no privilege on the table. The window is fixed and the upsert is one statement, so it is safe on the pooled connection.
+
 ## Tables created empty, unused by Phase 1 UI
 
 Created so later commerce does not invent a parallel schema. No Phase 1 route reads them except tests that assert they exist.

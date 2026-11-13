@@ -1,16 +1,17 @@
 import { unsubscribeEmail } from "@/server/db/repositories";
 import { getRateLimiter } from "@/server/rate-limit";
+import { bucketsFor } from "@/server/rate-limit-policy";
 import { unsubscribeSchema } from "@/server/validation";
 import { messages, type ActionResult } from "../result";
 
-const HOUR = 60 * 60;
-const PER_IP = 5;
-
 /**
- * One sentence, always. A listed address, an address that was never stored, a
- * second request for an address already removed, a different capitalisation
- * and a padded address all get the same answer, with no field errors and no
- * extra detail to compare.
+ * One sentence, always, once the request is allowed. A listed address, an
+ * address that was never stored, a second request for an address already
+ * removed, a different capitalisation and a padded address all get the same
+ * answer, with no field errors and no extra detail to compare.
+ *
+ * A missing limiter or a store error is a refusal for every address. It must
+ * not skip the check and still return the success sentence.
  */
 export async function submitUnsubscribe(
   input: unknown,
@@ -22,16 +23,20 @@ export async function submitUnsubscribe(
   try {
     limiter = getRateLimiter();
   } catch {
-    // The limiter is required outside tests. Missing configuration must not
-    // skip the delete and still return the success sentence.
     return { ok: false, message: messages.unsubscribeTooMany };
   }
 
   try {
-    if (!(await limiter.check(`unsubscribe:ip:${context.ip}`, PER_IP, HOUR))) {
-      return { ok: false, message: messages.unsubscribeTooMany };
+    for (const bucket of bucketsFor("unsubscribe", context.ip)) {
+      if (!(await limiter.check(bucket.key, bucket.limit, bucket.windowSeconds))) {
+        return { ok: false, message: messages.unsubscribeTooMany };
+      }
     }
+  } catch {
+    return { ok: false, message: messages.unsubscribeTooMany };
+  }
 
+  try {
     if (parsed.success) {
       await unsubscribeEmail(parsed.data.email);
     }
