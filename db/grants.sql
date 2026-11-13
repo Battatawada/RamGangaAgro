@@ -19,9 +19,17 @@ REVOKE ALL ON SCHEMA public FROM PUBLIC;
 GRANT USAGE ON SCHEMA public TO rga_app, rga_messages_reader, rga_privacy;
 GRANT USAGE, CREATE ON SCHEMA public TO rga_migrator;
 
--- 2. rga_migrator: DDL only -------------------------------------------------
--- It owns the tables so migrations can alter them. It is never the runtime
--- connection, and it never reads the inbox.
+-- 2. rga_migrator: trusted migration operator --------------------------------
+-- It owns the tables so migrations can alter them. Next.js and the inbox
+-- script must never use this login.
+--
+-- The REVOKE below removes SELECT from the owner's recorded ACL. On the
+-- Neon development branch (PostgreSQL 18.7) a real rga_migrator login was
+-- then denied SELECT on contact_messages. Older PostgreSQL releases let a
+-- table owner bypass that REVOKE, so this denial is not a portable
+-- guarantee. Do not grant SELECT back. Application inbox restriction is
+-- rga_app's missing SELECT. Ordinary inbox access goes through
+-- rga_messages_reader.
 
 ALTER DEFAULT PRIVILEGES FOR ROLE rga_migrator IN SCHEMA public
   GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO rga_app;

@@ -9,6 +9,7 @@
  * the migrator. The audit row commits before anything is deleted.
  */
 import postgres from "postgres";
+import { connectResolved } from "../src/server/db/connect";
 
 function readFlag(argv: string[], name: string): string {
   const index = argv.indexOf(name);
@@ -34,7 +35,7 @@ async function main() {
     process.exit(1);
   }
 
-  const sql = postgres(url, { max: 1 });
+  const sql = postgres(url, { max: 1, socket: connectResolved as never });
 
   try {
     await sql.begin(async (tx) => {

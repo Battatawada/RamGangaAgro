@@ -21,7 +21,7 @@ Use the test runner the Next.js version recommends. Prefer tests that call the d
 13. `requireAdmin` refuses a missing session, a customer claim, and a session whose second-factor age is `-1`, even if the role claim is `admin`.
 14. The built client assets do not contain `sk_live`, `sk_test`, `DATABASE_URL`, or `WHSEC_`.
 15. `npm audit` at high severity fails CI, with an allowlist file that must name the advisory and the review date if something is temporarily accepted.
-16. The grants SQL shows `rga_app` without SELECT on `contact_messages`, `rga_migrator` without that SELECT, and `rga_messages_reader` with only SELECT on `contact_messages` and INSERT on `audit_log`.
+16. The grants SQL shows `rga_app` without SELECT on `contact_messages`, and `rga_messages_reader` with only SELECT on `contact_messages` and INSERT on `audit_log`. It does not GRANT `rga_migrator` that SELECT. The migrator owns the table. On PostgreSQL 18.7 on the Neon development branch, that `REVOKE` was enforced against the owner login. Older PostgreSQL releases let owners bypass it, so the login remains a trusted operator account and is not an application credential.
 17. The reader script prints no message when the audit insert or its commit fails. A successful run has a committed audit row before the first message line is produced.
 
 ## Manual before calling Phase 1 done

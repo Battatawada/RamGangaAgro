@@ -81,6 +81,27 @@ describe("unsubscribe action", () => {
     expect(store.subscribers.get("reader@example.com")?.unsubscribedAt).toBe(first);
   });
 
+  it("does not claim success when the rate limiter cannot be constructed", async () => {
+    setRateLimiterForTests(undefined);
+    vi.stubEnv("NODE_ENV", "development");
+    vi.stubEnv("RATE_LIMIT_REDIS_URL", "");
+    vi.stubEnv("RATE_LIMIT_TOKEN", "");
+    await listed("reader@example.com");
+
+    try {
+      const result = await submitUnsubscribe(
+        { email: "reader@example.com" },
+        { ip: "10.0.2.13" },
+      );
+
+      expect(result.ok).toBe(false);
+      expect(result.ok === false && result.message).toBe(messages.unsubscribeTooMany);
+      expect(store.subscribers.get("reader@example.com")?.unsubscribedAt).toBeNull();
+    } finally {
+      vi.unstubAllEnvs();
+    }
+  });
+
   it("says the form was used too often without saying whether the address was listed", async () => {
     const ip = "10.0.2.12";
     await listed("reader@example.com");

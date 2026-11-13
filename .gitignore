@@ -9,6 +9,11 @@ next-env.d.ts
 .env
 .env.local
 .env*.local
+.env.operator
+.verify-clerk.local
+.owner-*.url
+.host-only.txt
 
 .DS_Store
 *.log
+.neon

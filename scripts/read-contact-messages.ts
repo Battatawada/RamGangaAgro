@@ -10,6 +10,7 @@
  * exit code is non-zero.
  */
 import postgres from "postgres";
+import { connectResolved } from "../src/server/db/connect";
 import {
   readContactMessages,
   type ReaderClient,
@@ -28,7 +29,7 @@ async function main() {
   }
 
   const reason = readReason(process.argv);
-  const sql = postgres(url, { max: 1 });
+  const sql = postgres(url, { max: 1, socket: connectResolved as never });
 
   const client: ReaderClient = {
     async insertAuditRowAndCommit(input) {

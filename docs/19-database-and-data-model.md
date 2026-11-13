@@ -6,7 +6,7 @@ PostgreSQL. Drizzle. Parameterized queries only. No string concatenation into SQ
 
 | Role | Can | Cannot |
 |---|---|---|
-| `rga_migrator` | DDL during migrations | Be the runtime connection. Select or export `contact_messages` |
+| `rga_migrator` | DDL during migrations. Owns the tables it creates. This is a trusted operator login, not an application path. | Be the Next.js runtime connection. Be the inbox script. On the Neon development branch, PostgreSQL 18.7 honoured `REVOKE SELECT` and this login could not read `contact_messages`. Older PostgreSQL releases let owners bypass that revoke, so the denial is not a portable guarantee. |
 | `rga_app` | DML on business tables except as narrowed below. INSERT and SELECT on `audit_log` | DDL. DELETE or UPDATE on `audit_log`. SELECT on `contact_messages` |
 | `rga_messages_reader` | SELECT on `contact_messages` only. INSERT on `audit_log` only | Every other table. UPDATE, DELETE, or SELECT on `audit_log`. DDL. Any use by the Next.js runtime |
 

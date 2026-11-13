@@ -24,11 +24,13 @@ describe("database grants", () => {
     );
   });
 
-  it("never grants the migrator SELECT on contact_messages", () => {
+  it("does not grant the migrator SELECT, and does not pretend REVOKE removes ownership", () => {
     expect(mentions(/REVOKE SELECT ON TABLE contact_messages FROM rga_migrator;/)).toBe(
       true,
     );
     expect(mentions(/GRANT[^;]*contact_messages[^;]*TO rga_migrator/)).toBe(false);
+    expect(grants).toContain("not a portable");
+    expect(grants).toContain("Do not grant SELECT back");
   });
 
   it("gives the inbox reader only SELECT on contact_messages and INSERT on audit_log", () => {

@@ -5,6 +5,7 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import postgres from "postgres";
+import { connectResolved } from "../src/server/db/connect";
 
 async function main() {
   const url = process.env.DATABASE_URL_MIGRATE;
@@ -13,7 +14,7 @@ async function main() {
     process.exit(1);
   }
 
-  const sql = postgres(url, { max: 1 });
+  const sql = postgres(url, { max: 1, socket: connectResolved as never });
   try {
     await migrate(drizzle(sql), { migrationsFolder: "./drizzle" });
     console.log("Migrations applied. Re-run db/grants.sql now.");

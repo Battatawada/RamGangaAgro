@@ -18,8 +18,16 @@ export async function submitUnsubscribe(
 ): Promise<ActionResult> {
   const parsed = unsubscribeSchema.safeParse(input);
 
+  let limiter;
   try {
-    const limiter = getRateLimiter();
+    limiter = getRateLimiter();
+  } catch {
+    // The limiter is required outside tests. Missing configuration must not
+    // skip the delete and still return the success sentence.
+    return { ok: false, message: messages.unsubscribeTooMany };
+  }
+
+  try {
     if (!(await limiter.check(`unsubscribe:ip:${context.ip}`, PER_IP, HOUR))) {
       return { ok: false, message: messages.unsubscribeTooMany };
     }
