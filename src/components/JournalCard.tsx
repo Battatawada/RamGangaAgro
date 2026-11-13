@@ -16,23 +16,25 @@ type Props = {
  */
 export function JournalCard({ title, href, date, kind, excerpt, media }: Props) {
   return (
-    <Link href={href} className="card-link block no-underline">
-      <article className="surface overflow-hidden md:flex md:items-stretch">
+    <Link href={href} className="group block no-underline">
+      <article className="grid gap-6 border-t border-line pt-8 md:grid-cols-[240px_minmax(0,1fr)] md:items-end">
         {media ? (
-          <div className="aspect-3/2 bg-raktshali-soft md:w-[240px] md:shrink-0">
+          <div className="relative aspect-[3/2] overflow-hidden bg-paper-raised">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={media.src}
               alt={media.alt}
-              className="h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full object-cover"
             />
           </div>
         ) : null}
-        <div className="p-6">
+        <div>
           <p className="type-eyebrow text-green">
             {kind === "film" ? "Film" : "Note"}
           </p>
-          <h3 className="type-h3 mt-2">{title}</h3>
+          <h3 className="type-h3 mt-2 transition-colors duration-150 group-hover:text-raktshali">
+            {title}
+          </h3>
           <p className="type-caption mt-2">
             <time dateTime={date}>{date}</time>
           </p>

@@ -101,9 +101,7 @@ export const crops: Crop[] = [
         "This rice is not available to buy. If you want to hear when that changes, follow the farm.",
       ],
     },
-    laterNote: [
-      "In time, a pack may carry a code. That code will open the record of the harvest it came from: the crop, the date, and what the farm chooses to share.",
-    ],
+    laterNote: null,
     tone: "raktshali",
   },
   {
@@ -132,7 +130,7 @@ export const crops: Crop[] = [
     observations: null,
     availability: {
       title: "Availability.",
-      paragraphs: ["The story is still being written.", "More from the field soon."],
+      paragraphs: ["More from the field soon."],
     },
     laterNote: null,
     tone: "wheat",

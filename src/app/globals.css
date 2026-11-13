@@ -41,6 +41,7 @@
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
+    overflow-x: clip;
   }
 
   body {
@@ -49,6 +50,7 @@
     font-family: var(--font-sans);
     font-size: 1.0625rem;
     line-height: 1.65;
+    overflow-x: clip;
   }
 
   :focus-visible {
@@ -71,7 +73,7 @@
   }
 
   .section {
-    padding-block: var(--spacing-section-sm);
+    padding-block: 56px;
   }
 
   .prose-measure {
@@ -86,7 +88,7 @@
   .type-display {
     font-family: var(--font-display);
     font-weight: 560;
-    font-size: clamp(2.75rem, 5vw, 4.75rem);
+    font-size: clamp(2.5rem, 8vw, 4.75rem);
     line-height: 1.05;
     letter-spacing: -0.02em;
   }
@@ -233,15 +235,61 @@
     border-radius: var(--radius-control);
   }
 
-  .card-link:hover .surface,
-  .card-link:focus-visible .surface {
-    border-color: var(--color-green);
+  .hero-grid {
+    display: grid;
+    gap: 8px 0;
+  }
+
+  .hero-plate {
+    margin: 8px 0 4px;
+  }
+
+  .hero-actions {
+    margin-top: 8px;
+  }
+
+  .hero-drawing {
+    display: block;
+    width: min(100%, 300px);
+    height: auto;
+    margin-inline: auto;
+  }
+
+  .hero-photo {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+  }
+
+  .journey {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .journey li {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    gap: 8px 16px;
+    align-items: baseline;
+    padding-block: 14px;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .journey li:last-child {
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  #follow {
+    scroll-margin-top: 96px;
   }
 }
 
 @media (min-width: 640px) {
   .section {
-    padding-block: 80px;
+    padding-block: 72px;
   }
 }
 
@@ -251,7 +299,48 @@
   }
 
   .section {
-    padding-block: var(--spacing-section);
+    padding-block: 88px;
+  }
+
+  .hero-grid {
+    grid-template-columns: minmax(0, 1.15fr) minmax(240px, 0.85fr);
+    grid-template-rows: auto auto;
+    column-gap: 32px;
+    align-items: end;
+  }
+
+  .hero-copy {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .hero-plate {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    margin: 0;
+    align-self: end;
+  }
+
+  .hero-actions {
+    grid-column: 1;
+    grid-row: 2;
+    margin-top: 28px;
+  }
+
+  .hero-drawing {
+    width: min(100%, 420px);
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+  .hero-photo {
+    aspect-ratio: 4 / 5;
+    max-height: 640px;
+  }
+
+  .journey li {
+    grid-template-columns: 3rem 11rem minmax(0, 1fr);
+    padding-block: 18px;
   }
 }
 

@@ -1,39 +1,41 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 640" fill="none" role="img" aria-labelledby="title desc">
-  <title id="title">Rice panicle</title>
-  <desc id="desc">An original line drawing of a single rice panicle for Ram Ganga Agro. Not a photograph of the farm.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="50 40 340 620" fill="none" role="img" aria-labelledby="panicle-title panicle-desc">
+  <title id="panicle-title">Rice panicle</title>
+  <desc id="panicle-desc">An original line drawing of a single rice panicle for Ram Ganga Agro. Not a photograph of the farm.</desc>
   <g stroke="#1C3328" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M250 600 C248 470 236 360 210 250 C196 190 188 140 196 78" />
-    <path d="M196 150 C150 168 118 160 86 142" />
+    <path d="M250 640 C248 500 236 380 210 260 C196 196 188 142 196 72" />
+    <path d="M228 500 C286 476 334 424 352 352" />
+    <path d="M228 500 C278 484 320 444 338 386" />
+    <path d="M196 148 C150 166 118 158 86 140" />
     <path d="M202 190 C160 214 124 214 88 198" />
-    <path d="M208 232 C168 258 128 262 90 246" />
-    <path d="M214 276 C176 302 136 308 98 292" />
-    <path d="M220 322 C184 346 146 350 112 334" />
-    <path d="M200 128 C236 146 270 140 304 118" />
+    <path d="M208 234 C168 260 128 264 90 248" />
+    <path d="M214 280 C176 306 136 312 98 296" />
+    <path d="M220 328 C184 352 146 356 112 340" />
+    <path d="M200 126 C236 144 270 138 304 116" />
     <path d="M206 168 C246 190 284 188 322 168" />
-    <path d="M212 210 C254 234 296 232 338 210" />
-    <path d="M218 254 C262 278 306 276 350 252" />
-    <path d="M226 300 C268 322 310 318 348 294" />
+    <path d="M212 212 C254 236 296 234 338 212" />
+    <path d="M218 258 C262 282 306 280 350 256" />
+    <path d="M226 306 C268 328 310 324 348 300" />
   </g>
   <g fill="#6E2A32">
-    <ellipse cx="78" cy="136" rx="7" ry="3.2" transform="rotate(-28 78 136)" />
-    <ellipse cx="96" cy="156" rx="7" ry="3.2" transform="rotate(-18 96 156)" />
+    <ellipse cx="78" cy="134" rx="7" ry="3.2" transform="rotate(-28 78 134)" />
+    <ellipse cx="96" cy="154" rx="7" ry="3.2" transform="rotate(-18 96 154)" />
     <ellipse cx="84" cy="192" rx="7" ry="3.2" transform="rotate(-24 84 192)" />
     <ellipse cx="104" cy="208" rx="7" ry="3.2" transform="rotate(-12 104 208)" />
-    <ellipse cx="88" cy="240" rx="7" ry="3.2" transform="rotate(-22 88 240)" />
-    <ellipse cx="112" cy="258" rx="7" ry="3.2" transform="rotate(-10 112 258)" />
-    <ellipse cx="98" cy="286" rx="7" ry="3.2" transform="rotate(-20 98 286)" />
-    <ellipse cx="124" cy="304" rx="7" ry="3.2" transform="rotate(-8 124 304)" />
-    <ellipse cx="112" cy="328" rx="7" ry="3.2" transform="rotate(-16 112 328)" />
-    <ellipse cx="308" cy="114" rx="7" ry="3.2" transform="rotate(26 308 114)" />
-    <ellipse cx="286" cy="132" rx="7" ry="3.2" transform="rotate(16 286 132)" />
+    <ellipse cx="88" cy="242" rx="7" ry="3.2" transform="rotate(-22 88 242)" />
+    <ellipse cx="112" cy="260" rx="7" ry="3.2" transform="rotate(-10 112 260)" />
+    <ellipse cx="98" cy="290" rx="7" ry="3.2" transform="rotate(-20 98 290)" />
+    <ellipse cx="124" cy="308" rx="7" ry="3.2" transform="rotate(-8 124 308)" />
+    <ellipse cx="112" cy="334" rx="7" ry="3.2" transform="rotate(-16 112 334)" />
+    <ellipse cx="308" cy="112" rx="7" ry="3.2" transform="rotate(26 308 112)" />
+    <ellipse cx="286" cy="130" rx="7" ry="3.2" transform="rotate(16 286 130)" />
     <ellipse cx="326" cy="162" rx="7" ry="3.2" transform="rotate(22 326 162)" />
     <ellipse cx="300" cy="180" rx="7" ry="3.2" transform="rotate(12 300 180)" />
-    <ellipse cx="342" cy="204" rx="7" ry="3.2" transform="rotate(20 342 204)" />
-    <ellipse cx="314" cy="224" rx="7" ry="3.2" transform="rotate(10 314 224)" />
-    <ellipse cx="354" cy="246" rx="7" ry="3.2" transform="rotate(18 354 246)" />
-    <ellipse cx="326" cy="268" rx="7" ry="3.2" transform="rotate(8 326 268)" />
-    <ellipse cx="348" cy="288" rx="7" ry="3.2" transform="rotate(14 348 288)" />
-    <ellipse cx="196" cy="72" rx="6" ry="2.8" transform="rotate(-8 196 72)" />
-    <ellipse cx="188" cy="96" rx="6.5" ry="3" transform="rotate(6 188 96)" />
+    <ellipse cx="342" cy="206" rx="7" ry="3.2" transform="rotate(20 342 206)" />
+    <ellipse cx="314" cy="226" rx="7" ry="3.2" transform="rotate(10 314 226)" />
+    <ellipse cx="354" cy="250" rx="7" ry="3.2" transform="rotate(18 354 250)" />
+    <ellipse cx="326" cy="272" rx="7" ry="3.2" transform="rotate(8 326 272)" />
+    <ellipse cx="348" cy="294" rx="7" ry="3.2" transform="rotate(14 348 294)" />
+    <ellipse cx="196" cy="66" rx="6" ry="2.8" transform="rotate(-8 196 66)" />
+    <ellipse cx="188" cy="92" rx="6.5" ry="3" transform="rotate(6 188 92)" />
   </g>
 </svg>

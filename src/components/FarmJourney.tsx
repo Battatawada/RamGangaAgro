@@ -9,18 +9,21 @@ export type JourneyStep = {
 
 export function FarmJourney({ steps }: { steps: JourneyStep[] }) {
   return (
-    <ol className="grid list-none gap-6 p-0 lg:grid-cols-5">
+    <ol className="journey">
       {steps.map((step) => (
-        <li key={step.n} className="border-t border-green pt-4">
+        <li key={step.n}>
           <p className="font-display text-[13px] tracking-[0.08em] text-raktshali">
             {step.n}
           </p>
-          <h3 className="type-h3 mt-2">
-            <Link href={step.href} className="no-underline hover:text-raktshali">
+          <h3 className="type-h3">
+            <Link
+              href={step.href}
+              className="inline-flex min-h-11 items-center no-underline hover:text-raktshali"
+            >
               {step.title}
             </Link>
           </h3>
-          <p className="mt-2 text-ink-muted">{step.text}</p>
+          <p className="col-span-2 text-ink-muted lg:col-span-1">{step.text}</p>
         </li>
       ))}
     </ol>

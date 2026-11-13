@@ -89,7 +89,16 @@ export function MobileMenu({ links }: { links: NavLink[] }) {
               onKeyDown={onPanelKeyDown}
             >
               <div className="container-page flex h-[72px] items-center justify-between border-b border-line">
-                <span className="font-display text-[18px] tracking-[0.14em]">
+                <span className="flex items-center gap-2.5 font-display text-[15px] tracking-[0.12em]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/illustrations/mark.svg"
+                    alt=""
+                    aria-hidden="true"
+                    width={28}
+                    height={28}
+                    className="h-7 w-7"
+                  />
                   RAM GANGA AGRO
                 </span>
                 <button type="button" className="btn btn-quiet" onClick={close}>

@@ -32,7 +32,8 @@ export const media = {
     kind: "illustration",
     src: "/illustrations/contours.svg",
     alt: "",
-    caption: "Original contour lines. Not a map of the farm.",
+    caption:
+      "Field lines, drawn until a photograph is ready. Not a map, and not a picture of the farm.",
     decorative: true,
   },
   mark: {
@@ -74,6 +75,21 @@ export const media = {
     id: "seeds",
     kind: "illustration",
     src: "/illustrations/seeds.svg",
+    alt: "",
+    decorative: true,
+  },
+  soil: {
+    id: "soil",
+    kind: "illustration",
+    src: "/illustrations/soil.svg",
+    alt: "",
+    caption: "A drawing of soil and stubble. Not a picture of the farm.",
+    decorative: true,
+  },
+  diagram: {
+    id: "diagram",
+    kind: "illustration",
+    src: "/illustrations/diagram.svg",
     alt: "",
     decorative: true,
   },

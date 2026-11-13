@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JournalEntry } from "@/components/story/StorySections";
+import { pageMeta } from "@/content/meta";
 import { fileContent } from "@/content/source";
 
 type Params = { params: Promise<{ slug: string }> };
@@ -13,7 +14,11 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
   const post = fileContent.getPost(slug);
   if (!post) return {};
-  return { title: post.title, description: post.excerpt };
+  return pageMeta({
+    title: post.title,
+    description: post.excerpt,
+    path: `/journal/${post.slug}`,
+  });
 }
 
 export default async function JournalEntryPage({ params }: Params) {

@@ -25,6 +25,9 @@ export function ContactForm() {
     return (
       <div className="surface p-8">
         <p className="type-h3">Your note has been received.</p>
+        <p className="mt-4 text-ink-muted">
+          It is stored for the farm. There is no automatic reply.
+        </p>
         <p className="mt-4">
           <Link href="/" className="text-link">
             Back to the farm

@@ -4,11 +4,13 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JournalCard } from "@/components/JournalCard";
 import { JournalEmpty } from "@/components/JournalEmpty";
 import { journalPosts } from "@/content/journal";
+import { pageMeta } from "@/content/meta";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "The journal",
   description: "Notes from the farm, when there is a season to record.",
-};
+  path: "/journal",
+});
 
 export default function JournalPage() {
   return (
@@ -23,7 +25,10 @@ export default function JournalPage() {
         <div className="mt-12">
           {journalPosts.length === 0 ? (
             <JournalEmpty>
-              <p className="mt-6">
+              <p className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
+                <Link href="/#follow" className="text-link">
+                  Follow the farm
+                </Link>
                 <Link href="/" className="text-link">
                   Back to the farm
                 </Link>

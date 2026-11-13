@@ -22,7 +22,7 @@ export function DecorativeMark({
       src={asset.src}
       alt=""
       aria-hidden="true"
-      className={`pointer-events-none ${className}`.trim()}
+      className={`pointer-events-none object-contain ${className}`.trim()}
     />
   );
 }

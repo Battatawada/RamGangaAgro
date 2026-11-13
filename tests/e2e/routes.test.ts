@@ -92,6 +92,15 @@ describe("the homepage says what it is allowed to say", () => {
     }
   });
 
+  it("publishes a canonical url and a sharing title", async () => {
+    const html = await (await get("/")).text();
+
+    expect(html).toContain('rel="canonical"');
+    expect(html).toContain("https://rgagro.me");
+    expect(html).toContain('property="og:title"');
+    expect(html).toContain("Ram Ganga Agro");
+  });
+
   it("does not link a shop, a cart or an account", async () => {
     const html = await (await get("/")).text();
 

@@ -1,27 +1,32 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 640" fill="none" role="img" aria-labelledby="wheat-title wheat-desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="120 70 250 600" fill="none" role="img" aria-labelledby="wheat-title wheat-desc">
   <title id="wheat-title">Wheat head</title>
   <desc id="wheat-desc">An original line drawing of a wheat head for Ram Ganga Agro. Not a photograph of the farm.</desc>
-  <path d="M246 608 C244 500 238 390 236 300 C234 250 238 210 242 168" stroke="#1C3328" stroke-width="1.35" stroke-linecap="round"/>
+  <path d="M246 648 C244 520 240 400 242 300 C244 250 246 220 246 188" stroke="#1C3328" stroke-width="1.25" stroke-linecap="round"/>
+  <path d="M242 470 C190 450 150 400 142 340" stroke="#1C3328" stroke-width="1.15" stroke-linecap="round"/>
+  <path d="M242 470 C198 456 164 418 156 368" stroke="#1C3328" stroke-width="1" stroke-linecap="round"/>
   <g stroke="#7A5340" stroke-width="1" stroke-linecap="round" fill="none">
-    <path d="M214 150 L186 118" />
-    <path d="M270 162 L304 128" />
-    <path d="M208 186 L176 162" />
-    <path d="M276 198 L312 170" />
-    <path d="M204 224 L170 206" />
-    <path d="M278 236 L316 214" />
-    <path d="M206 262 L174 250" />
-    <path d="M274 272 L310 254" />
+    <path d="M214 118 L176 78" />
+    <path d="M278 124 L318 82" />
+    <path d="M206 150 L164 118" />
+    <path d="M286 156 L330 122" />
+    <path d="M202 184 L158 158" />
+    <path d="M290 190 L336 162" />
+    <path d="M204 218 L164 198" />
+    <path d="M288 222 L332 200" />
+    <path d="M210 250 L174 236" />
+    <path d="M282 254 L318 238" />
   </g>
   <g fill="#C6A56A">
-    <ellipse cx="206" cy="156" rx="18" ry="5.2" transform="rotate(-36 206 156)" />
-    <ellipse cx="278" cy="168" rx="18" ry="5.2" transform="rotate(34 278 168)" />
-    <ellipse cx="200" cy="192" rx="18" ry="5.2" transform="rotate(-32 200 192)" />
-    <ellipse cx="284" cy="204" rx="18" ry="5.2" transform="rotate(30 284 204)" />
-    <ellipse cx="198" cy="230" rx="17" ry="5" transform="rotate(-28 198 230)" />
-    <ellipse cx="286" cy="242" rx="17" ry="5" transform="rotate(26 286 242)" />
-    <ellipse cx="202" cy="266" rx="16" ry="4.8" transform="rotate(-22 202 266)" />
-    <ellipse cx="280" cy="276" rx="16" ry="4.8" transform="rotate(20 280 276)" />
-    <ellipse cx="242" cy="132" rx="12" ry="4.2" transform="rotate(-8 242 132)" />
+    <ellipse cx="246" cy="96" rx="11" ry="4.4" transform="rotate(-6 246 96)" />
+    <ellipse cx="214" cy="128" rx="17" ry="5.4" transform="rotate(-58 214 128)" />
+    <ellipse cx="278" cy="134" rx="17" ry="5.4" transform="rotate(56 278 134)" />
+    <ellipse cx="206" cy="162" rx="18" ry="5.6" transform="rotate(-52 206 162)" />
+    <ellipse cx="286" cy="168" rx="18" ry="5.6" transform="rotate(50 286 168)" />
+    <ellipse cx="204" cy="196" rx="18" ry="5.6" transform="rotate(-46 204 196)" />
+    <ellipse cx="288" cy="202" rx="18" ry="5.6" transform="rotate(44 288 202)" />
+    <ellipse cx="208" cy="230" rx="17" ry="5.2" transform="rotate(-40 208 230)" />
+    <ellipse cx="284" cy="234" rx="17" ry="5.2" transform="rotate(38 284 234)" />
+    <ellipse cx="216" cy="260" rx="15" ry="4.8" transform="rotate(-32 216 260)" />
+    <ellipse cx="276" cy="264" rx="15" ry="4.8" transform="rotate(30 276 264)" />
   </g>
-  <path d="M242 168 C236 140 238 118 244 96" stroke="#1C3328" stroke-width="1.15" stroke-linecap="round"/>
 </svg>

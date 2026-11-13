@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { pageMeta } from "@/content/meta";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Follow the farm",
-  description: "Harvest notes from Ram Ganga Agro.",
-};
+  description: "Harvest notes from Ram Ganga Agro. Nothing is emailed yet.",
+  path: "/follow",
+});
 
 export default async function FollowPage() {
   // A direct visit must not tell someone they joined.

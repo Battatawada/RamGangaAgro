@@ -1,6 +1,8 @@
 import { crops, getCrop, otherCrops, type Crop } from "@/content/crops";
 import { getPost, journalPosts, postsForCrop, type JournalPost } from "@/content/journal";
-import { chapterById, chaptersFor, type StoryChapter } from "@/content/story";
+import { chapterById, chaptersFor, landToTable, type StoryChapter } from "@/content/story";
+
+export { landToTable };
 
 /**
  * The read API for public content. Pages depend on this shape, not on a file

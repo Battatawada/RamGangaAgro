@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { pageMeta } from "@/content/meta";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Terms",
   description: "The terms for using the Ram Ganga Agro website.",
-};
+  path: "/terms",
+});
 
 export default function TermsPage() {
   return (
@@ -16,7 +18,9 @@ export default function TermsPage() {
 
         <div className="prose-page mt-8">
           <p className="type-caption">
-            Draft, waiting for review by the farm’s reviewer.
+            Draft. It needs review by the farm, and a professional legal
+            review, before the public domain serves it. It is not a claim that
+            such a review has happened.
           </p>
 
           <h2 className="type-h2 mt-10">What this site is</h2>
@@ -28,8 +32,9 @@ export default function TermsPage() {
 
           <h2 className="type-h2 mt-10">The content</h2>
           <p className="mt-4 text-ink-muted">
-            The words and the drawings belong to the farm. Please ask before
-            republishing them.
+            Please ask the farm before republishing the words or the drawings
+            on this site. The drawings are illustrations. They are not
+            photographs of the farm.
           </p>
 
           <h2 className="type-h2 mt-10">Writing to the farm</h2>

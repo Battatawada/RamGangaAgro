@@ -21,7 +21,7 @@ The spelling of Raktshali is still worth a deliberate confirmation if the farm s
 | “Raktshali and wheat are among the crops grown here.” | Confirmed by farm for the two names. Other crop names are unknown. |
 | “Ram Ganga Agro practices natural farming.” | Confirmed by farm. The fuller account is unknown. |
 | “Every grain has a beginning.” | Draft awaiting approval |
-| Journey lines, including “Soil, water, and time” and “How the grain is handled.” | Draft awaiting approval. They are labels for the path, not a method. |
+| Journey stops: The land, Growing, The crop, A record, The table | Draft awaiting approval. They name the path of the story. They do not describe a method. |
 | “The story is still being written.” and “More from the field soon.” | Unknown, shown as a gap |
 | Panicle, wheat head, seeds, and contour drawings | Unknown as photographs. Labelled as drawings. |
 
@@ -29,7 +29,7 @@ The spelling of Raktshali is still worth a deliberate confirmation if the farm s
 
 | Item | Status |
 |---|---|
-| “The people and the reason for the farm will be told here by the farm. Until then, this page will not guess.” | Draft awaiting approval |
+| “The people and the reason for the farm have not been published.” | Draft awaiting approval |
 | “The story of Ram Ganga Agro will be published in the farm’s own words.” | Draft awaiting approval |
 | “The land will be described when the farm is ready to say where it is.” | Draft awaiting approval. The place name is unknown. |
 | “Ram Ganga Agro practices natural farming.” | Confirmed by farm |
@@ -81,14 +81,14 @@ The spelling of Raktshali is still worth a deliberate confirmation if the farm s
 |---|---|
 | “When a harvest is recorded, its season will be named here.” | Unknown. A gap, not a date. |
 | Growing updates for Raktshali or wheat | Unknown. The lists are empty. |
-| “In time, a pack may carry a code…” on the Raktshali page | Draft awaiting approval. No traceability route exists. |
+| A future pack or trace code | Not published. `laterNote` is null until the farm writes it. |
 | Wheat pack, price, or traceability note | Unknown. The wheat page does not carry the pack sentence. |
 
 ## Public contact details
 
 | Item | Status |
 |---|---|
-| “Write to the farm…” | Draft awaiting approval |
+| “Write to the farm…” and “There is no automatic reply.” | Draft awaiting approval. No public email, phone, or place is printed. |
 | Public email, phone, postal address | Unknown. The page has no second column. |
 
 ## Journal
