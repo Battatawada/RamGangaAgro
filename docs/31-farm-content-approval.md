@@ -4,72 +4,114 @@ One list of what the public site says, and what it is still waiting to say. Repl
 
 Status values:
 
-- **Approved** — may be read as the farm’s statement.
-- **Draft** — on the site, from the page specifications, waiting for the farm.
-- **Placeholder** — an honest gap. It is not a fact.
-- **Not yet available** — omitted, or the slot is null. Do not publish a guess.
+- **Confirmed by farm** — the farm has said this, and the site may state it.
+- **Draft awaiting approval** — on the site from the page specifications, still waiting for the farm.
+- **Unknown** — not supplied. The page shows a gap, or omits the slot. It is not a fact.
+- **Not applicable** — this site does not make that claim.
 
-The four crop sentences below are the safe public set from the project brief of 13 November 2026. The spelling of Raktshali is still worth a deliberate confirmation if the farm spells it differently. Everything else on the farm pages is draft or a placeholder.
+The spelling of Raktshali is still worth a deliberate confirmation if the farm spells it differently.
 
 ## Home
 
 | Item | Status |
 |---|---|
-| “Good food begins long before the table.” | Draft. The working decision in `24` treats the line as approved; the farm can still replace it. |
-| “A farm, its crops, and the journey from the land to the table.” | Draft |
-| “Ram Ganga Agro is a working farm.” | Draft |
-| “Every grain has a beginning.” and the introduction under it | Draft |
-| Journey lines, including “Soil, water, and time” and “How the grain is handled.” | Draft. They are labels for the path, not a method statement. |
-| “The story is still being written.” and “More from the field soon.” | Placeholder |
-| Panicle and contour drawings | Placeholder for photography. Labelled as drawings. |
+| “Good food begins long before the table.” | Draft awaiting approval. The working decision in `24` treats the line as the hero; the farm can still replace it. |
+| “A farm, its crops, and the journey from the land to the table.” | Draft awaiting approval |
+| “Ram Ganga Agro is a working farm.” | Draft awaiting approval |
+| “Raktshali and wheat are among the crops grown here.” | Confirmed by farm for the two names. Other crop names are unknown. |
+| “Ram Ganga Agro practices natural farming.” | Confirmed by farm. The fuller account is unknown. |
+| “Every grain has a beginning.” | Draft awaiting approval |
+| Journey lines, including “Soil, water, and time” and “How the grain is handled.” | Draft awaiting approval. They are labels for the path, not a method. |
+| “The story is still being written.” and “More from the field soon.” | Unknown, shown as a gap |
+| Panicle, wheat head, seeds, and contour drawings | Unknown as photographs. Labelled as drawings. |
 
 ## Our farm, story, land, practices
 
 | Item | Status |
 |---|---|
-| “The people and the reason for the farm will be told here by the farm. Until then, this page will not guess.” | Draft |
-| “The story of Ram Ganga Agro will be published in the farm’s own words.” | Draft |
-| “The land will be described when the farm is ready to say where it is.” | Draft. Place name is not yet available. |
-| “Farming practices will be described here only when the farm has confirmed them.” | Draft. Methods, certifications, and organic status are not yet available. |
-| Founding year, generations, acreage, village | Not yet available. Do not invent them. |
+| “The people and the reason for the farm will be told here by the farm. Until then, this page will not guess.” | Draft awaiting approval |
+| “The story of Ram Ganga Agro will be published in the farm’s own words.” | Draft awaiting approval |
+| “The land will be described when the farm is ready to say where it is.” | Draft awaiting approval. The place name is unknown. |
+| “Ram Ganga Agro practices natural farming.” | Confirmed by farm |
+| What natural farming means in the field, the approach, inputs, and outcomes | Unknown |
+| Any certificate, including organic certification | Not applicable. None is shown. |
+| Chemical-free, zero-pesticide, or zero-residue wording | Not applicable |
+| Founding year, generations, acreage, village | Unknown |
 
-## What we grow, and Raktshali
+## Natural farming
 
 | Item | Status |
 |---|---|
-| Name “Raktshali rice” | Approved for the current site. Confirm the spelling if it differs. |
-| “Grown at Ram Ganga Agro.” | Approved for the current site |
-| “Currently growing” | Approved for the current site |
-| “It is not for sale.” | Approved for the current site |
-| “The harvest, as it is. One crop is growing. It is not yet for sale.” | Draft |
-| Colour, season, place, cooking, harvest date, nutrition, price, pack | Not yet available. “Red rice” and “traditional” are not used. |
-| Essay slots (`story`, `description`, `facts`, field, harvest, preparation) | Not yet available. Null. |
-| “When a harvest is recorded, its season will be named here.” | Placeholder |
-| “In time, a pack may carry a code…” | Draft. No traceability route exists. |
+| The farm practices natural farming | Confirmed by farm |
+| A detailed method, a list of inputs, or a measurable outcome | Unknown |
+| Certification, organic status, or a health or environmental claim | Not applicable |
+
+## Raktshali
+
+| Item | Status |
+|---|---|
+| Name “Raktshali rice” | Confirmed by farm. Confirm the spelling if it differs. |
+| “Grown at Ram Ganga Agro.” | Confirmed by farm |
+| “Currently growing” | Confirmed by farm |
+| “It is not for sale.” | Confirmed by farm |
+| “Red rice”, “traditional”, colour, season, cooking, harvest date, nutrition, price, pack | Unknown |
+| Photographs | Unknown |
+
+## Wheat
+
+| Item | Status |
+|---|---|
+| Name “Wheat” | Confirmed by farm |
+| “Grown at Ram Ganga Agro.” | Confirmed by farm |
+| Variety, planting date, harvest date, acreage, yield | Unknown |
+| A wheat-specific method | Unknown |
+| Whether it is for sale, a price, or a pack | Unknown |
+| Season and growing status | Unknown. The page does not say “Currently growing”. |
+| Photographs | Unknown |
+
+## Other crops
+
+| Item | Status |
+|---|---|
+| Further crop names | Unknown. The architecture can hold another record when the farm names one. |
+
+## Seasonal observations and growing updates
+
+| Item | Status |
+|---|---|
+| “When a harvest is recorded, its season will be named here.” | Unknown. A gap, not a date. |
+| Growing updates for Raktshali or wheat | Unknown. The lists are empty. |
+| “In time, a pack may carry a code…” on the Raktshali page | Draft awaiting approval. No traceability route exists. |
+| Wheat pack, price, or traceability note | Unknown. The wheat page does not carry the pack sentence. |
+
+## Public contact details
+
+| Item | Status |
+|---|---|
+| “Write to the farm…” | Draft awaiting approval |
+| Public email, phone, postal address | Unknown. The page has no second column. |
 
 ## Journal
 
 | Item | Status |
 |---|---|
-| “The journal is just beginning.” | Placeholder. There are no posts. |
-| “Notes from the farm, when there is a season to record.” | Draft |
+| “The journal is just beginning.” | Unknown. There are no posts. |
+| “Notes from the farm, when there is a season to record.” | Draft awaiting approval |
 
 ## Contact, follow, unsubscribe
 
 | Item | Status |
 |---|---|
-| “Write to the farm…” | Draft |
-| Public email, phone, postal address | Not yet available. The page has no second column. |
-| “Nothing will be emailed yet.” | Approved as a statement of the current system. No mail is sent. |
-| Unsubscribe sentence | Approved as the privacy behaviour. It does not reveal whether an address was listed. |
+| “Nothing will be emailed yet.” | Confirmed by farm as the current system. No mail is sent. |
+| Unsubscribe sentence | Confirmed by farm as the privacy behaviour. It does not reveal whether an address was listed. |
 
 ## Privacy and terms
 
 | Item | Status |
 |---|---|
-| Privacy page | Draft. It describes the data the site actually stores and says it is not a legal opinion. |
-| Terms page | Draft. It says nothing is for sale. |
-| Legal review | Not yet available |
+| Privacy page | Draft awaiting approval. It describes the data the site actually stores. |
+| Terms page | Draft awaiting approval. It says nothing is for sale. |
+| Legal review | Unknown |
 
 ## Photographs still to make
 
@@ -77,7 +119,7 @@ None of these exist in the repository. Each file needs alt text from someone who
 
 - A wide view of the land, with sky and field, in morning or late light.
 - The same view closer, with plants in the foreground.
-- The crop in the field. Do not grade an unconfirmed colour into the picture.
+- Raktshali in the field, and wheat in the field. Do not grade an unconfirmed colour into the picture.
 - Dried grain on a surface the farm actually uses, when there is grain to show.
 - Soil, water, or the edge of a field.
 - Hands and tools at work, where a person is comfortable being shown.

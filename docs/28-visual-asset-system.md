@@ -12,6 +12,8 @@ The drawings are original line work for Ram Ganga Agro. They are not copies of a
 | `grain` | `grain.svg` | Three grain marks and a stem, for a seasonal note |
 | `seasonal-line` | `seasonal-line.svg` | One seasonal stroke |
 | `field-divider` | `field-divider.svg` | A short run of field lines |
+| `wheat` | `wheat.svg` | Wheat head for the wheat story. Grain gold and green, burgundy unused so Raktshali keeps that accent |
+| `seeds` | `seeds.svg` | A few seeds on a stem, used as ornament on the natural-farming pages |
 
 `src/content/media.ts` is the registry. A page asks for an id. Decorative assets set `decorative: true` and are rendered by `DecorativeMark` with `alt=""` and `aria-hidden="true"`. An asset that is the subject of a figure keeps an alt that says it is a drawing.
 

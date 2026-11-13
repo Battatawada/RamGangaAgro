@@ -12,9 +12,11 @@ The public site reads content through one small interface, `ContentSource` in `s
 
 A crop page asks `mediaById(crop.mediaId)` and passes the result to `MediaHero`. Replacing the panicle with a field photograph is a change to the media record: `kind`, `src`, `alt`, and `caption`. The grid, the type, and the sections stay.
 
-A future crop is another object in `crops` with the same fields. Empty essay slots are `null`. The page omits a null slot, or shows the existing honest line where a section must remain (harvest). It does not print “TBD”.
+A future crop is another object in `crops` with the same fields. The homepage and `/grow` list whatever `listCrops()` returns, so a new record appears without a new component. Empty essay slots are `null`. The page shows an honest gap where a section must remain. It does not print “TBD”.
 
-A journal note is an object in `journalPosts`. The body is an array of paragraphs, not HTML. There are no sample posts.
+A crop and a product are different. `productSlug` stays `null` until the farm explicitly offers that crop for sale. `purchasable` stays false until then. The story pages do not read the commerce tables.
+
+A journal note is an object in `journalPosts`. `cropSlugs` ties a note to one or more crops. `postsForCrop()` is how a crop page finds them. The body is an array of paragraphs, not HTML. There are no sample posts. `status` on a crop is null when the farm has not named the season.
 
 ## Editorial containers
 
@@ -38,7 +40,7 @@ Where the farm has not written, the containers may say “The story is still bei
 
 ## Crop record
 
-The public crop keeps the safe sentences: the name Raktshali rice, “Grown at Ram Ganga Agro”, “Currently growing”, and “It is not for sale.”
+Raktshali keeps the safe sentences: the name, “Grown at Ram Ganga Agro”, “Currently growing”, and “It is not for sale.” Wheat is named as grown at the farm. Its season, variety, methods, and availability are null. Natural farming is stated as the farm’s practice. The method, the inputs, and any certificate stay unwritten.
 
 Later fields already exist and are null: `story`, `season`, `fieldMediaId`, `availabilityNote`, plus the essay slots `description`, `facts`, `onThisFarm`, `inTheField`, `harvest`, and `preparation`. A photograph, a season, or a harvest note fills a field. It does not add a route.
 
