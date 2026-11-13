@@ -4,7 +4,9 @@ Date: 13 November 2026.
 
 Environment: local Next.js 16.4.6 development server, Clerk development instance, Neon project `quiet-sea-21156950`, development branch `br-dark-dawn-a11uo2oz` (child of production `br-delicate-river-a1cseyut`). PostgreSQL 18.7. Clerk SDK `@clerk/nextjs` 7.9.25.
 
-Starting commit: `c5b286c0acfaf1df5953ac269a6c260250118b9e` (“Checkpoint Phase 1 after local checks.”). This file is part of the verification commit that follows that checkpoint.
+Starting commit: `c5b286c0acfaf1df5953ac269a6c260250118b9e` (“Checkpoint Phase 1 after local checks.”).
+
+Verification commit: `99d05b8d1f550da72c3fd5213432a1747f562192`. This paragraph was added immediately after that commit so the hash can be named.
 
 The five flags stayed `false`: `ACCOUNTS_ENABLED`, `ADMIN_UI_ENABLED`, `STOREFRONT_ENABLED`, `CHECKOUT_ENABLED`, `PAYMENTS_ENABLED`. Nothing was deployed. Production Neon was not connected to and was not migrated. Production Clerk webhooks were not configured.
 
