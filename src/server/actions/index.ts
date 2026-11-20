@@ -5,6 +5,7 @@ import { getClientIp } from "./request-context";
 import { submitContact } from "./core/contact";
 import { submitNewsletter } from "./core/newsletter";
 import { submitUnsubscribe } from "./core/unsubscribe";
+import { submitWholesale } from "./core/wholesale";
 import { messages, type ActionResult } from "./result";
 
 /** A missing or refused client address fails the form. It does not open the write. */
@@ -61,6 +62,28 @@ export async function newsletterAction(
   }
 
   return result;
+}
+
+export async function wholesaleAction(
+  _previous: ActionResult | null,
+  formData: FormData,
+): Promise<ActionResult> {
+  const context = await addressOr({ ok: false, message: messages.contactFailed });
+  if (!("ip" in context)) return context;
+  const input = read(formData, [
+    "name",
+    "email",
+    "phone",
+    "company",
+    "product",
+    "quantityKg",
+    "destination",
+    "gstin",
+    "sample",
+    "website",
+  ]);
+  if (input.sample !== "on") delete input.sample;
+  return submitWholesale(input, context);
 }
 
 export async function unsubscribeAction(

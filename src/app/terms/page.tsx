@@ -5,46 +5,68 @@ import { metadataFor } from "@/content/seo";
 
 export const metadata: Metadata = metadataFor("/terms");
 
+const LAST_UPDATED = "20 November 2026";
+
 export default function TermsPage() {
   return (
     <>
       <Breadcrumbs items={[{ label: "Terms" }]} path="/terms" />
       <div className="container-page section">
-        <h1 className="type-h1">Terms.</h1>
+        <h1 className="type-h1">Terms</h1>
+        <p className="type-caption mt-4">Last updated: {LAST_UPDATED}</p>
+        <p className="type-caption mt-2 text-ink-muted">
+          TODO: professional legal review before launch.
+        </p>
 
         <div className="prose-page mt-8">
-          <p className="type-caption">
-            Draft. It needs review by the farm, and a professional legal
-            review, before the public domain serves it. It is not a claim that
-            such a review has happened.
+          <h2 className="type-h2">What this site is</h2>
+          <p className="mt-4 text-ink-muted">
+            Ram Ganga Agro publishes information about its farm at Mamoni, Baran
+            district, Rajasthan. Nothing on rgagro.me is an offer to sell grain
+            online today. Enquiries and waitlist signups are not orders.
           </p>
 
-          <h2 className="type-h2 mt-10">What this site is</h2>
+          <h2 className="type-h2 mt-10">Pricing and availability</h2>
           <p className="mt-4 text-ink-muted">
-            This site is information published by Ram Ganga Agro about its farm
-            and its crops. Nothing on it is offered for sale, and no order can
-            be placed here.
+            Prices, packs, and availability are not listed on this site until the
+            farm publishes them (TODO: legal review when sales begin). Wholesale
+            quotes are confirmed only in writing from the farm.
           </p>
 
-          <h2 className="type-h2 mt-10">The content</h2>
+          <h2 className="type-h2 mt-10">Delivery</h2>
           <p className="mt-4 text-ink-muted">
-            Please ask the farm before republishing the words or the drawings
-            on this site. The drawings are illustrations. They are not
-            photographs of the farm.
+            Delivery areas, carriers, and timelines are not offered on this
+            website yet (TODO: legal review).
           </p>
 
-          <h2 className="type-h2 mt-10">Writing to the farm</h2>
+          <h2 className="type-h2 mt-10">Returns</h2>
           <p className="mt-4 text-ink-muted">
-            A note sent through the contact form is handled as described on the{" "}
+            A returns policy will apply only if and when products are sold (TODO:
+            legal review). Until then, this section is not in effect.
+          </p>
+
+          <h2 className="type-h2 mt-10">Liability</h2>
+          <p className="mt-4 text-ink-muted">
+            The site is provided as information about the farm (TODO: legal review
+            of limitation of liability). To the extent
+            permitted by law, Ram Ganga Agro is not liable for indirect loss from
+            use of the website. Health or nutrition claims are not made on this
+            site.
+          </p>
+
+          <h2 className="type-h2 mt-10">Content and copyright</h2>
+          <p className="mt-4 text-ink-muted">
+            Ask the farm before republishing text or drawings. Illustrations are
+            not photographs of the farm unless labelled as such.
+          </p>
+
+          <h2 className="type-h2 mt-10">Contact and privacy</h2>
+          <p className="mt-4 text-ink-muted">
+            Messages are handled as described on the{" "}
             <Link href="/privacy" className="text-link">
               privacy page
             </Link>
-            . Please do not send anything confidential through it.
-          </p>
-
-          <h2 className="type-h2 mt-10">Changes</h2>
-          <p className="mt-4 text-ink-muted">
-            If these terms change, the new version replaces this one here.
+            .
           </p>
         </div>
       </div>
