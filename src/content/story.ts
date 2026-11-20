@@ -51,7 +51,8 @@ export const storyChapters: StoryChapter[] = [
     eyebrow: "The farm",
     title: "Every grain has a beginning.",
     paragraphs: [
-      "Ram Ganga Agro is a working farm. Raktshali and wheat are among the crops grown here. Other crops will be named when the farm confirms them.",
+      "Ram Ganga Agro is a working farm. Raktshali and wheat are grown here. Other crops will be named when the farm confirms them.",
+      "These pages are the public account of the farm: the land, the practice, the crops, and notes when there is a season to record. What has not been shared is left unwritten.",
     ],
     status: "draft",
     href: "/our-farm",
@@ -65,7 +66,7 @@ export const storyChapters: StoryChapter[] = [
     title: "Natural farming.",
     paragraphs: [
       "Ram Ganga Agro practices natural farming.",
-      "The description of the work is still to come.",
+      "The work in the field has not been described. This site does not add a method, a certificate, or a measure of impact in place of that account.",
     ],
     status: "draft",
     mediaId: "seeds",
@@ -79,7 +80,7 @@ export const storyChapters: StoryChapter[] = [
     eyebrow: "Wheat",
     title: "Wheat, grown here.",
     paragraphs: [
-      "Wheat is grown at Ram Ganga Agro. The story is still being written.",
+      "Wheat is grown at Ram Ganga Agro. Variety, season, and a harvest account have not been published.",
     ],
     status: "draft",
     mediaId: "wheat",
@@ -92,7 +93,8 @@ export const storyChapters: StoryChapter[] = [
     kind: "opening",
     title: "Our story",
     paragraphs: [
-      "The story of Ram Ganga Agro will be published in the farm’s own words.",
+      "Ram Ganga Agro is a working farm. Natural farming is the practice, and Raktshali and wheat are grown here.",
+      "The people, a founding year, and the reason the farm began have not been published. Those sentences will appear in the farm’s own words.",
     ],
     status: "draft",
     href: "/grow",
@@ -102,8 +104,10 @@ export const storyChapters: StoryChapter[] = [
     id: "farm-story-gap",
     page: "story",
     kind: "what-comes-next",
-    title: "The story is still being written.",
-    paragraphs: ["More from the field soon."],
+    title: "Until that account is written.",
+    paragraphs: [
+      "The public story today is the work already named: natural farming as the practice, the land as a place still to be described, and the crops grown here.",
+    ],
     status: "placeholder",
     href: "/our-farm",
     linkLabel: "Back to Our farm",
@@ -114,7 +118,8 @@ export const storyChapters: StoryChapter[] = [
     kind: "from-the-land",
     title: "The land",
     paragraphs: [
-      "The land will be described when the farm is ready to say where it is.",
+      "Crops grow on land. This page is for that place, once the farm is ready to name it.",
+      "A village, a district, an address, and the size of the farm are not published.",
     ],
     status: "draft",
     mediaId: "contours",
@@ -123,8 +128,10 @@ export const storyChapters: StoryChapter[] = [
     id: "farm-land-note",
     page: "land",
     kind: "field-observation",
-    title: "More from the field soon.",
-    paragraphs: ["The story is still being written."],
+    title: "What is already named.",
+    paragraphs: [
+      "Raktshali and wheat are grown at Ram Ganga Agro. Natural farming is the practice. Those facts do not stand in for a location.",
+    ],
     status: "placeholder",
   },
   {
@@ -133,7 +140,10 @@ export const storyChapters: StoryChapter[] = [
     kind: "opening",
     eyebrow: "The practice",
     title: "Natural farming.",
-    paragraphs: ["Ram Ganga Agro practices natural farming."],
+    paragraphs: [
+      "Ram Ganga Agro practices natural farming.",
+      "That is the confirmed practice. The pages below keep the rest of the work unwritten until the farm describes it.",
+    ],
     status: "draft",
     mediaId: "seeds",
   },
@@ -142,7 +152,10 @@ export const storyChapters: StoryChapter[] = [
     page: "practices",
     kind: "crop-chapter",
     title: "What it means here",
-    paragraphs: ["The story is still being written."],
+    paragraphs: [
+      "The farm has not published what natural farming looks like in these fields: the method, the inputs, or the sequence of work.",
+      "Those details are left open rather than guessed.",
+    ],
     status: "placeholder",
   },
   {
@@ -150,7 +163,9 @@ export const storyChapters: StoryChapter[] = [
     page: "practices",
     kind: "crop-chapter",
     title: "The approach",
-    paragraphs: ["More from the field soon."],
+    paragraphs: [
+      "Natural farming is named as the way the farm works. A certificate or a claim about impact is not made here.",
+    ],
     status: "placeholder",
   },
   {
@@ -159,7 +174,7 @@ export const storyChapters: StoryChapter[] = [
     kind: "from-the-land",
     title: "Land and crops",
     paragraphs: [
-      "The crops are grown on this farm. The place itself will be named when the farm is ready.",
+      "Raktshali and wheat are grown on this farm. The place itself will be named when the farm is ready.",
     ],
     status: "draft",
     href: "/our-farm/the-land",
@@ -171,7 +186,7 @@ export const storyChapters: StoryChapter[] = [
     kind: "journey-ahead",
     title: "The journey of growing",
     paragraphs: [
-      "From the land, through the season, toward the table. The farm will describe the work when it is ready.",
+      "From the land, through growing, to the crop, then to a record of the season. The table is where the story is headed. This is the path of the pages, not a description of a technique.",
     ],
     status: "placeholder",
     href: "/grow",
@@ -182,9 +197,13 @@ export const storyChapters: StoryChapter[] = [
     page: "practices",
     kind: "field-observation",
     title: "From the field",
-    paragraphs: ["More from the field soon."],
+    paragraphs: [
+      "Notes from a season belong in the journal when there is something to record. That list is empty today.",
+    ],
     status: "placeholder",
     mediaId: "contours",
+    href: "/journal",
+    linkLabel: "The journal",
   },
   {
     id: "farm-opening",
@@ -194,6 +213,7 @@ export const storyChapters: StoryChapter[] = [
     title: "A working farm.",
     paragraphs: [
       "These pages are the farm’s account of itself: the story, the land, and the practice. What has been confirmed is written plainly. What has not been shared is left open.",
+      "Raktshali and wheat are grown here. Natural farming is the practice. Growing a crop is not the same as selling it.",
     ],
     status: "draft",
   },
@@ -202,7 +222,9 @@ export const storyChapters: StoryChapter[] = [
     page: "farm-index",
     kind: "opening",
     title: "Our story",
-    paragraphs: ["The people and the reason for the farm have not been published."],
+    paragraphs: [
+      "The people and the reason for the farm have not been published. The sentences that belong here will be the farm’s own.",
+    ],
     status: "placeholder",
     href: "/our-farm/story",
     linkLabel: "Read our story",
@@ -213,7 +235,9 @@ export const storyChapters: StoryChapter[] = [
     page: "farm-index",
     kind: "from-the-land",
     title: "The land",
-    paragraphs: ["The place will be named when the farm is ready to say where it is."],
+    paragraphs: [
+      "The place will be named when the farm is ready to say where it is. Until then, this page holds the gap rather than a guessed village.",
+    ],
     status: "draft",
     href: "/our-farm/the-land",
     linkLabel: "Read about the land",
@@ -224,7 +248,9 @@ export const storyChapters: StoryChapter[] = [
     page: "farm-index",
     kind: "crop-chapter",
     title: "Natural farming",
-    paragraphs: ["Ram Ganga Agro practices natural farming."],
+    paragraphs: [
+      "Ram Ganga Agro practices natural farming. The method in the field has not been described.",
+    ],
     status: "approved",
     href: "/our-farm/practices",
     linkLabel: "Read about the practice",
@@ -235,7 +261,9 @@ export const storyChapters: StoryChapter[] = [
     page: "farm-index",
     kind: "growing-now",
     title: "What is growing",
-    paragraphs: ["Raktshali and wheat are among the crops. Each has its own page."],
+    paragraphs: [
+      "Raktshali and wheat are grown here. Each crop has its own page. A name on those pages is a crop in the field, not a product.",
+    ],
     status: "draft",
     href: "/grow",
     linkLabel: "What we grow",
@@ -246,7 +274,9 @@ export const storyChapters: StoryChapter[] = [
     page: "farm-index",
     kind: "field-observation",
     title: "Notes from the field",
-    paragraphs: ["More from the field soon."],
+    paragraphs: [
+      "The journal is empty. A note will appear when there is a season to record.",
+    ],
     status: "placeholder",
     href: "/journal",
     linkLabel: "The journal",
@@ -259,6 +289,7 @@ export const storyChapters: StoryChapter[] = [
     title: "What we grow.",
     paragraphs: [
       "Raktshali and wheat are grown at Ram Ganga Agro. Another crop is added when the farm confirms its name.",
+      "A name here is a crop in the field. A sale is named only when the farm decides to offer that crop, and only on that crop’s page.",
     ],
     status: "draft",
   },
@@ -280,31 +311,31 @@ export const landToTable: { n: string; title: string; text: string; href: string
   {
     n: "01",
     title: "The land",
-    text: "The place the season begins.",
+    text: "The place the crops grow. Named when the farm is ready.",
     href: "/our-farm/the-land",
   },
   {
     n: "02",
     title: "Growing",
-    text: "The work, still to be described.",
+    text: "Natural farming is the practice. The method is still unwritten.",
     href: "/our-farm/practices",
   },
   {
     n: "03",
     title: "The crop",
-    text: "What the farm has named.",
+    text: "Raktshali and wheat are named here.",
     href: "/grow",
   },
   {
     n: "04",
     title: "A record",
-    text: "Notes, when there is something to write.",
+    text: "The journal, when there is a season to write.",
     href: "/journal",
   },
   {
     n: "05",
     title: "The table",
-    text: "Where the story is headed.",
-    href: "/#follow",
+    text: "Where the story is headed. Enquire or join the harvest waitlist.",
+    href: "/contact",
   },
 ];

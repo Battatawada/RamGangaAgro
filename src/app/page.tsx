@@ -1,9 +1,11 @@
 import Link from "next/link";
+import { preload } from "react-dom";
 import { Button } from "@/components/Button";
 import { FarmJourney } from "@/components/FarmJourney";
 import { HeroPlate } from "@/components/HeroPlate";
 import { JournalEmpty } from "@/components/JournalEmpty";
 import { NewsletterForm } from "@/components/NewsletterForm";
+import { IllustrationImage } from "@/components/IllustrationImage";
 import { HarvestStatus } from "@/components/HarvestStatus";
 import { mediaById } from "@/content/media";
 import { metadataFor } from "@/content/seo";
@@ -15,11 +17,10 @@ export const metadata = metadataFor("/");
 function CropSpread({ crop }: { crop: Crop }) {
   const drawing = mediaById(crop.mediaId);
   const image = drawing ? (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={drawing.src}
-      alt={drawing.alt}
+    <IllustrationImage
+      asset={drawing}
       className="mx-auto h-auto w-[220px] sm:w-[260px]"
+      sizes="260px"
     />
   ) : null;
 
@@ -32,7 +33,7 @@ function CropSpread({ crop }: { crop: Crop }) {
             {crop.status ? <HarvestStatus status={crop.status} /> : null}
             <h2 className="type-h2 mt-3 max-w-[14ch]">Raktshali, still in the field.</h2>
             <p className="mt-6 max-w-[38ch] text-ink-muted">
-              Raktshali is growing at Ram Ganga Agro. It is not for sale. The
+              Raktshali is grown at Ram Ganga Agro. It is not for sale. The
               page holds the name, and room for the farm’s own account.
             </p>
             <p className="mt-6">
@@ -56,7 +57,8 @@ function CropSpread({ crop }: { crop: Crop }) {
           <p className="type-eyebrow mb-5 text-green">Wheat</p>
           <h2 className="type-h2">Wheat, grown here.</h2>
           <p className="mt-6 max-w-[38ch] text-ink-muted">
-            Wheat is grown at Ram Ganga Agro. The story is still being written.
+            Wheat is grown at Ram Ganga Agro. Variety, season, and a harvest
+            account have not been published.
           </p>
           <p className="mt-6">
             <Link href={`/grow/${crop.slug}`} className="text-link">
@@ -88,6 +90,11 @@ function CropSpread({ crop }: { crop: Crop }) {
 }
 
 export default function HomePage() {
+  preload("/illustrations/panicle.svg", {
+    as: "image",
+    fetchPriority: "high",
+  });
+
   const crops = fileContent.listCrops();
   const intro = fileContent.chapterById("home-intro");
   const natural = fileContent.chapterById("home-natural");
@@ -98,26 +105,29 @@ export default function HomePage() {
     <>
       <div className="hero-grid container-page pt-8 pb-4 lg:min-h-[calc(100svh-72px)] lg:pt-12 lg:pb-8">
         <div className="hero-copy max-w-[40rem]">
-          <p className="type-eyebrow text-green">Ram Ganga Agro</p>
-          <h1 className="type-display mt-4 lg:max-w-[11ch]">
-            Good food begins long before the table.
+          <p className="type-eyebrow text-green">Ram Ganga Agro · Mamoni, Baran</p>
+          <h1 className="type-display mt-4 lg:max-w-[16ch]">
+            Raktshali rice and wheat grown at Mamoni, Baran district, Rajasthan.
           </h1>
-          <p className="type-deck mt-5 max-w-[32ch] text-ink-muted">
-            A farm, its crops, and the journey from the land to the table.
+          <p className="type-deck mt-5 max-w-[36ch] text-ink-muted">
+            Ram Ganga Agro practices natural farming. Nothing on this site is for
+            sale yet — enquire or join the first-harvest waitlist below.
           </p>
         </div>
-        {hero ? <HeroPlate primary={hero} /> : null}
+        {hero ? <HeroPlate primary={hero} priority /> : null}
         <div className="hero-actions">
           <div className="flex flex-wrap gap-3">
             <Button href="/our-farm">Explore our farm</Button>
             <Button href="/grow" variant="quiet">
               What we grow
             </Button>
+            <Button href="/contact" variant="quiet">
+              Enquire
+            </Button>
           </div>
           {wheatDrawing ? (
             <figure className="mt-8 mb-0 hidden items-end gap-3 lg:flex">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={wheatDrawing.src} alt={wheatDrawing.alt} className="h-24 w-auto" />
+              <IllustrationImage asset={wheatDrawing} className="h-24 w-auto" sizes="96px" />
               <figcaption className="type-caption pb-1">Wheat</figcaption>
             </figure>
           ) : null}
@@ -169,8 +179,8 @@ export default function HomePage() {
         <p className="type-eyebrow text-green">Our harvest</p>
         <h2 className="type-h2 mt-4 max-w-[16ch]">What we grow.</h2>
         <p className="mt-5 max-w-[36ch] text-ink-muted">
-          Raktshali and wheat each have a page. Another crop joins them when the
-          farm confirms its name.
+          Raktshali and wheat each have a page. A name here is a crop in the
+          field. Another crop joins them when the farm confirms its name.
         </p>
       </section>
 
@@ -204,9 +214,8 @@ export default function HomePage() {
             <p className="type-eyebrow mb-5 text-green">Harvest notes</p>
             <h2 className="type-h2">Follow the journey.</h2>
             <p className="mt-5 max-w-[36ch] text-ink-muted">
-              A note when the farm has something to say about the season. The
-              address is kept. Nothing is emailed yet. You can remove it
-              whenever you want.
+              One email when the next harvest of Raktshali rice or wheat is
+              ready. You can remove your address any time.
             </p>
             <div className="mt-8">
               <NewsletterForm source="homepage" />

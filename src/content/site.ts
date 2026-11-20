@@ -33,7 +33,8 @@ export function resolveSiteUrl(value: string | undefined): string {
     );
   }
 
-  return url.origin;
+  // Canonical URLs, the sitemap, and robots always use the apex.
+  return PRODUCTION_ORIGIN;
 }
 
 const origin = resolveSiteUrl(process.env.SITE_URL);
@@ -42,9 +43,12 @@ export const site = {
   name: "Ram Ganga Agro",
   domain: new URL(origin).hostname,
   url: origin,
-  /** The deck is DRAFT copy from docs/06. The farm has not approved it yet. */
+  /**
+   * Fallback description for sharing tags. Page-level metadata replaces this.
+   * Confirmed facts only.
+   */
   description:
-    "A farm, its crops, and the journey from the land to the table.",
+    "Ram Ganga Agro grows Raktshali rice and wheat at Mamoni, Baran district, Rajasthan. The farm practices natural farming.",
 } as const;
 
 export type NavLink = {

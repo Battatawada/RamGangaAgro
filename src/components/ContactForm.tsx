@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useActionState, useEffect, useRef } from "react";
+import { trackEvent } from "@/components/Analytics";
 import { contactAction } from "@/server/actions";
 import type { ActionResult } from "@/server/actions/result";
 
@@ -15,6 +16,10 @@ export function ContactForm() {
   );
 
   useEffect(() => {
+    if (state?.ok) trackEvent("contact_submit");
+  }, [state]);
+
+  useEffect(() => {
     if (!state || state.ok) return;
     if (state.fieldErrors?.name) nameRef.current?.focus();
     else if (state.fieldErrors?.email) emailRef.current?.focus();
@@ -26,7 +31,8 @@ export function ContactForm() {
       <div className="surface p-8">
         <p className="type-h3">Your note has been received.</p>
         <p className="mt-4 text-ink-muted">
-          It is stored for the farm. There is no automatic reply.
+          The farm has your note. Check your inbox for a short automatic
+          confirmation if email delivery is enabled.
         </p>
         <p className="mt-4">
           <Link href="/" className="text-link">

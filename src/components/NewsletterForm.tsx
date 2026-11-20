@@ -3,10 +3,17 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect, useRef } from "react";
+import { trackEvent } from "@/components/Analytics";
 import { newsletterAction } from "@/server/actions";
 import type { ActionResult } from "@/server/actions/result";
 
-export function NewsletterForm({ source }: { source: "homepage" | "footer" }) {
+export function NewsletterForm({
+  source,
+  redirectTo = "/follow",
+}: {
+  source: "homepage" | "footer";
+  redirectTo?: string;
+}) {
   const router = useRouter();
   const emailRef = useRef<HTMLInputElement>(null);
   const consentRef = useRef<HTMLInputElement>(null);
@@ -18,7 +25,8 @@ export function NewsletterForm({ source }: { source: "homepage" | "footer" }) {
   useEffect(() => {
     if (!state) return;
     if (state.ok) {
-      router.push("/follow");
+      trackEvent("newsletter_signup", { source });
+      router.push(redirectTo);
       return;
     }
     if (state.fieldErrors?.email) emailRef.current?.focus();
@@ -71,8 +79,8 @@ export function NewsletterForm({ source }: { source: "homepage" | "footer" }) {
           className="text-sm text-ink-muted"
           htmlFor={`newsletter-consent-${source}`}
         >
-          Send me harvest notes when the farm starts sending them. I can
-          unsubscribe at any time.
+          Email me once when the next harvest of Raktshali rice or wheat is
+          available. I can unsubscribe any time.
         </label>
       </div>
       {consentError ? (
