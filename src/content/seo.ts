@@ -1,125 +1,193 @@
 import type { Metadata } from "next";
+import { farmLocation } from "@/content/contact-config";
+import { hreflangAlternates } from "@/content/hreflang";
+import { ogImageUrl } from "@/content/og";
 import { pageMeta } from "@/content/meta";
+import { isPageSearchIndexable } from "@/content/search-index";
 
 type PageSeo = {
   path: string;
   title: string;
   description: string;
   absoluteTitle?: boolean;
-  /** Utility pages stay out of the sitemap and out of the index. */
+  /** Utility pages stay out of the sitemap. Some also use robots here. */
   index?: false;
 };
 
 /**
- * One title and description per public page. Each description uses a sentence
- * the page already stands behind. Crop and journal entries are added beside
- * these paths.
+ * One title and description per public page. Crop entries are added beside
+ * these paths in the sitemap.
  */
 export const publicPageSeo = [
   {
     path: "/",
-    title: "Ram Ganga Agro — a working farm",
-    description:
-      "Ram Ganga Agro is a working farm. Raktshali and wheat are grown here, and the farm practices natural farming.",
+    title: "Ram Ganga Agro — Raktshali rice and wheat in Baran, Rajasthan",
+    description: `Ram Ganga Agro grows Raktshali (Rakthashali) rice and wheat at ${farmLocation}. The farm practices natural farming. Nothing on this site is for sale yet.`,
     absoluteTitle: true,
   },
   {
     path: "/our-farm",
-    title: "Our farm",
-    description:
-      "Ram Ganga Agro is a working farm. The story, the land, and natural farming are told as the farm shares them.",
+    title: "Our farm at Mamoni, Baran | Ram Ganga Agro",
+    description: `Ram Ganga Agro is a working farm at ${farmLocation}. Story, land, and practices pages are being written.`,
   },
   {
     path: "/our-farm/story",
-    title: "Our story",
-    description:
-      "The story of Ram Ganga Agro will be published in the farm’s own words.",
+    title: "Our story | Ram Ganga Agro",
+    description: `The people behind Ram Ganga Agro at ${farmLocation}. The full story is not published yet.`,
   },
   {
     path: "/our-farm/the-land",
-    title: "The land",
-    description:
-      "The land will be described when the farm is ready to say where it is.",
+    title: "The land at Mamoni | Ram Ganga Agro",
+    description: `Where Ram Ganga Agro grows its crops at ${farmLocation}. Field notes and maps are not published yet.`,
   },
   {
     path: "/our-farm/practices",
-    title: "Natural farming",
-    description:
-      "Ram Ganga Agro practices natural farming. The work in the field has not been described yet.",
+    title: "Natural farming practices | Ram Ganga Agro",
+    description: `Ram Ganga Agro practices natural farming at ${farmLocation}. Methods and inputs are not described on this page yet.`,
   },
   {
     path: "/grow",
-    title: "What we grow",
-    description:
-      "Raktshali and wheat are grown at Ram Ganga Agro. Another crop is named only when the farm confirms it.",
+    title: "What we grow at Mamoni, Baran | Ram Ganga Agro",
+    description: `Raktshali (Rakthashali) rice and wheat grown at ${farmLocation} by Ram Ganga Agro. A name here is a crop in the field, not a product for sale.`,
   },
   {
     path: "/journal",
-    title: "The journal",
-    description:
-      "Notes from Ram Ganga Agro, written when there is a season to record.",
+    title: "Farm journal | Ram Ganga Agro",
+    description: `Season notes from Ram Ganga Agro at ${farmLocation}. Posts appear when there is a harvest to record.`,
   },
   {
     path: "/contact",
-    title: "Contact",
-    description:
-      "Write to Ram Ganga Agro. The note is stored for the farm. No public email or phone number is listed.",
+    title: "Contact Ram Ganga Agro, Baran | Enquiries",
+    description: `Write to Ram Ganga Agro at ${farmLocation} about Raktshali rice, wheat, or wholesale enquiries.`,
   },
   {
     path: "/follow",
-    title: "Follow the farm",
-    description: "Harvest notes from Ram Ganga Agro. Nothing is emailed yet.",
+    title: "First-harvest waitlist | Ram Ganga Agro",
+    description: `One email from Ram Ganga Agro when the next harvest of Raktshali rice or wheat is available from ${farmLocation}.`,
   },
   {
     path: "/unsubscribe",
-    title: "Unsubscribe",
-    description: "Remove an address from the harvest notes list.",
+    title: "Unsubscribe from harvest notes",
+    description: "Remove your email from the Ram Ganga Agro harvest list.",
     index: false,
   },
   {
     path: "/privacy",
-    title: "Privacy",
+    title: "Privacy | Ram Ganga Agro",
     description:
-      "What Ram Ganga Agro stores when you write to the farm or follow the harvest notes.",
+      "How Ram Ganga Agro handles contact form messages, harvest waitlist signups, and website analytics.",
   },
   {
     path: "/terms",
-    title: "Terms",
+    title: "Terms | Ram Ganga Agro",
     description:
-      "Terms for the Ram Ganga Agro website. Nothing on the site is offered for sale.",
+      "Terms for using the Ram Ganga Agro website. The site describes the farm at Mamoni, Baran. Nothing here is offered for sale.",
+  },
+  {
+    path: "/wholesale",
+    title: "Wholesale enquiries | Ram Ganga Agro",
+    description: `Request a quote for Raktshali rice or wheat from Ram Ganga Agro at ${farmLocation}. MOQ and terms are confirmed on reply.`,
   },
 ] as const satisfies readonly PageSeo[];
 
 const byPath = new Map(publicPageSeo.map((page) => [page.path, page]));
 
+function robotsForPath(path: string): Metadata["robots"] | undefined {
+  const page = byPath.get(path as (typeof publicPageSeo)[number]["path"]);
+  if (page && "index" in page && page.index === false) {
+    return { index: false, follow: true };
+  }
+  if (!isPageSearchIndexable(path)) {
+    return { index: false, follow: true };
+  }
+  return undefined;
+}
+
 export function metadataFor(path: (typeof publicPageSeo)[number]["path"]): Metadata {
   const page = byPath.get(path);
   if (!page) throw new Error(`No SEO entry for ${path}`);
 
+  const base = pageMeta({
+    title: page.title,
+    description: page.description,
+    path: page.path,
+    absoluteTitle: "absoluteTitle" in page ? page.absoluteTitle : undefined,
+  });
+
+  const robots = robotsForPath(path);
+  const image = ogImageUrl(page.path);
+
+  const alternates = hreflangAlternates(path) ?? base.alternates;
+
   return {
-    ...pageMeta({
-      title: page.title,
-      description: page.description,
-      path: page.path,
-      absoluteTitle: "absoluteTitle" in page ? page.absoluteTitle : undefined,
-    }),
-    ...("index" in page && page.index === false
-      ? { robots: { index: false, follow: true } }
-      : {}),
+    ...base,
+    alternates,
+    ...(robots ? { robots } : {}),
+    openGraph: {
+      ...base.openGraph,
+      images: [{ url: image, alt: page.title }],
+    },
+    twitter: {
+      ...base.twitter,
+      images: [image],
+    },
+  };
+}
+
+export function metadataForPath(
+  path: string,
+  input: { title: string; description: string; absoluteTitle?: boolean },
+): Metadata {
+  const base = pageMeta({
+    title: input.title,
+    description: input.description,
+    path,
+    absoluteTitle: input.absoluteTitle,
+  });
+  const robots = robotsForPath(path);
+  const image = ogImageUrl(path);
+
+  const alternates = hreflangAlternates(path) ?? base.alternates;
+
+  return {
+    ...base,
+    alternates,
+    ...(robots ? { robots } : {}),
+    openGraph: {
+      ...base.openGraph,
+      images: [{ url: image, alt: input.title }],
+    },
+    twitter: {
+      ...base.twitter,
+      images: [image],
+    },
   };
 }
 
 export function indexablePaths(): string[] {
-  return publicPageSeo.filter((page) => !("index" in page)).map((page) => page.path);
+  return publicPageSeo
+    .filter((page) => !("index" in page && page.index === false))
+    .map((page) => page.path)
+    .filter((path) => isPageSearchIndexable(path));
 }
 
 /** Descriptions stay inside what the crop page is allowed to say. */
 export function cropDescription(slug: string, summary: string): string {
   if (slug === "raktshali-rice") {
-    return "Raktshali rice is growing at Ram Ganga Agro. It is not for sale.";
+    return `Raktshali (Rakthashali, Raktashali) from ${farmLocation}, grown by Ram Ganga Agro. It is currently growing in the field. It is not for sale.`;
   }
   if (slug === "wheat") {
-    return "Wheat is grown at Ram Ganga Agro. The story of this crop has not been written yet.";
+    return `Farm-grown wheat from ${farmLocation} at Ram Ganga Agro. Variety and harvest details are not published yet.`;
   }
   return summary;
+}
+
+export function cropTitle(slug: string, name: string): string {
+  if (slug === "raktshali-rice") {
+    return `Raktshali (Rakthashali) from Baran, Rajasthan | Ram Ganga Agro`;
+  }
+  if (slug === "wheat") {
+    return `Farm-grown wheat from Mamoni, Baran, Rajasthan | Ram Ganga Agro`;
+  }
+  return `${name} — Ram Ganga Agro`;
 }

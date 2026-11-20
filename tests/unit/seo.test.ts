@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { breadcrumbStructuredData, publicStructuredData } from "@/content/structured-data";
+import {
+  articleStructuredData,
+  breadcrumbStructuredData,
+  publicStructuredData,
+} from "@/content/structured-data";
 import { cropDescription, publicPageSeo } from "@/content/seo";
+import { pageMeta } from "@/content/meta";
 import sitemap from "@/app/sitemap";
 import robots from "@/app/robots";
 import { apexUrl, indexingDecision } from "@/server/indexing";
@@ -56,12 +61,22 @@ describe("public page SEO", () => {
     expect(text).toContain("natural farming");
     expect(cropDescription("raktshali-rice", "fallback")).toContain("not for sale");
     expect(cropDescription("wheat", "fallback")).not.toContain("not for sale");
+    expect(cropDescription("wheat", "fallback").toLowerCase()).not.toContain("for sale");
+
+    const home = pageMeta({
+      title: "Ram Ganga Agro — a working farm",
+      description: "Ram Ganga Agro is a working farm.",
+      path: "/",
+      absoluteTitle: true,
+    });
+    expect(home.alternates?.canonical).toBe("https://rgagro.me");
   });
 
-  it("keeps unsubscribe out of the sitemap and points every url at the apex", () => {
+  it("keeps unsubscribe and placeholder pages out of the sitemap", () => {
     const urls = sitemap().map((entry) => entry.url);
-    expect(urls).toContain("https://rgagro.me/grow/raktshali-rice");
-    expect(urls).toContain("https://rgagro.me/our-farm/practices");
+    expect(urls).toContain("https://rgagro.me/grow");
+    expect(urls).not.toContain("https://rgagro.me/grow/raktshali-rice");
+    expect(urls).not.toContain("https://rgagro.me/our-farm/practices");
     expect(urls.some((url) => url.includes("unsubscribe"))).toBe(false);
     expect(urls.some((url) => url.includes("sign-in"))).toBe(false);
     expect(urls.some((url) => url.includes("vercel.app"))).toBe(false);
@@ -78,7 +93,7 @@ describe("public page SEO", () => {
     else process.env.VERCEL_ENV = previous;
 
     expect(production.sitemap).toBe("https://rgagro.me/sitemap.xml");
-    expect(production.host).toBe("rgagro.me");
+    expect(production.host).toBeUndefined();
     expect(production.rules).toMatchObject({ allow: "/", disallow: ["/sign-in", "/sign-up", "/api/"] });
     expect(preview.rules).toEqual({ userAgent: "*", disallow: "/" });
     expect(preview.sitemap).toBeUndefined();
@@ -103,5 +118,23 @@ describe("structured data", () => {
     );
     expect(crumbs).toContain("https://rgagro.me/grow/raktshali-rice");
     expect(crumbs).toContain("Ram Ganga Agro");
+  });
+
+  it("describes a journal note as an article without a rating or an offer", () => {
+    const article = JSON.stringify(
+      articleStructuredData({
+        title: "A note from the field",
+        excerpt: "A season recorded.",
+        date: "2026-11-13",
+        path: "/journal/a-note-from-the-field",
+      }),
+    ).toLowerCase();
+
+    expect(article).toContain('"@type":"article"');
+    expect(article).toContain("https://rgagro.me/journal/a-note-from-the-field");
+    expect(article).toContain("2026-11-13");
+    for (const phrase of ["aggregaterating", "offers", "price", "author"]) {
+      expect(article, phrase).not.toContain(phrase);
+    }
   });
 });

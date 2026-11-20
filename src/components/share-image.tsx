@@ -3,10 +3,22 @@ import { ImageResponse } from "next/og";
 export const shareSize = { width: 1200, height: 630 };
 export const shareContentType = "image/png";
 export const shareAlt =
-  "Ram Ganga Agro. Good food begins long before the table.";
+  "Ram Ganga Agro. Raktshali rice and wheat at Mamoni, Baran, Rajasthan.";
+
+export function shareImageLines(input?: { title?: string; description?: string }) {
+  return {
+    title:
+      input?.title ??
+      "Raktshali rice and wheat at Mamoni, Baran, Rajasthan.",
+    description:
+      input?.description ??
+      "Ram Ganga Agro grows Raktshali rice and wheat in Baran district, Rajasthan.",
+  };
+}
 
 /** The sharing card. It uses the approved line and no photograph. */
-export function shareImage() {
+export function shareImage(input?: { title?: string; description?: string }) {
+  const { title, description } = shareImageLines(input);
   return new ImageResponse(
     (
       <div
@@ -49,7 +61,7 @@ export function shareImage() {
               maxWidth: "920px",
             }}
           >
-            Good food begins long before the table.
+            {title}
           </div>
           <div
             style={{
@@ -60,7 +72,7 @@ export function shareImage() {
               maxWidth: "760px",
             }}
           >
-            A farm, its crops, and the journey from the land to the table.
+            {description}
           </div>
         </div>
       </div>
