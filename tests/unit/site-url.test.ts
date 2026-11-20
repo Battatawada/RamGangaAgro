@@ -1,12 +1,16 @@
 import { readFile } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
 import { resolveSiteUrl } from "@/content/site";
-import { securityHeaders, serverActionOrigins } from "@/server/security-headers";
+import {
+  augmentContentSecurityPolicy,
+  securityHeaders,
+  serverActionOrigins,
+} from "@/server/security-headers";
 
 describe("production origin", () => {
   it("defaults to the apex and accepts only the two public hostnames", () => {
     expect(resolveSiteUrl(undefined)).toBe("https://rgagro.me");
-    expect(resolveSiteUrl("  https://www.rgagro.me  ")).toBe("https://www.rgagro.me");
+    expect(resolveSiteUrl("  https://www.rgagro.me  ")).toBe("https://rgagro.me");
     expect(() => resolveSiteUrl("http://localhost:3000")).toThrow(/SITE_URL/);
     expect(() => resolveSiteUrl("https://rgagro.me.evil.example")).toThrow(/SITE_URL/);
     expect(() => resolveSiteUrl("https://rgagro.me/contact")).toThrow(/SITE_URL/);
@@ -25,11 +29,25 @@ describe("production origin", () => {
     const production = securityHeaders({ VERCEL_ENV: "production" });
     expect(production).toContainEqual({
       key: "Strict-Transport-Security",
-      value: "max-age=31536000; includeSubDomains",
+      value: "max-age=31536000; includeSubDomains; preload",
     });
     expect(securityHeaders({ APP_ENV: "production" })).toContainEqual({
       key: "Strict-Transport-Security",
-      value: "max-age=31536000; includeSubDomains",
+      value: "max-age=31536000; includeSubDomains; preload",
     });
+  });
+
+  it("sets clickjacking and cross-origin isolation headers on every response", () => {
+    const keys = securityHeaders({}).map((header) => header.key);
+    expect(keys).toContain("X-Frame-Options");
+    expect(keys).toContain("Cross-Origin-Opener-Policy");
+  });
+
+  it("augments Clerk CSP with frame-ancestors, base-uri, and Trusted Types", () => {
+    const csp = augmentContentSecurityPolicy("default-src 'self'; script-src 'nonce-abc'");
+    expect(csp).toContain("frame-ancestors 'none'");
+    expect(csp).toContain("base-uri 'self'");
+    expect(csp).toContain("require-trusted-types-for 'script'");
+    expect(csp).toContain("trusted-types default");
   });
 });

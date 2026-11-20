@@ -1,6 +1,7 @@
 import { clerkMiddleware } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { apexUrl, indexingDecision } from "@/server/indexing";
+import { applyDynamicSecurityHeaders } from "@/server/security-headers";
 
 /**
  * Next.js 16 runs this file as the proxy. On Next.js 15 and below the same
@@ -27,6 +28,7 @@ export default clerkMiddleware((_auth, request) => {
   if (decision === "noindex") {
     response.headers.set("X-Robots-Tag", "noindex, nofollow");
   }
+  applyDynamicSecurityHeaders(response);
   return response;
 }, {
   contentSecurityPolicy: { strict: true },
