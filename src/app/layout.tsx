@@ -3,7 +3,7 @@ import { Fraunces, Outfit } from "next/font/google";
 import { connection } from "next/server";
 import { headers } from "next/headers";
 import type { ReactNode } from "react";
-import { ClerkProvider } from "@clerk/nextjs";
+import { Analytics } from "@/components/Analytics";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SkipLink } from "@/components/SkipLink";
@@ -30,8 +30,11 @@ export async function generateMetadata(): Promise<Metadata> {
   const host = (await headers()).get("host");
   const indexable = indexingDecision(host) === "index";
 
+  const gsc = process.env.NEXT_PUBLIC_GSC_VERIFICATION?.trim();
+
   return {
     metadataBase: new URL(site.url),
+    ...(gsc ? { verification: { google: gsc } } : {}),
     title: {
       default: `${site.name} — a working farm`,
       template: `%s — ${site.name}`,
@@ -73,21 +76,13 @@ export default async function RootLayout({
             dangerouslySetInnerHTML={{ __html: structuredData }}
           />
         ) : null}
-        {/*
-          The Clerk CSP guide wraps this in Suspense so the rest of the page
-          can still be a static shell. This tree is dynamic already, because
-          of connection() above, and a Suspense boundary around the page body
-          flushes a 200 before a page can call notFound(). So the provider
-          sits in the tree directly.
-        */}
-        <ClerkProvider dynamic>
-          <SkipLink />
-          <div id="app-shell">
-            <SiteHeader />
-            <main id="content">{children}</main>
-            <SiteFooter />
-          </div>
-        </ClerkProvider>
+        <SkipLink />
+        <div id="app-shell">
+          <SiteHeader />
+          <main id="content">{children}</main>
+          <SiteFooter />
+        </div>
+        <Analytics />
       </body>
     </html>
   );

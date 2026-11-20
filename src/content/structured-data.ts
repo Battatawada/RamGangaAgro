@@ -1,3 +1,4 @@
+import { organizationSameAs } from "@/content/contact-config";
 import { site } from "@/content/site";
 
 type ListItem = {
@@ -30,6 +31,7 @@ export function publicStructuredData() {
         "@id": organizationId,
         name: site.name,
         url: site.url,
+        ...(organizationSameAs().length > 0 ? { sameAs: organizationSameAs() } : {}),
       },
     ],
   };
@@ -53,6 +55,27 @@ export function breadcrumbStructuredData(
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement,
+  };
+}
+
+export function articleStructuredData(input: {
+  title: string;
+  excerpt: string;
+  date: string;
+  path: string;
+}) {
+  const url = new URL(input.path, site.url).href;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: input.title,
+    description: input.excerpt,
+    datePublished: input.date,
+    dateModified: input.date,
+    mainEntityOfPage: url,
+    url,
+    publisher: { "@id": `${site.url}/#organization` },
   };
 }
 

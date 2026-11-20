@@ -1,9 +1,11 @@
 import Link from "next/link";
+import { filledSocialProfiles } from "@/content/contact-config";
 import { footerLegalNav, primaryNav, site } from "@/content/site";
 import { flags } from "@/server/flags";
 
 export function SiteFooter() {
   const links = primaryNav.filter((link) => !link.flag || flags[link.flag]);
+  const social = filledSocialProfiles();
 
   return (
     <footer className="border-t border-line">
@@ -13,6 +15,22 @@ export function SiteFooter() {
             <p className="font-display text-[1.35rem] tracking-[-0.02em]">{site.name}</p>
             <p className="mt-3 text-ink-muted">Ram Ganga Agro practices natural farming.</p>
             <p className="type-caption mt-4">{site.domain}</p>
+            {social.length > 0 ? (
+              <ul className="mt-4 flex flex-wrap gap-4">
+                {social.map((item) => (
+                  <li key={item.href}>
+                    <a
+                      href={item.href}
+                      className="text-sm text-link"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
           </div>
           <nav aria-label="Footer">
             <ul className="flex flex-col gap-1">
