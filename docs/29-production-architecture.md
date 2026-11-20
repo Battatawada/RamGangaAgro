@@ -1,8 +1,8 @@
 # 29 — Production architecture
 
-A Vercel project named `ram-ganga-agro` exists on the team `pracheersrivastavas-projects`. Its functions run in Singapore (`sin1`). The current production deployment is a CLI upload of this working tree, aliased to `https://ram-ganga-agro.vercel.app`. That hostname is temporary. It sends `noindex`. `rgagro.me` is not attached. Namecheap DNS was not changed. No production webhook was created. The Namecheap certificate was not installed.
+A Vercel project named `ram-ganga-agro` exists on the team `rg-agro`. Its functions run in Singapore (`sin1`). GitHub `Battatawada/RamGangaAgro` is connected, with production branch `master`. The current production deployment is Git commit `3acd163`, aliased to `https://ram-ganga-agro.vercel.app`. That hostname is temporary. It sends `noindex`. `rgagro.me` is not attached. Namecheap DNS was not changed. No production webhook was created. The Namecheap certificate was not installed.
 
-The production Neon branch is `ep-curly-salad-a10wokga` in AWS Singapore. The running site uses the pooled `rga_app` login only. The GitHub repository `Battatawada/RamGangaAgro` is not connected yet: the Vercel GitHub installation on this team cannot see that repository. Until it can, a push does not deploy.
+The production Neon branch is `ep-curly-salad-a10wokga` in AWS Singapore. The running site uses the pooled `rga_app` login only. An earlier project of the same name on `pracheersrivastavas-projects` is unused and has no custom domain.
 
 ## Hosting
 

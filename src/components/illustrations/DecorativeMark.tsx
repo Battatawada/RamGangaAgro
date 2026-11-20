@@ -22,6 +22,8 @@ export function DecorativeMark({
       src={asset.src}
       alt=""
       aria-hidden="true"
+      width={asset.width}
+      height={asset.height}
       className={`pointer-events-none object-contain ${className}`.trim()}
     />
   );

@@ -37,6 +37,9 @@ export default function TheLandPage() {
           <Link href="/our-farm/practices" className="text-link">
             Natural farming
           </Link>
+          <Link href="/grow" className="text-link">
+            What we grow
+          </Link>
           <Link href="/our-farm" className="text-link">
             Back to Our farm
           </Link>

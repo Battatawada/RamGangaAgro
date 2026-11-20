@@ -20,3 +20,6 @@ next-env.d.ts
 *.log
 .neon
 .vercel/
+
+.vercel
+.env*

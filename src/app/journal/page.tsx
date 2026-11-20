@@ -15,7 +15,8 @@ export default function JournalPage() {
       <div className="container-page section">
         <h1 className="type-h1">The journal.</h1>
         <p className="type-deck prose-measure mt-6 text-ink-muted">
-          Notes from the farm, when there is a season to record.
+          Notes from the farm, when there is a season to record. The journal is
+          empty today. The crops and the practice are written on their own pages.
         </p>
 
         <div className="mt-12">
@@ -28,8 +29,11 @@ export default function JournalPage() {
                 <Link href="/our-farm/practices" className="text-link">
                   The natural farming practice
                 </Link>
-                <Link href="/#follow" className="text-link">
-                  Follow the farm
+                <Link href="/our-farm" className="text-link">
+                  Our farm
+                </Link>
+                <Link href="/follow" className="text-link">
+                  First-harvest waitlist
                 </Link>
               </p>
             </JournalEmpty>

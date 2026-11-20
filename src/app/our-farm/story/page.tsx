@@ -50,7 +50,7 @@ export default function StoryPage() {
               {
                 href: "/our-farm/the-land",
                 label: "The land",
-                text: "The place, when the farm names it.",
+                text: "The place the crops grow, when the farm names it.",
               },
               {
                 href: "/our-farm/practices",

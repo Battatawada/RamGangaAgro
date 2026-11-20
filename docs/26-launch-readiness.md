@@ -78,7 +78,7 @@ The development branch has the four roles, the new `rate_limit_buckets` table, a
 
 Evidence, 13 November 2026:
 
-- Project `ram-ganga-agro`, deployment `dpl_9Xfycgwt1DpxGHAWgWYowehrgf36`, region `sin1`, target production. Alias `https://ram-ganga-agro.vercel.app`. `rgagro.me` is not attached.
+- Team `rg-agro`, project `ram-ganga-agro`, GitHub `Battatawada/RamGangaAgro` on `master`. Deployment `dpl_G2DoYHGFkJa6VpQWnKMJFnGk3n2u` from commit `3acd163`, region `sin1`, target production. Alias `https://ram-ganga-agro.vercel.app`. `rgagro.me` is not attached.
 - Production environment only: the public Clerk key is `pk_live`, the secret and `DATABASE_URL` are sensitive, rate limiting is `postgres` / `vercel`, the five flags are false, and `SITE_URL` is `https://rgagro.me`. Preview has none of these. No webhook secret, owner login, or operator URL is on Vercel.
 - Public HTTPS returned 200 for the public pages, 404 for an unknown path, `/shop`, and an unknown crop. Responses sent HSTS, `nosniff`, a strict Clerk CSP with a nonce, and `X-Robots-Tag: noindex` because the host is not `rgagro.me`. Canonical URLs are `https://rgagro.me`.
 - A contact note, a newsletter row, and an unsubscribe were exercised on that deployment, then removed with the production privacy login. `rga_app` was refused `SELECT` on `contact_messages` (`42501`).

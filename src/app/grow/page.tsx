@@ -21,10 +21,6 @@ export default function GrowPage() {
         ) : (
           <h1 className="type-h1">What we grow.</h1>
         )}
-        <p className="prose-measure mt-6 text-ink-muted">
-          A name here is a crop in the field. A sale is named only when the farm
-          decides to offer that crop, and only on that crop’s page.
-        </p>
 
         <div className="mt-4">
           {crops.length > 0 ? (
@@ -37,6 +33,12 @@ export default function GrowPage() {
         <p className="mt-16 flex flex-wrap gap-x-6 gap-y-2">
           <Link href="/our-farm/practices" className="text-link">
             How natural farming is practiced here
+          </Link>
+          <Link href="/our-farm/the-land" className="text-link">
+            The land
+          </Link>
+          <Link href="/journal" className="text-link">
+            The journal
           </Link>
           <Link href="/our-farm" className="text-link">
             Back to Our farm

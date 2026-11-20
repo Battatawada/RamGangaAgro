@@ -25,9 +25,14 @@ export async function Breadcrumbs({
         />
       ) : null}
       <ol className="flex flex-wrap gap-x-2 gap-y-1 text-sm text-clay-deep">
-        {items.map((item, index) => (
+        <li className="flex items-center gap-2">
+          <Link href="/" className="text-link">
+            Home
+          </Link>
+        </li>
+        {items.map((item) => (
           <li key={item.label} className="flex items-center gap-2">
-            {index > 0 ? <span aria-hidden="true">/</span> : null}
+            <span aria-hidden="true">/</span>
             {item.href ? (
               <Link href={item.href} className="text-link">
                 {item.label}

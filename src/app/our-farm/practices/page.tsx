@@ -16,7 +16,7 @@ export default function PracticesPage() {
   return (
     <>
       <Breadcrumbs
-        items={[{ label: "Our Farm", href: "/our-farm" }, { label: "Practices" }]}
+        items={[{ label: "Our Farm", href: "/our-farm" }, { label: "Natural farming" }]}
         path="/our-farm/practices"
       />
       <div className="container-page section">
@@ -53,7 +53,13 @@ export default function PracticesPage() {
           ))}
         </div>
 
-        <p className="mt-10">
+        <p className="mt-10 flex flex-wrap gap-x-6 gap-y-2">
+          <Link href="/grow" className="text-link">
+            What we grow
+          </Link>
+          <Link href="/journal" className="text-link">
+            The journal
+          </Link>
           <Link href="/our-farm" className="text-link">
             Back to Our farm
           </Link>

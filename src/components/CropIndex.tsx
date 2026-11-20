@@ -1,6 +1,6 @@
 import { CropEntry } from "@/components/CropEntry";
 import type { Crop } from "@/content/crops";
-import { mediaById } from "@/content/media";
+import { media, mediaById } from "@/content/media";
 
 /** Every published crop, in the order the content record lists them. */
 export function CropIndex({
@@ -13,7 +13,7 @@ export function CropIndex({
   return (
     <ul className="mt-12 grid list-none gap-y-12 p-0">
       {crops.map((crop) => {
-        const drawing = mediaById(crop.mediaId);
+        const drawing = mediaById(crop.mediaId) ?? media.panicle;
         return (
           <li key={crop.slug}>
             <CropEntry
@@ -23,8 +23,10 @@ export function CropIndex({
               status={crop.status}
               tone={crop.tone}
               media={{
-                src: drawing?.src ?? "/illustrations/panicle.svg",
-                alt: drawing?.alt ?? "",
+                src: drawing.src,
+                alt: drawing.alt,
+                width: drawing.width,
+                height: drawing.height,
               }}
               pricePaise={crop.pricePaise}
               purchasable={crop.purchasable}
