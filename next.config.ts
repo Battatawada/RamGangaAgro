@@ -14,6 +14,9 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   agentRules: false,
+  images: {
+    formats: ["image/avif", "image/webp"],
+  },
   experimental: {
     serverActions: {
       allowedOrigins: [...serverActionOrigins],

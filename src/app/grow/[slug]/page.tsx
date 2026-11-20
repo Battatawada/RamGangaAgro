@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { IllustrationImage } from "@/components/IllustrationImage";
 import { HarvestStatus } from "@/components/HarvestStatus";
 import { MediaFrame } from "@/components/MediaFrame";
 import { cropPanelClass } from "@/content/crops";
 import { mediaById, type MediaAsset } from "@/content/media";
-import { pageMeta } from "@/content/meta";
-import { cropDescription } from "@/content/seo";
+import { publishableParagraphs } from "@/content/placeholders";
+import { cropDescription, cropTitle, metadataForPath } from "@/content/seo";
 import { fileContent } from "@/content/source";
 
 type Params = { params: Promise<{ slug: string }> };
@@ -19,11 +20,14 @@ type Params = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
   const crop = fileContent.getCrop(slug);
-  if (!crop) return {};
-  return pageMeta({
-    title: crop.name,
+  if (!crop) {
+    return { title: "Page not found", robots: { index: false, follow: true } };
+  }
+  const path = `/grow/${crop.slug}`;
+  return metadataForPath(path, {
+    title: cropTitle(crop.slug, crop.name),
     description: cropDescription(crop.slug, crop.summary),
-    path: `/grow/${crop.slug}`,
+    absoluteTitle: true,
   });
 }
 
@@ -75,12 +79,13 @@ export default async function CropPage({ params }: Params) {
         </div>
         <figure className="m-0">
           <div className={`flex justify-center px-8 py-10 ${cropPanelClass[crop.tone]}`}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={hero?.src ?? "/illustrations/panicle.svg"}
-              alt={hero?.alt ?? ""}
-              className="h-auto w-[min(100%,300px)]"
-            />
+            {hero ? (
+              <IllustrationImage
+                asset={hero}
+                className="h-auto w-[min(100%,300px)]"
+                sizes="300px"
+              />
+            ) : null}
           </div>
           <figcaption className="type-caption mt-3">
             {hero?.caption ?? "A drawing, not a photograph."}
@@ -128,24 +133,12 @@ export default async function CropPage({ params }: Params) {
             </section>
           ) : null}
 
-          <section className="mb-16">
-            <h2 className="type-h2">The story.</h2>
-            {crop.story ? (
+          {crop.story ? (
+            <section className="mb-16">
+              <h2 className="type-h2">The story.</h2>
               <Prose paragraphs={crop.story} />
-            ) : (
-              <p className="mt-4 text-ink-muted">The story is still being written.</p>
-            )}
-            <p className="mt-6">
-              <Link
-                href="/our-farm/practices"
-                className="text-link"
-              >
-                {crop.slug === "wheat"
-                  ? "The farm’s natural farming practice"
-                  : "Natural farming at Ram Ganga Agro"}
-              </Link>
-            </p>
-          </section>
+            </section>
+          ) : null}
 
           {crop.chapters.map((chapter) =>
             chapter.paragraphs ? (
@@ -159,9 +152,31 @@ export default async function CropPage({ params }: Params) {
           {crop.onThisFarm ? (
             <section className="mb-16">
               <h2 className="type-h2">On this farm.</h2>
-              <Prose paragraphs={crop.onThisFarm} />
+              <Prose paragraphs={publishableParagraphs(crop.onThisFarm)} />
+              <p className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
+                <Link href="/our-farm/practices" className="text-link">
+                  {crop.slug === "wheat"
+                    ? "The farm’s natural farming practice"
+                    : "Natural farming at Ram Ganga Agro"}
+                </Link>
+                <Link href="/our-farm/the-land" className="text-link">
+                  The land
+                </Link>
+                <Link href="/journal" className="text-link">
+                  The journal
+                </Link>
+              </p>
             </section>
-          ) : null}
+          ) : (
+            <p className="mb-16 flex flex-wrap gap-x-6 gap-y-2">
+              <Link href="/our-farm/practices" className="text-link">
+                Natural farming at Ram Ganga Agro
+              </Link>
+              <Link href="/our-farm/the-land" className="text-link">
+                The land
+              </Link>
+            </p>
+          )}
 
           {crop.inTheField ? (
             <section className="mb-16">
@@ -229,7 +244,7 @@ export default async function CropPage({ params }: Params) {
             <h2 className="type-h2">{crop.availability.title}</h2>
             <Prose paragraphs={crop.availability.paragraphs} />
             <p className="mt-4">
-              <Link href="/#follow" className="text-link">
+              <Link href="/follow" className="text-link">
                 Follow the farm
               </Link>
             </p>
@@ -250,9 +265,12 @@ export default async function CropPage({ params }: Params) {
             </section>
           ) : null}
 
-          <p className="mt-12">
+          <p className="mt-12 flex flex-wrap gap-x-6 gap-y-2">
             <Link href="/grow" className="text-link">
               All crops
+            </Link>
+            <Link href="/our-farm" className="text-link">
+              Our farm
             </Link>
           </p>
         </div>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { IllustrationImage } from "@/components/IllustrationImage";
 import { HarvestStatus } from "@/components/HarvestStatus";
 import { cropPanelClass, type CropStatus, type CropTone } from "@/content/crops";
 import { flags } from "@/server/flags";
@@ -15,7 +16,7 @@ type Props = {
   href: string;
   status: CropStatus | null;
   tone?: CropTone;
-  media: { src: string; alt: string };
+  media: { src: string; alt: string; width: number; height: number };
   pricePaise: number | null;
   purchasable: boolean;
   titleAs?: "h2" | "h3";
@@ -43,11 +44,17 @@ export function CropEntry({
         className="group grid items-end gap-8 no-underline sm:grid-cols-[220px_minmax(0,1fr)] sm:gap-12"
       >
         <div className={`grid place-items-center px-6 py-8 ${cropPanelClass[tone]}`}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={media.src}
-            alt={media.alt}
+          <IllustrationImage
+            asset={{
+              id: "crop-entry",
+              kind: "illustration",
+              src: media.src,
+              alt: media.alt,
+              width: media.width,
+              height: media.height,
+            }}
             className="h-auto w-[180px]"
+            sizes="180px"
           />
         </div>
         <div>

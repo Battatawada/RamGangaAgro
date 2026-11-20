@@ -1,4 +1,5 @@
 import type { MediaAsset } from "@/content/media";
+import { IllustrationImage } from "@/components/IllustrationImage";
 
 const aspectClass = {
   wide: "aspect-[2/1]",
@@ -21,23 +22,21 @@ type Props = {
  */
 export function MediaFrame({ asset, aspect = "landscape", className = "" }: Props) {
   const photo = asset.kind === "image";
-  const decorative = asset.decorative === true || asset.alt === "";
 
   return (
     <figure className={`m-0 ${className}`.trim()}>
       <div
         className={`relative overflow-hidden bg-paper-raised ${aspectClass[aspect]}`}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={asset.src}
-          alt={decorative ? "" : asset.alt}
-          aria-hidden={decorative ? true : undefined}
+        <IllustrationImage
+          asset={asset}
+          fill
           className={
             photo
-              ? "absolute inset-0 h-full w-full object-cover"
-              : "absolute inset-0 m-auto h-[78%] w-[78%] object-contain"
+              ? "object-cover"
+              : "m-auto h-[78%] w-[78%] max-h-[78%] max-w-[78%] object-contain"
           }
+          sizes="(max-width: 768px) 100vw, 50vw"
         />
       </div>
       {asset.caption ? (
