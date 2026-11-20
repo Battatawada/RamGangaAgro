@@ -28,6 +28,5 @@ export default function robots(): MetadataRoute.Robots {
       disallow: ["/sign-in", "/sign-up", "/api/"],
     },
     sitemap: `${site.url}/sitemap.xml`,
-    host: site.domain,
   };
 }
