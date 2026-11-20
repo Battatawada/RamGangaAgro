@@ -1,4 +1,5 @@
 import { insertContactMessage } from "@/server/db/repositories";
+import { contactAutoReplyCopy, sendTransactionalEmail } from "@/server/mail";
 import { getRateLimiter } from "@/server/rate-limit";
 import { bucketsFor } from "@/server/rate-limit-policy";
 import { contactSchema } from "@/server/validation";
@@ -28,6 +29,16 @@ export async function submitContact(
     }
 
     await insertContactMessage({ name, email, message });
+
+    const copy = contactAutoReplyCopy();
+    const mail = await sendTransactionalEmail({
+      to: email,
+      subject: copy.subject,
+      text: copy.text,
+    });
+    if (!mail.sent && mail.reason === "provider_error") {
+      console.error("Contact stored but auto-reply did not send.");
+    }
   } catch {
     // The detail goes to the server log, not to the visitor.
     return { ok: false, message: messages.contactFailed };
