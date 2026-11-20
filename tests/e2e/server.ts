@@ -34,8 +34,7 @@ export async function setup() {
     env: {
       ...process.env,
       NODE_ENV: "production",
-      // The public pages do not need a live Clerk instance to render, but
-      // ClerkProvider refuses to start without a well-formed key.
+      // Sign-in routes still need keys; the public homepage does not load Clerk.
       NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
         process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ??
         "pk_test_ZXhhbXBsZS5jbGVyay5hY2NvdW50cy5kZXYk",

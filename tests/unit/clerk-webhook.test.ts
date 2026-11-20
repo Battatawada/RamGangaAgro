@@ -80,6 +80,17 @@ describe("clerk webhook", () => {
     expect(first.status).toBe(200);
     expect(second.status).toBe(200);
     expect(users.size).toBe(1);
+    expect(seenEvents.size).toBe(1);
+  });
+
+  it("does not call storage when verifyWebhook rejects a missing signature", async () => {
+    verifyWebhook.mockRejectedValue(new Error("missing signature"));
+
+    const response = await POST(request("evt_missing_sig"));
+
+    expect(response.status).toBe(400);
+    expect(users.size).toBe(0);
+    expect(seenEvents.size).toBe(0);
   });
 
   it("stores a customer when unsafe_metadata asks for admin", async () => {

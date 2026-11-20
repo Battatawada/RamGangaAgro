@@ -48,6 +48,8 @@ describe("public routes", () => {
   it("an unknown crop slug returns 404", async () => {
     const response = await get("/grow/not-a-real-crop");
     expect(response.status).toBe(404);
+    const html = await response.text();
+    expect(html).toContain("noindex");
   });
 });
 
@@ -66,7 +68,9 @@ describe("the homepage says what it is allowed to say", () => {
   it("carries the hero line, the status and the sale sentence", async () => {
     const html = await (await get("/")).text();
 
-    expect(html).toContain("Good food begins long before the table.");
+    expect(html).toContain(
+      "Raktshali rice and wheat grown at Mamoni, Baran district, Rajasthan.",
+    );
     expect(html).toContain("Currently growing");
     expect(html).toContain("It is not for sale.");
     expect(html).toContain("Raktshali, still in the field.");
@@ -127,7 +131,9 @@ describe("the crop page", () => {
 
     expect(html).toContain("Wheat");
     expect(html).toContain("Grown at Ram Ganga Agro.");
-    expect(html).toContain("The story is still being written.");
+    expect(html).toContain(
+      "Wheat is grown at Ram Ganga Agro alongside Raktshali rice",
+    );
     expect(html).not.toContain("Currently growing");
     expect(html).not.toContain("It is not for sale.");
     for (const forbidden of [
@@ -173,8 +179,9 @@ describe("search files", () => {
     expect(robots).not.toMatch(/Disallow:\s+\/\s*$/m);
 
     const sitemap = await (await get("/sitemap.xml")).text();
-    expect(sitemap).toContain("https://rgagro.me/grow/raktshali-rice");
-    expect(sitemap).toContain("https://rgagro.me/our-farm/practices");
+    expect(sitemap).toContain("https://rgagro.me/grow");
+    expect(sitemap).not.toContain("https://rgagro.me/grow/raktshali-rice");
+    expect(sitemap).not.toContain("https://rgagro.me/our-farm/practices");
     expect(sitemap).not.toContain("unsubscribe");
     expect(sitemap).not.toContain("vercel.app");
     expect(sitemap).not.toContain("/sign-in");
@@ -194,13 +201,22 @@ describe("search files", () => {
   it("states only published facts in llms.txt", async () => {
     const response = await get("/llms.txt");
     expect(response.status).toBe(200);
-    const text = (await response.text()).toLowerCase();
+    const raw = await response.text();
+    const text = raw.toLowerCase();
     expect(text).toContain("natural farming");
     expect(text).toContain("raktshali");
     expect(text).toContain("not for sale");
     for (const phrase of ["organic", "certified", "chemical-free", "red rice", "traditional"]) {
       expect(text, phrase).not.toContain(phrase);
     }
+    expect(raw).toMatch(/^\s*#\s+.+/m);
+    expect(raw).toMatch(/\[.+\]\(.+\)/);
+  });
+
+  it("does not load Clerk on the homepage", async () => {
+    const html = await (await get("/")).text();
+    expect(html).not.toContain("clerk.browser.js");
+    expect(html).not.toContain("clerk.rgagro.me");
   });
 });
 
