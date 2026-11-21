@@ -80,7 +80,7 @@ export default function PrivacyPage() {
           {transactionalEmail ? (
             <p className="mt-4 text-ink-muted">
               After a contact or wholesale enquiry we send one automatic
-              confirmation through our email provider (Resend). Waitlist members
+              confirmation through our email provider (Brevo). Waitlist members
               may receive one email per harvest when grain is ready. You can
               unsubscribe any time on the{" "}
               <Link href="/unsubscribe" className="text-link">
@@ -130,7 +130,7 @@ export default function PrivacyPage() {
             can read contact messages. Sign-in for operators uses a separate
             authentication service; visitors are not asked to create a public
             account.
-            {transactionalEmail ? " Resend processes outbound confirmation mail." : null}
+            {transactionalEmail ? " Brevo processes outbound confirmation mail." : null}
             {analytics ? " Google processes analytics data you consent to." : null}
           </p>
 

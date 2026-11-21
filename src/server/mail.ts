@@ -1,4 +1,5 @@
 import "server-only";
+import { parseTransactionalSender } from "@/lib/email-sender";
 
 type SendInput = {
   to: string;
@@ -10,30 +11,44 @@ export type SendResult =
   | { sent: true }
   | { sent: false; reason: "not_configured" | "provider_error" };
 
+const BREVO_SEND_URL = "https://api.brevo.com/v3/smtp/email";
+
 /**
- * Transactional mail via Resend when RESEND_API_KEY and TRANSACTIONAL_FROM_EMAIL
+ * Transactional mail via Brevo when BREVO_API_KEY and TRANSACTIONAL_FROM_EMAIL
  * are set. Otherwise the send is skipped so forms still work in development.
  */
 export async function sendTransactionalEmail(input: SendInput): Promise<SendResult> {
-  const apiKey = process.env.RESEND_API_KEY?.trim();
-  const from = process.env.TRANSACTIONAL_FROM_EMAIL?.trim();
-  if (!apiKey || !from) {
+  const apiKey = process.env.BREVO_API_KEY?.trim();
+  const fromRaw = process.env.TRANSACTIONAL_FROM_EMAIL?.trim();
+  const sender = fromRaw ? parseTransactionalSender(fromRaw) : null;
+
+  if (!apiKey || !sender) {
     return { sent: false, reason: "not_configured" };
   }
 
+  const replyRaw = process.env.TRANSACTIONAL_REPLY_TO?.trim();
+  const replyTo = replyRaw ? parseTransactionalSender(replyRaw) : null;
+
+  const body: Record<string, unknown> = {
+    sender,
+    to: [{ email: input.to.trim() }],
+    subject: input.subject,
+    textContent: input.text,
+  };
+
+  if (replyTo) {
+    body.replyTo = replyTo;
+  }
+
   try {
-    const response = await fetch("https://api.resend.com/emails", {
+    const response = await fetch(BREVO_SEND_URL, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
+        accept: "application/json",
+        "api-key": apiKey,
+        "content-type": "application/json",
       },
-      body: JSON.stringify({
-        from,
-        to: [input.to],
-        subject: input.subject,
-        text: input.text,
-      }),
+      body: JSON.stringify(body),
     });
 
     if (!response.ok) {
