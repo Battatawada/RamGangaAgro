@@ -41,7 +41,8 @@ REVOKE SELECT ON TABLE contact_messages FROM rga_migrator;
 GRANT SELECT, INSERT, UPDATE, DELETE ON
   users, subscribers, webhook_events,
   products, product_variants, harvests, inventory,
-  orders, order_items, addresses, media
+  orders, order_items, order_addresses, order_access_tokens,
+  addresses, media
 TO rga_app;
 
 -- The inbox is write-only for the site. A bug cannot list it.
