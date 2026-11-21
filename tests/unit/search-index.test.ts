@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { GET as llmsTxt } from "@/app/llms.txt/route";
 import sitemap from "@/app/sitemap";
 import { containsPlaceholder } from "@/content/placeholders";
 import { isPageSearchIndexable, pageSearchIndex } from "@/content/search-index";
@@ -53,6 +54,29 @@ describe("per-page search indexing", () => {
   it("does not emit hreflang while Hindi routes are noindex", () => {
     expect(metadataFor("/").alternates?.languages).toBeUndefined();
     expect(metadataFor("/contact").alternates?.languages).toBeUndefined();
+  });
+
+  it("lists the same paths in llms.txt as the sitemap", async () => {
+    const entries = await sitemap();
+    const sitemapUrls = new Set(entries.map((entry) => entry.url));
+
+    const response = await llmsTxt();
+    const text = await response.text();
+
+    expect(text).not.toContain("/follow");
+    expect(text).not.toContain("/our-farm");
+    expect(text).not.toContain("/journal");
+    expect(text).not.toContain("/wholesale");
+
+    const linked = [...text.matchAll(/\]\((https:\/\/rgagro\.me[^)]*)\)/g)].map(
+      (match) => match[1]!.replace(/\/$/, ""),
+    );
+    const uniqueLinked = [...new Set(linked)];
+
+    for (const url of uniqueLinked) {
+      expect(sitemapUrls.has(url) || sitemapUrls.has(`${url}/`)).toBe(true);
+    }
+    expect(uniqueLinked.length).toBe(entries.length);
   });
 
   it("fails the build contract when an indexable path is flipped with placeholders", () => {
