@@ -75,7 +75,8 @@ describe("public page SEO", () => {
   it("keeps unsubscribe and placeholder pages out of the sitemap", async () => {
     const urls = (await sitemap()).map((entry) => entry.url);
     expect(urls).toContain("https://rgagro.me/grow");
-    expect(urls).not.toContain("https://rgagro.me/grow/raktshali-rice");
+    expect(urls).toContain("https://rgagro.me/grow/raktshali-rice");
+    expect(urls).toContain("https://rgagro.me/grow/wheat");
     expect(urls).not.toContain("https://rgagro.me/our-farm/practices");
     expect(urls.some((url) => url.includes("unsubscribe"))).toBe(false);
     expect(urls.some((url) => url.includes("sign-in"))).toBe(false);
@@ -94,7 +95,10 @@ describe("public page SEO", () => {
 
     expect(production.sitemap).toBe("https://rgagro.me/sitemap.xml");
     expect(production.host).toBeUndefined();
-    expect(production.rules).toMatchObject({ allow: "/", disallow: ["/sign-in", "/sign-up", "/api/"] });
+    expect(production.rules).toMatchObject({
+      allow: "/",
+      disallow: ["/sign-in", "/sign-up", "/api/", "/og"],
+    });
     expect(preview.rules).toEqual({ userAgent: "*", disallow: "/" });
     expect(preview.sitemap).toBeUndefined();
   });

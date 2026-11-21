@@ -6,13 +6,8 @@ import { isPageSearchIndexable, pageSearchIndex } from "@/content/search-index";
 import { metadataFor } from "@/content/seo";
 
 describe("per-page search indexing", () => {
-  it("noindexes placeholder farm, journal, follow, and crop pages", () => {
-    const noindex = [
-      "/our-farm",
-      "/journal",
-      "/follow",
-      "/grow/raktshali-rice",
-    ] as const;
+  it("noindexes placeholder farm, journal, and follow pages", () => {
+    const noindex = ["/our-farm", "/journal", "/follow"] as const;
     for (const path of noindex) {
       expect(isPageSearchIndexable(path)).toBe(false);
       if (path === "/our-farm" || path === "/journal" || path === "/follow") {
@@ -24,9 +19,11 @@ describe("per-page search indexing", () => {
     }
   });
 
-  it("keeps the homepage and contact indexable", () => {
+  it("keeps core pages and crop essays indexable", () => {
     expect(isPageSearchIndexable("/")).toBe(true);
     expect(isPageSearchIndexable("/contact")).toBe(true);
+    expect(isPageSearchIndexable("/grow/raktshali-rice")).toBe(true);
+    expect(isPageSearchIndexable("/grow/wheat")).toBe(true);
     expect(metadataFor("/").robots).toBeUndefined();
   });
 
@@ -36,7 +33,8 @@ describe("per-page search indexing", () => {
     expect(urls).toContain("https://rgagro.me");
     expect(urls).toContain("https://rgagro.me/contact");
     expect(urls).not.toContain("https://rgagro.me/our-farm/practices");
-    expect(urls).not.toContain("https://rgagro.me/grow/raktshali-rice");
+    expect(urls).toContain("https://rgagro.me/grow/raktshali-rice");
+    expect(urls).toContain("https://rgagro.me/grow/wheat");
     expect(urls).not.toContain("https://rgagro.me/follow");
     expect(urls).not.toContain("https://rgagro.me/journal");
     expect(urls).not.toContain("https://rgagro.me/wholesale");

@@ -119,6 +119,7 @@ describe("the crop page", () => {
   it("names the crop without a price or a claim", async () => {
     const html = await (await get("/grow/raktshali-rice")).text();
 
+    expect(html).not.toContain('content="noindex, follow"');
     expect(html).toContain("Raktshali rice");
     expect(html).toContain("Grown at Ram Ganga Agro. It is not for sale.");
     expect(html).toContain("Currently growing");
@@ -130,6 +131,7 @@ describe("the crop page", () => {
   it("names wheat without a season, a variety, or a sale", async () => {
     const html = await (await get("/grow/wheat")).text();
 
+    expect(html).not.toContain('content="noindex, follow"');
     expect(html).toContain("Wheat");
     expect(html).toContain("Grown at Ram Ganga Agro.");
     expect(html).toContain(
@@ -173,6 +175,12 @@ describe("response headers", () => {
 });
 
 describe("search files", () => {
+  it("keeps share image URLs out of the index", async () => {
+    const response = await get("/og?path=%2F");
+    expect(response.status).toBe(200);
+    expect(response.headers.get("x-robots-tag")).toBe("noindex, nofollow");
+  });
+
   it("publishes a canonical sitemap and does not block the public site", async () => {
     const robots = await (await get("/robots.txt")).text();
     expect(robots).toContain("Sitemap: https://rgagro.me/sitemap.xml");
@@ -181,7 +189,8 @@ describe("search files", () => {
 
     const sitemap = await (await get("/sitemap.xml")).text();
     expect(sitemap).toContain("https://rgagro.me/grow");
-    expect(sitemap).not.toContain("https://rgagro.me/grow/raktshali-rice");
+    expect(sitemap).toContain("https://rgagro.me/grow/raktshali-rice");
+    expect(sitemap).toContain("https://rgagro.me/grow/wheat");
     expect(sitemap).not.toContain("https://rgagro.me/our-farm/practices");
     expect(sitemap).not.toContain("unsubscribe");
     expect(sitemap).not.toContain("vercel.app");

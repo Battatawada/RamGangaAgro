@@ -54,7 +54,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       siteName: site.name,
       type: "website",
-      locale: "en",
+      locale: "en_IN",
     },
     twitter: {
       card: "summary_large_image",

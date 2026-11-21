@@ -20,6 +20,7 @@ export async function GET(request: Request) {
 
   const response = shareImage(lines);
   response.headers.set("Cache-Control", CACHE_HEADER);
+  response.headers.set("X-Robots-Tag", "noindex, nofollow");
   return response;
 }
 
