@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
-import { Fraunces, Outfit } from "next/font/google";
+import { Fraunces, Noto_Sans, Noto_Serif_Devanagari } from "next/font/google";
 import { connection } from "next/server";
 import { headers } from "next/headers";
 import type { ReactNode } from "react";
 import { Analytics } from "@/components/Analytics";
+import { ClerkRoot } from "@/components/ClerkRoot";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SkipLink } from "@/components/SkipLink";
 import { jsonLd, publicStructuredData } from "@/content/structured-data";
 import { site } from "@/content/site";
+import { flags } from "@/server/flags";
 import { indexingDecision } from "@/server/indexing";
 import { requestNonce } from "@/server/request-nonce";
 import "./globals.css";
@@ -20,10 +22,16 @@ const fraunces = Fraunces({
   axes: ["opsz", "SOFT", "WONK"],
 });
 
-const outfit = Outfit({
-  subsets: ["latin"],
+const notoSans = Noto_Sans({
+  subsets: ["latin", "devanagari"],
   display: "swap",
-  variable: "--font-outfit",
+  variable: "--font-noto-sans",
+});
+
+const notoSerifDevanagari = Noto_Serif_Devanagari({
+  subsets: ["devanagari"],
+  display: "swap",
+  variable: "--font-noto-serif-devanagari",
 });
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -67,7 +75,10 @@ export default async function RootLayout({
   const nonce = requestNonce(await headers());
 
   return (
-    <html lang="en" className={`${fraunces.variable} ${outfit.variable}`}>
+    <html
+      lang="en"
+      className={`${fraunces.variable} ${notoSans.variable} ${notoSerifDevanagari.variable}`}
+    >
       <body>
         {nonce ? (
           <script
@@ -76,13 +87,15 @@ export default async function RootLayout({
             dangerouslySetInnerHTML={{ __html: structuredData }}
           />
         ) : null}
-        <SkipLink />
-        <div id="app-shell">
-          <SiteHeader />
-          <main id="content">{children}</main>
-          <SiteFooter />
-        </div>
-        <Analytics />
+        <ClerkRoot enabled={flags.ACCOUNTS_ENABLED || flags.CHECKOUT_ENABLED}>
+          <SkipLink />
+          <div id="app-shell">
+            <SiteHeader />
+            <main id="content">{children}</main>
+            <SiteFooter />
+          </div>
+          <Analytics />
+        </ClerkRoot>
       </body>
     </html>
   );

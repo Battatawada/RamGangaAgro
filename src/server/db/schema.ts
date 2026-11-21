@@ -115,6 +115,10 @@ export const products = pgTable(
     name: text("name").notNull(),
     summary: text("summary"),
     status: text("status").notNull(),
+    category: text("category").notNull().default("grains"),
+    shippingClass: text("shipping_class").notNull().default("dry"),
+    ingredients: text("ingredients"),
+    allergens: text("allergens"),
     purchasable: boolean("purchasable").notNull().default(false),
     createdAt: timestamp("created_at", { withTimezone: true })
       .notNull()
@@ -127,6 +131,18 @@ export const products = pgTable(
     check(
       "products_status_check",
       sql`${table.status} in ('currently_growing', 'seasonal_harvest', 'coming_soon', 'available_soon')`,
+    ),
+    check(
+      "products_category_check",
+      sql`${table.category} in ('grains', 'dairy', 'other')`,
+    ),
+    check(
+      "products_shipping_class_check",
+      sql`${table.shippingClass} in ('dry', 'shelf_stable', 'chilled')`,
+    ),
+    check(
+      "products_dairy_allergens_check",
+      sql`${table.category} <> 'dairy' or ${table.allergens} is not null or ${table.purchasable} = false`,
     ),
   ],
 );
@@ -142,11 +158,15 @@ export const productVariants = pgTable(
     sku: text("sku").notNull().unique(),
     pricePaise: integer("price_paise").notNull(),
     weightGrams: integer("weight_grams"),
+    volumeMl: integer("volume_ml"),
     active: boolean("active").notNull().default(false),
   },
   (table) => [
     check("product_variants_price_check", sql`${table.pricePaise} >= 0`),
-    check("product_variants_weight_check", sql`${table.weightGrams} > 0`),
+    check(
+      "product_variants_measure_check",
+      sql`(${table.weightGrams} > 0 or ${table.volumeMl} > 0)`,
+    ),
     index("product_variants_product_id_idx").on(table.productId),
   ],
 );
@@ -188,9 +208,13 @@ export const orders = pgTable(
     id: uuid("id").primaryKey().defaultRandom(),
     userId: uuid("user_id").references(() => users.id, { onDelete: "restrict" }),
     email: text("email"),
-    status: text("status").notNull().default("pending"),
+    status: text("status").notNull().default("pending_payment"),
     totalPaise: integer("total_paise").notNull().default(0),
+    shippingPaise: integer("shipping_paise").notNull().default(0),
     currency: text("currency").notNull().default("INR"),
+    provider: text("provider"),
+    providerOrderId: text("provider_order_id"),
+    providerPaymentId: text("provider_payment_id"),
     createdAt: timestamp("created_at", { withTimezone: true })
       .notNull()
       .defaultNow(),
@@ -200,11 +224,48 @@ export const orders = pgTable(
   },
   (table) => [
     check("orders_total_check", sql`${table.totalPaise} >= 0`),
+    check("orders_shipping_check", sql`${table.shippingPaise} >= 0`),
     check(
       "orders_identity_check",
       sql`${table.userId} is not null or ${table.email} is not null`,
     ),
+    index("orders_user_id_idx").on(table.userId),
+    index("orders_provider_order_id_idx").on(table.providerOrderId),
   ],
+);
+
+export const orderAddresses = pgTable(
+  "order_addresses",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    orderId: uuid("order_id")
+      .notNull()
+      .references(() => orders.id, { onDelete: "restrict" })
+      .unique(),
+    line1: text("line1").notNull(),
+    line2: text("line2"),
+    city: text("city").notNull(),
+    region: text("region"),
+    postalCode: text("postal_code").notNull(),
+    country: text("country").notNull().default("IN"),
+    phone: text("phone").notNull(),
+    name: text("name").notNull(),
+  },
+  (table) => [index("order_addresses_order_id_idx").on(table.orderId)],
+);
+
+export const orderAccessTokens = pgTable(
+  "order_access_tokens",
+  {
+    orderId: uuid("order_id")
+      .notNull()
+      .references(() => orders.id, { onDelete: "restrict" })
+      .primaryKey(),
+    tokenHash: text("token_hash").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
 );
 
 export const orderItems = pgTable(

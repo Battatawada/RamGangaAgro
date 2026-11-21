@@ -88,6 +88,42 @@ export const publicPageSeo = [
     title: "Wholesale enquiries | Ram Ganga Agro",
     description: `Request a quote for Raktshali rice or wheat from Ram Ganga Agro at ${farmLocation}. MOQ and terms are confirmed on reply.`,
   },
+  {
+    path: "/shop",
+    title: "The harvest | Ram Ganga Agro",
+    description: `Grain packs from Ram Ganga Agro at ${farmLocation}. Prices and weights appear when the farm confirms them.`,
+    index: false,
+  },
+  {
+    path: "/cart",
+    title: "Your bag | Ram Ganga Agro",
+    description: "Your bag at Ram Ganga Agro.",
+    index: false,
+  },
+  {
+    path: "/checkout",
+    title: "Checkout | Ram Ganga Agro",
+    description: "Checkout for Ram Ganga Agro.",
+    index: false,
+  },
+  {
+    path: "/checkout/success",
+    title: "Order received | Ram Ganga Agro",
+    description: "Checkout confirmation for Ram Ganga Agro.",
+    index: false,
+  },
+  {
+    path: "/checkout/cancel",
+    title: "Checkout cancelled | Ram Ganga Agro",
+    description: "Checkout was not completed.",
+    index: false,
+  },
+  {
+    path: "/account",
+    title: "Your account | Ram Ganga Agro",
+    description: "Order history for Ram Ganga Agro.",
+    index: false,
+  },
 ] as const satisfies readonly PageSeo[];
 
 const byPath = new Map(publicPageSeo.map((page) => [page.path, page]));
@@ -180,6 +216,13 @@ export function cropDescription(slug: string, summary: string): string {
     return `Farm-grown wheat from ${farmLocation} at Ram Ganga Agro. Variety and harvest details are not published yet.`;
   }
   return summary;
+}
+
+export function metadataForShopProduct(name: string, path: string): Metadata {
+  return metadataForPath(path, {
+    title: `${name} pack | Ram Ganga Agro`,
+    description: `${name} from Ram Ganga Agro at ${farmLocation}. Net quantity and price are listed when the farm confirms them.`,
+  });
 }
 
 export function cropTitle(slug: string, name: string): string {

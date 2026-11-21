@@ -9,7 +9,11 @@ export type RateLimiter = {
   check(key: string, limit: number, windowSeconds: number): Promise<boolean>;
 };
 
-export type RateLimitOperation = "contact" | "newsletter" | "unsubscribe";
+export type RateLimitOperation =
+  | "contact"
+  | "newsletter"
+  | "unsubscribe"
+  | "checkout";
 
 export type RateLimitBucket = {
   key: string;
@@ -23,6 +27,7 @@ export const operationLimits = {
   contact: { perIp: 5, global: 30, windowSeconds: HOUR },
   newsletter: { perIp: 5, global: 30, windowSeconds: HOUR },
   unsubscribe: { perIp: 8, global: 40, windowSeconds: HOUR },
+  checkout: { perIp: 8, global: 40, windowSeconds: HOUR },
 } as const;
 
 const SAFE_SUBJECT = /^[a-z0-9:._-]{1,80}$/;

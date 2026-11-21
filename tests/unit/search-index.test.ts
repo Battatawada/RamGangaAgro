@@ -29,8 +29,8 @@ describe("per-page search indexing", () => {
     expect(metadataFor("/").robots).toBeUndefined();
   });
 
-  it("omits noindex paths from the sitemap", () => {
-    const entries = sitemap();
+  it("omits noindex paths from the sitemap", async () => {
+    const entries = await sitemap();
     const urls = entries.map((entry) => entry.url);
     expect(urls).toContain("https://rgagro.me");
     expect(urls).toContain("https://rgagro.me/contact");
@@ -69,7 +69,7 @@ describe("per-page search indexing", () => {
 
 function entryHasLastmod(
   url: string,
-  entries: ReturnType<typeof sitemap>,
+  entries: Awaited<ReturnType<typeof sitemap>>,
 ): boolean {
   return entries.some((entry) => entry.url === url && entry.lastModified instanceof Date);
 }

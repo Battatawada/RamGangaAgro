@@ -3,6 +3,7 @@ import { preload } from "react-dom";
 import { Button } from "@/components/Button";
 import { FarmJourney } from "@/components/FarmJourney";
 import { HeroPlate } from "@/components/HeroPlate";
+import { PhotoSlot } from "@/components/PhotoSlot";
 import { JournalEmpty } from "@/components/JournalEmpty";
 import { NewsletterForm } from "@/components/NewsletterForm";
 import { IllustrationImage } from "@/components/IllustrationImage";
@@ -11,6 +12,8 @@ import { mediaById } from "@/content/media";
 import { metadataFor } from "@/content/seo";
 import { fileContent, landToTable } from "@/content/source";
 import type { Crop } from "@/content/crops";
+import { hasPublicPurchasableVariant } from "@/server/catalog";
+import { isEnabled } from "@/server/flags";
 
 export const metadata = metadataFor("/");
 
@@ -89,7 +92,7 @@ function CropSpread({ crop }: { crop: Crop }) {
   );
 }
 
-export default function HomePage() {
+export default async function HomePage() {
   preload("/illustrations/panicle.svg", {
     as: "image",
     fetchPriority: "high",
@@ -100,24 +103,36 @@ export default function HomePage() {
   const natural = fileContent.chapterById("home-natural");
   const hero = mediaById("panicle");
   const wheatDrawing = mediaById("wheat");
+  const harvestOpen =
+    isEnabled("STOREFRONT_ENABLED") && (await hasPublicPurchasableVariant());
 
   return (
     <>
       <div className="hero-grid container-page pt-8 pb-4 lg:min-h-[calc(100svh-72px)] lg:pt-12 lg:pb-8">
         <div className="hero-copy max-w-[40rem]">
-          <p className="type-eyebrow text-green">Ram Ganga Agro · Mamoni, Baran</p>
+          <p className="type-eyebrow text-green tracking-[0.14em]">
+            Ram Ganga Agro · Mamoni, Baran
+          </p>
           <h1 className="type-display mt-4 lg:max-w-[16ch]">
             Raktshali rice and wheat grown at Mamoni, Baran district, Rajasthan.
           </h1>
           <p className="type-deck mt-5 max-w-[36ch] text-ink-muted">
-            Ram Ganga Agro practices natural farming. Nothing on this site is for
-            sale yet — enquire or join the first-harvest waitlist below.
+            Ram Ganga Agro practices natural farming.
+            {harvestOpen
+              ? " Packs appear in the harvest when the farm confirms price and stock."
+              : " Nothing on this site is for sale yet — enquire or join the first-harvest waitlist below."}
           </p>
         </div>
-        {hero ? <HeroPlate primary={hero} priority /> : null}
+        <div className="hero-plate">
+          {hero ? (
+            <HeroPlate primary={hero} priority />
+          ) : (
+            <PhotoSlot label="A field photograph will appear here when the farm supplies one." />
+          )}
+        </div>
         <div className="hero-actions">
           <div className="flex flex-wrap gap-3">
-            <Button href="/our-farm">Explore our farm</Button>
+            <Button href="/our-farm">Read the farm</Button>
             <Button href="/grow" variant="quiet">
               What we grow
             </Button>
@@ -222,6 +237,24 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+      </section>
+
+      <section className="container-page section border-t border-line pb-20">
+        <p className="type-eyebrow text-green">When the grain is packed</p>
+        {isEnabled("STOREFRONT_ENABLED") ? (
+          <p className="mt-4">
+            <Link href="/shop" className="text-link type-h3 inline-flex min-h-11 items-center">
+              The harvest
+            </Link>
+          </p>
+        ) : (
+          <p className="mt-4 max-w-[36ch] text-ink-muted">
+            <Link href="#follow" className="text-link">
+              Join the waitlist
+            </Link>{" "}
+            for the first packs from the farm.
+          </p>
+        )}
       </section>
     </>
   );

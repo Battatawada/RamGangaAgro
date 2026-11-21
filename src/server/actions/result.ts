@@ -6,6 +6,11 @@ export const messages = {
   newsletterTooMany: "Too many requests from here. Try again later.",
   unsubscribeDone: "If this address was on the list, it has been removed.",
   unsubscribeTooMany: "This form was submitted too often. Try again later.",
+  cartFailed: "The bag could not be updated. Try again.",
+  checkoutFailed: "Checkout could not be completed. Check the fields and try again.",
+  checkoutTooMany: "Too many checkout attempts from here. Try again later.",
+  checkoutPending:
+    "Your order is recorded. Payment is not open on this site yet — the farm will confirm next steps.",
 } as const;
 
 export type FieldErrors = Record<string, string>;

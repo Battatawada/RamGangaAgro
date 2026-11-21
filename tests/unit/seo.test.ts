@@ -72,8 +72,8 @@ describe("public page SEO", () => {
     expect(home.alternates?.canonical).toBe("https://rgagro.me");
   });
 
-  it("keeps unsubscribe and placeholder pages out of the sitemap", () => {
-    const urls = sitemap().map((entry) => entry.url);
+  it("keeps unsubscribe and placeholder pages out of the sitemap", async () => {
+    const urls = (await sitemap()).map((entry) => entry.url);
     expect(urls).toContain("https://rgagro.me/grow");
     expect(urls).not.toContain("https://rgagro.me/grow/raktshali-rice");
     expect(urls).not.toContain("https://rgagro.me/our-farm/practices");

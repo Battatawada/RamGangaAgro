@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Button } from "@/components/Button";
 import { farmLocation } from "@/content/contact-config";
 import { site } from "@/content/site";
+import { isEnabled } from "@/server/flags";
 
 export const metadata: Metadata = {
   title: "राम गंगा एग्रो — मामोनी, बारां",
@@ -18,15 +20,30 @@ export default function HindiHomePage() {
           English
         </Link>
       </p>
-      <h1 className="type-h1 mt-6">राम गंगा एग्रो</h1>
+      <p className="type-eyebrow mt-6 text-green tracking-[0.14em]">
+        राम गंगा एग्रो · मामोनी, बारां
+      </p>
+      <h1 className="type-h1 mt-4">
+        मामोनी, बारां में रक्तशाली चावल और गेहूँ।
+      </h1>
       <p className="mt-6 text-ink-muted">
-        मामोनी, बारां जिले में रक्तशाली (रक्तशाली) चावल और गेहूँ। {"{{HINDI_HOME_BODY}}"}
+        राम गंगा एग्रो प्राकृतिक खेती करता है। इस पृष्ठ पर अभी बिक्री शुरू नहीं
+        हुई है।
       </p>
-      <p className="mt-6">
-        <Link href="/hi/contact" className="text-link">
+      <div className="mt-8 flex flex-wrap gap-3">
+        <Button href="/our-farm">खेत पढ़ें</Button>
+        <Button href="/grow" variant="quiet">
+          हम क्या उगाते हैं
+        </Button>
+        <Button href="/hi/contact" variant="quiet">
           संपर्क
-        </Link>
-      </p>
+        </Button>
+        {isEnabled("STOREFRONT_ENABLED") ? (
+          <Link href="/shop" className="btn btn-quiet min-h-11">
+            The harvest (English shop)
+          </Link>
+        ) : null}
+      </div>
     </div>
   );
 }

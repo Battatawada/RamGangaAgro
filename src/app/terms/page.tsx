@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { commercePolicy, policyOrGap } from "@/content/commerce-legal";
 import { metadataFor } from "@/content/seo";
 
 export const metadata: Metadata = metadataFor("/terms");
@@ -35,14 +36,18 @@ export default function TermsPage() {
 
           <h2 className="type-h2 mt-10">Delivery</h2>
           <p className="mt-4 text-ink-muted">
-            Delivery areas, carriers, and timelines are not offered on this
-            website yet (TODO: legal review).
+            {policyOrGap(commercePolicy.deliveryStates, "delivery states")}
+          </p>
+          <p className="mt-4 text-ink-muted">
+            {policyOrGap(commercePolicy.shipping, "shipping policy")}
           </p>
 
           <h2 className="type-h2 mt-10">Returns</h2>
           <p className="mt-4 text-ink-muted">
-            A returns policy will apply only if and when products are sold (TODO:
-            legal review). Until then, this section is not in effect.
+            {policyOrGap(commercePolicy.returns, "returns policy")}
+          </p>
+          <p className="mt-4 text-ink-muted">
+            {policyOrGap(commercePolicy.refunds, "refund policy")}
           </p>
 
           <h2 className="type-h2 mt-10">Liability</h2>

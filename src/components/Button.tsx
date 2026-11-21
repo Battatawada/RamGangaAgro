@@ -1,11 +1,12 @@
 import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 
-type Variant = "primary" | "quiet";
+type Variant = "primary" | "quiet" | "shop";
 
 const variantClass: Record<Variant, string> = {
   primary: "btn btn-primary",
   quiet: "btn btn-quiet",
+  shop: "btn btn-shop",
 };
 
 type ButtonAsLink = {

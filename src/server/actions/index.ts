@@ -6,6 +6,8 @@ import { submitContact } from "./core/contact";
 import { submitNewsletter } from "./core/newsletter";
 import { submitUnsubscribe } from "./core/unsubscribe";
 import { submitWholesale } from "./core/wholesale";
+import { updateCartLine } from "./core/cart";
+import { submitCheckout } from "./core/checkout";
 import { messages, type ActionResult } from "./result";
 
 /** A missing or refused client address fails the form. It does not open the write. */
@@ -84,6 +86,34 @@ export async function wholesaleAction(
   ]);
   if (input.sample !== "on") delete input.sample;
   return submitWholesale(input, context);
+}
+
+export async function cartAction(
+  _previous: ActionResult | null,
+  formData: FormData,
+): Promise<ActionResult> {
+  return updateCartLine(read(formData, ["variantId", "quantity"]));
+}
+
+export async function checkoutAction(
+  _previous: ActionResult | null,
+  formData: FormData,
+): Promise<ActionResult & { redirectUrl?: string; orderId?: string }> {
+  const context = await addressOr({ ok: false, message: messages.checkoutFailed });
+  if (!("ip" in context)) return context;
+  const input = read(formData, [
+    "name",
+    "email",
+    "phone",
+    "line1",
+    "line2",
+    "city",
+    "region",
+    "postalCode",
+    "country",
+    "website",
+  ]);
+  return submitCheckout({ ...input, country: "IN" }, context);
 }
 
 export async function unsubscribeAction(

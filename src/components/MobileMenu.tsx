@@ -7,7 +7,17 @@ import type { NavLink } from "@/content/site";
 
 const APP_SHELL_ID = "app-shell";
 
-export function MobileMenu({ links }: { links: NavLink[] }) {
+function cartLabel(count: number, base: string): string {
+  return count > 0 ? `${base} (${count})` : base;
+}
+
+export function MobileMenu({
+  links,
+  cartCount = 0,
+}: {
+  links: NavLink[];
+  cartCount?: number;
+}) {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -114,7 +124,7 @@ export function MobileMenu({ links }: { links: NavLink[] }) {
                         onClick={close}
                         className="inline-flex min-h-12 items-center font-display text-[clamp(2rem,6vw,2.75rem)] leading-tight"
                       >
-                        {link.label}
+                        {link.href === "/cart" ? cartLabel(cartCount, link.label) : link.label}
                       </Link>
                     </li>
                   ))}

@@ -26,6 +26,7 @@ const dormantPaths = [
   "/checkout",
   "/account",
   "/account/orders/1",
+  "/orders/access",
   "/admin",
   "/harvest/demo",
 ];

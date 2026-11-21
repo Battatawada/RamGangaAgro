@@ -10,9 +10,11 @@ import type { ActionResult } from "@/server/actions/result";
 export function NewsletterForm({
   source,
   redirectTo = "/follow",
+  submitLabel = "Join the farm journal",
 }: {
-  source: "homepage" | "footer";
+  source: string;
   redirectTo?: string;
+  submitLabel?: string;
 }) {
   const router = useRouter();
   const emailRef = useRef<HTMLInputElement>(null);
@@ -94,7 +96,7 @@ export function NewsletterForm({
 
       <div>
         <button type="submit" className="btn btn-primary" disabled={pending}>
-          {pending ? "Sending…" : "Join the farm journal"}
+          {pending ? "Sending…" : submitLabel}
         </button>
       </div>
 

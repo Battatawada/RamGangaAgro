@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { commercePolicy, policyOrGap } from "@/content/commerce-legal";
 import { privacyServiceFlags } from "@/content/privacy-services";
 import { metadataFor } from "@/content/seo";
 
@@ -99,6 +100,18 @@ export default function PrivacyPage() {
               .
             </p>
           )}
+
+          <h2 className="type-h2 mt-10">Orders and checkout</h2>
+          <p className="mt-4 text-ink-muted">
+            When the farm opens checkout, we collect your name, email, phone, and
+            delivery address to fulfil a parcel. Payment happens on a hosted
+            payment page; card numbers are not stored on this site. A payment
+            reference from the provider may be kept with the order record.
+          </p>
+
+          <h2 className="type-h2 mt-10">Shipping and refunds</h2>
+          <p className="mt-4 text-ink-muted">{policyOrGap(commercePolicy.shipping, "shipping policy")}</p>
+          <p className="mt-4 text-ink-muted">{policyOrGap(commercePolicy.refunds, "refund policy")}</p>
 
           <h2 className="type-h2 mt-10">Cookies</h2>
           <p className="mt-4 text-ink-muted">

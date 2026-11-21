@@ -20,7 +20,8 @@
   --color-line-strong: #cdbfae;
 
   --font-display: var(--font-fraunces), "Iowan Old Style", Palatino, Georgia, serif;
-  --font-sans: var(--font-outfit), "Avenir Next", "Segoe UI", sans-serif;
+  --font-sans: var(--font-noto-sans), "Segoe UI", system-ui, sans-serif;
+  --font-devanagari: var(--font-noto-serif-devanagari), "Noto Serif Devanagari", serif;
 
   --spacing-section: 96px;
   --spacing-section-sm: 64px;
@@ -179,6 +180,25 @@
 
   .btn-quiet:hover {
     border-color: var(--color-green);
+  }
+
+  .btn-shop {
+    background-color: var(--color-green);
+    color: var(--color-paper-raised);
+    border: 1px solid var(--color-green);
+  }
+
+  .btn-shop:hover {
+    background-color: color-mix(in srgb, var(--color-green) 88%, var(--color-ink));
+    border-color: color-mix(in srgb, var(--color-green) 88%, var(--color-ink));
+  }
+
+  [lang="hi"] .type-h1,
+  [lang="hi"] .type-h2,
+  [lang="hi"] .type-h3,
+  [lang="hi"] .type-display {
+    font-family: var(--font-devanagari);
+    letter-spacing: 0.02em;
   }
 
   .btn[aria-disabled="true"],
