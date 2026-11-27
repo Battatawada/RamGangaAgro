@@ -1,7 +1,9 @@
+import { withSentryConfig } from "@sentry/nextjs/config";
 import type { NextConfig } from "next";
 import {
   securityHeaders,
   serverActionOrigins,
+  shareImageRobotsHeaders,
 } from "./src/server/security-headers";
 
 /**
@@ -23,8 +25,24 @@ const nextConfig: NextConfig = {
     },
   },
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders(process.env) }];
+    return [
+      { source: "/:path*", headers: securityHeaders(process.env) },
+      ...shareImageRobotsHeaders,
+    ];
   },
 };
 
-export default nextConfig;
+export default withSentryConfig(nextConfig, {
+  org: "rg-naturals",
+  project: "ram-ganga-agro",
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  silent: !process.env.CI,
+  sourcemaps: {
+    disable: !process.env.SENTRY_AUTH_TOKEN,
+  },
+  webpack: {
+    treeshake: {
+      removeDebugLogging: true,
+    },
+  },
+});

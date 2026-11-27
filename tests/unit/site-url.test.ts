@@ -5,6 +5,7 @@ import {
   augmentContentSecurityPolicy,
   securityHeaders,
   serverActionOrigins,
+  shareImageRobotsHeaders,
 } from "@/server/security-headers";
 
 describe("production origin", () => {
@@ -37,6 +38,19 @@ describe("production origin", () => {
     });
   });
 
+  it("marks extensionless share images noindex so Google does not index the PNG as a page", () => {
+    expect(shareImageRobotsHeaders).toEqual([
+      {
+        source: "/opengraph-image",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+      {
+        source: "/twitter-image",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+    ]);
+  });
+
   it("sets clickjacking and cross-origin isolation headers on every response", () => {
     const keys = securityHeaders({}).map((header) => header.key);
     expect(keys).toContain("X-Frame-Options");
@@ -49,5 +63,8 @@ describe("production origin", () => {
     expect(csp).toContain("base-uri 'self'");
     expect(csp).toContain("require-trusted-types-for 'script'");
     expect(csp).toContain("trusted-types default");
+    expect(csp).toContain("script-src 'nonce-abc' https://scripts.simpleanalyticscdn.com");
+    expect(csp).toContain("https://queue.simpleanalyticscdn.com");
+    expect(csp).toContain("https://*.ingest.de.sentry.io");
   });
 });

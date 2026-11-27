@@ -1,0 +1,12 @@
+# Device pass for the shop. Values come from the environment.
+# Do not write the username or access key into this file.
+userName: ${BROWSERSTACK_USERNAME}
+accessKey: ${BROWSERSTACK_ACCESS_KEY}
+projectName: Ram Ganga Agro
+buildName: ram-ganga-agro
+platforms:
+  - deviceName: Samsung Galaxy S23
+    osVersion: "13.0"
+    browserName: chrome
+    browserVersion: latest
+browserstackLocal: false

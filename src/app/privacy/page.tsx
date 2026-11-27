@@ -7,10 +7,10 @@ import { metadataFor } from "@/content/seo";
 
 export const metadata: Metadata = metadataFor("/privacy");
 
-const LAST_UPDATED = "20 November 2026";
+const LAST_UPDATED = "27 November 2026";
 
 export default function PrivacyPage() {
-  const { analytics, transactionalEmail } = privacyServiceFlags();
+  const { googleAnalytics, simpleAnalytics, transactionalEmail } = privacyServiceFlags();
 
   return (
     <>
@@ -51,7 +51,15 @@ export default function PrivacyPage() {
             consent, and a hashed token so an unsubscribe link can be matched
             later. We do not ask for a phone number on the public site.
           </p>
-          {analytics ? (
+          {simpleAnalytics ? (
+            <p className="mt-4 text-ink-muted">
+              <strong>Analytics.</strong> Simple Analytics records page views
+              and events such as contact submits, waitlist signups, and taps on
+              published phone or email links. It does not set a cookie and it
+              does not build a profile of you. We do not sell this data.
+            </p>
+          ) : null}
+          {googleAnalytics ? (
             <p className="mt-4 text-ink-muted">
               <strong>Analytics.</strong> If you accept analytics cookies,
               Google Analytics 4 may record page views and basic events such as
@@ -67,7 +75,7 @@ export default function PrivacyPage() {
               Waitlist addresses — to send one email when the next harvest is
               available, if you asked for that.
             </li>
-            {analytics ? (
+            {simpleAnalytics || googleAnalytics ? (
               <li>Analytics — to understand how the site is used and fix problems.</li>
             ) : null}
             <li>
@@ -118,9 +126,11 @@ export default function PrivacyPage() {
             After a successful waitlist signup, a short-lived cookie (
             <code>rga_followed</code>) for about ten minutes lets the next page
             confirm the form worked. It does not contain your email.
-            {analytics
-              ? " If you accept analytics, Google Analytics may set its own cookies. You can change your choice from the cookie notice on the site."
-              : " No analytics cookies are configured on this deployment."}
+            {simpleAnalytics
+              ? " Simple Analytics is on for this deployment. It does not set an analytics cookie."
+              : googleAnalytics
+                ? " If you accept analytics, Google Analytics may set its own cookies. You can change your choice from the cookie notice on the site."
+                : " No analytics cookies are configured on this deployment."}
           </p>
 
           <h2 className="type-h2 mt-10">Who can see your data</h2>
@@ -131,7 +141,8 @@ export default function PrivacyPage() {
             authentication service; visitors are not asked to create a public
             account.
             {transactionalEmail ? " Brevo processes outbound confirmation mail." : null}
-            {analytics ? " Google processes analytics data you consent to." : null}
+            {simpleAnalytics ? " Simple Analytics processes those page views." : null}
+            {googleAnalytics ? " Google processes analytics data you consent to." : null}
           </p>
 
           <h2 className="type-h2 mt-10">How long we keep it</h2>

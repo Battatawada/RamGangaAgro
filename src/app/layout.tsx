@@ -94,7 +94,7 @@ export default async function RootLayout({
             <main id="content">{children}</main>
             <SiteFooter />
           </div>
-          <Analytics />
+          <Analytics nonce={nonce} />
         </ClerkRoot>
       </body>
     </html>
